@@ -1,3 +1,4 @@
-import { supabase } from "./supabase";
+import { getSupabase } from "./supabase";
+import { slugify } from "./slugify";
 
-export { supabase };
+export { getSupabase, slugify };

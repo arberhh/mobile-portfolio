@@ -6,6 +6,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { Divider, ExternalLink, Header, Project, ThemeText, WebAppShell } from "@/components";
 import { useAsync, useIsWideWeb, useSystemThemeSync } from "@/hooks";
 import { getProjects } from "@/services";
+import { snapshotProjects } from "@/content";
 import { useTheme } from "@/context";
 import { ScreenProps, Project as ProjectData } from "@/types";
 import { commonStyles } from "@/common";
@@ -53,7 +54,11 @@ function ProjectListItem({ item, onPress }: ProjectListItemProps) {
 }
 
 function Home({ navigation }: ScreenProps) {
-  const { data: projects, error } = useAsync<ProjectData[]>(getProjects, []);
+  const { data: projects, error } = useAsync<ProjectData[]>(
+    getProjects,
+    snapshotProjects,
+    snapshotProjects.length > 0,
+  );
 
   const { theme } = useTheme();
   const isWideWeb = useIsWideWeb();

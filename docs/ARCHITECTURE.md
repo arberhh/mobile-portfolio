@@ -22,6 +22,7 @@ src/
   context/                # ThemeProvider (light/dark theme state)
   hooks/                  # useAsync, useIsWideWeb, useSystemThemeSync
   services/                # data-fetching layer (wraps the Supabase client)
+  content/                # build-time content snapshot (snapshot.json) + accessors
   util/supabase/          # Supabase client instantiation
   types/                  # shared types + generated Supabase Database type
   themes/                 # light/dark color tokens
@@ -39,21 +40,22 @@ Path alias `@/*` (see `tsconfig.json`) maps to `src/*`, so imports read as `@/co
 
 ## Data flow
 
-1. `src/util/supabase/index.ts` creates a single Supabase client from the `EXPO_PUBLIC_SUPABASE_URL` / `EXPO_PUBLIC_SUPABASE_ANON_KEY` env vars, using `AsyncStorage` for session persistence and the `react-native-url-polyfill` for `fetch`/URL support on native.
-2. `src/services/supabase-service` is the only place that talks to Supabase. It exposes three functions — `getProjects`, `getProject(id)`, `getProfile` — each of which:
+1. `src/util/supabase/index.ts` lazily creates a single Supabase client (`getSupabase()`) from the `EXPO_PUBLIC_SUPABASE_URL` / `EXPO_PUBLIC_SUPABASE_ANON_KEY` env vars, with the `react-native-url-polyfill` for `fetch`/URL support on native. It's lazy so importing it never throws when the env vars are absent (e.g. CI building without secrets), and it doesn't persist a session — the app is read-only with no auth.
+2. `src/services/supabase-service` is the only place that talks to Supabase. It exposes `getProjects` and `getProfile`, each of which:
    - runs a PostgREST query through a shared `runQuery` helper that normalizes Supabase's `{ data, error }` response into a thrown `Error` with a user-facing fallback message,
    - flattens the `project_domains` join table into a plain `domains` array (`withFlattenedDomains`),
-   - coerces nullable Postgres columns to safe defaults (`toProject`),
+   - coerces nullable Postgres columns to safe defaults (`toProject`), deriving a `slug` from the title when none is stored,
    - prefetches image URLs via `expo-image`'s `Image.prefetch` so banners/gallery images are warm before they're rendered.
-3. Screens call these service functions through `useAsync`, a small hook (`src/hooks/index.ts`) that tracks `{ data, loading, error }` for a fetcher function — this is the app's only data-fetching pattern, there is no separate query-caching library.
-4. Types for the Supabase schema (`src/types/supabase.ts`) are generated from the database; hand-written domain types (`Project`, `Profile`, `Domain`, …) in `src/types/index.ts` derive from them with `Pick`/mapped types rather than being redefined by hand.
+3. `scripts/snapshot-content.mjs` (`npm run snapshot`) copies the current projects + profile into `src/content/snapshot.json`, which is committed and refreshed before every web deploy. `src/content` parses it with the same `parseProjects` the service uses.
+4. Screens call the service functions through `useAsync`, a small hook (`src/hooks/index.ts`) that tracks `{ data, loading, error }` for a fetcher function — this is the app's only data-fetching pattern, there is no separate query-caching library. Screens pass the snapshot as the initial value (`hasInitialData`), so content renders immediately, the fetch only refreshes it, and a failed refresh keeps the snapshot rather than showing an error.
+5. Types for the Supabase schema (`src/types/supabase.ts`) are generated from the database; hand-written domain types (`Project`, `Profile`, `Domain`, …) in `src/types/index.ts` derive from them with `Pick`/mapped types rather than being redefined by hand.
 
 ## Screens & navigation
 
 `src/navigation/index.tsx` defines a native-stack with three routes:
 
 - **Home** (`src/screens/projects`) — fetches and lists all projects (`getProjects`), renders `Project` cards in a `FlatList`.
-- **ProjectDetails** (`src/screens/project-detail`) — fetches a single project (`getProject(id)`), renders its slideshow, description, and tech/contribution lists.
+- **ProjectDetails** (`src/screens/project-detail`) — finds its project in the (snapshot-seeded) `getProjects` list, renders its slideshow, description, and tech/contribution lists.
 - **User** (`src/screens/user`) — fetches the profile (`getProfile`), renders the bio, tech stack, and social links (LinkedIn/GitHub/email via `Linking.openURL`).
 
 `project-detail/index.tsx` splits its UI into a reusable `ProjectDetailContent` (takes `id` + `onBack`) and a route-level `ProjectDetailScreen` wrapper. This split exists so Home can render project details inline on wide web layouts (see below) without a second navigation stack.

@@ -1,0 +1,355 @@
+{
+  "projects": [
+    {
+      "id": 5,
+      "created_at": "2026-09-11T10:19:41.490286+00:00",
+      "title": "Mobile Portfolio",
+      "short_description": "Picked this portfolio app back up after a roughly two-year gap and rebuilt it end to end using Claude Code as an AI pair programmer, including a full redesign, first-class web support, and a real engineering workflow around it.",
+      "long_description": "This portfolio app itself, dormant for roughly two years before I picked it back up in August 2026. Rather than writing every line by hand, I ran Claude Code as an AI pair programmer: scoped and planned the work in Linear through its MCP server, directed the agent through implementation session by session, and reviewed every pull request it opened before merging. Along the way I also built out the tooling that made that loop reliable, custom Claude Code skills, CI/CD, and an automated GitHub reviewer, so the process itself, not just this one redesign, became the reusable part.",
+      "banner_url": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/mobile-portfolio/banner.png",
+      "images": [
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/mobile-portfolio/screen-home-mobile.png",
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/mobile-portfolio/screen-home-web.png",
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/mobile-portfolio/screen-profile-web.png"
+      ],
+      "github": "https://github.com/arberhh/mobile-portofolio",
+      "personal": true,
+      "aproach": null,
+      "techical_contributions": [
+        "Picked the project back up after a roughly two-year gap and used Claude Code, directed through custom checked-in skills, to rebuild it end to end.",
+        "Authored reusable Claude Code skills for this repo: commit-conventions (enforces commit/PR/branch naming and Linear ticket IDs), design-handoff-sync (turns a written design spec into code and a PR without Figma), and run-expo (launches and drives the app for local verification).",
+        "Connected Linear through its MCP server so planning discussions become tracked ARB-* tickets directly, referenced in every commit and pull request.",
+        "Built the CI pipeline from scratch, gating every pull request on type-checking, linting, formatting, tests, a deadcode check, a web build sanity check, and security scanning.",
+        "Installed and configured the official Claude Code GitHub App for automated pull request review and in-PR assistance.",
+        "Added first-class web support: react-native-web, a `.web.tsx` platform-split pattern for web-only layout, and a GitHub Actions workflow that builds and publishes the web export to GitHub Pages.",
+        "Upgraded Expo SDK 54 to 57 and React Navigation to v7, moved secrets out of source into environment variables, and set up the local Supabase CLI project with migration-based schema management.",
+        "Rebuilt the visual design in a dark, monospace \"Technical Terminal\" direction with a lime accent, replacing the app's original look.",
+        "Structured all project content as versioned Supabase migrations instead of manual dashboard edits, so adding a new portfolio entry, like this one, is just a migration."
+      ],
+      "non_technical_contributions": [
+        "Scoped and planned the features and tooling the rebuild needed before any code was written.",
+        "Worked through detailed back-and-forth with the agent on what to build, then broke it down into Linear epics, tickets, and subtickets.",
+        "Planned the app's \"Technical Terminal\" redesign, a dark, monospace look with a lime accent."
+      ],
+      "tools_technologies": [
+        "React Native (Expo SDK 57), TypeScript, and react-native-web for a single iOS/Android/web codebase.",
+        "Claude Code as an AI pair programmer, directed through custom Claude Code skills (commit-conventions, design-handoff-sync, run-expo) checked into the repo.",
+        "Linear via its MCP server for planning, turning discussions directly into tracked ARB-* tickets referenced in every commit and pull request.",
+        "GitHub Actions for CI: TypeScript checks, oxlint/ESLint, oxfmt formatting, Jest, a Knip deadcode check, a web export build sanity check, npm audit, and CodeQL, all gating every pull request.",
+        "The official Claude Code GitHub App for automated pull request review and in-PR assistance, alongside Dependabot for dependency updates.",
+        "EAS for OTA updates, and Supabase (Postgres, PostgREST, RLS) as the read-only content backend for this app.",
+        "GitHub Pages, via a scripted gh-pages deploy, for the live web build."
+      ],
+      "project_domains": [
+        {
+          "domains": {
+            "id": 20,
+            "icon": "laptop",
+            "title": "technology"
+          }
+        },
+        {
+          "domains": {
+            "id": 23,
+            "icon": "code",
+            "title": "developer-tools"
+          }
+        },
+        {
+          "domains": {
+            "id": 24,
+            "icon": "robot",
+            "title": "ai"
+          }
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "created_at": "2026-08-17T20:37:47.564794+00:00",
+      "title": "Nectar",
+      "short_description": "Build and maintain Nectar, a React Native dating application for iOS and Android, owning mobile architecture, typed GraphQL integrations, authentication, subscriptions, notifications, analytics, and releases.",
+      "long_description": "At JubileeMedia, I build and maintain Nectar's dating experience using React Native, Expo, and TypeScript. I own mobile architecture and delivery across Development, Staging, and Production environments, including CI/CD pipelines, authentication, subscriptions, notifications, typed GraphQL integrations, analytics, and App Store and Google Play releases. I also work with backend and QA teams to validate APIs, investigate data issues, and deliver features from concept through production.",
+      "banner_url": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/jubilee/banner.png",
+      "images": [
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/jubilee/nectar-1.png",
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/jubilee/nectar-2.png",
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/jubilee/nectar-3.png",
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/jubilee/nectar-4.png",
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/jubilee/nectar-5.png"
+      ],
+      "github": null,
+      "personal": false,
+      "aproach": null,
+      "techical_contributions": [
+        "Set up the app from the ground up and helped shape key architectural decisions throughout the project.",
+        "Configure Development, Staging, and Production environments with centralized configuration.",
+        "Build CI/CD pipelines with Expo and GitHub Actions for automated mobile releases.",
+        "Implement and maintain Firebase Authentication flows for iOS and Android.",
+        "Organize the application into scalable modules for components, hooks, and services.",
+        "Implement subscriptions and payment flows with RevenueCat.",
+        "Set up Hasura, Apollo Client, and GraphQL Code Generator for fully typed queries and mutations.",
+        "Run A/B tests and staged feature rollouts with Firebase Remote Config.",
+        "Implement Mixpanel tracking for user behavior, conversion funnels, and feature performance.",
+        "Integrate notification and messaging services across the mobile application."
+      ],
+      "non_technical_contributions": [
+        "Catch and clearly document new bugs and issues, making it easier for the whole team to track and prioritize them.",
+        "Look for proactive ways to solve problems, often fixing issues directly rather than waiting on someone else.",
+        "Explain fixes and reasoning to the team so it helps everyone grow, not just the codebase."
+      ],
+      "tools_technologies": [
+        "React Native, Expo, and TypeScript for cross-platform mobile development.",
+        "Hasura, Apollo Client, and GraphQL Code Generator for typed data operations.",
+        "Firebase Authentication for iOS and Android sign-in.",
+        "RevenueCat for subscriptions and payments.",
+        "Pushwoosh, OneSignal, Firebase, and Sendbird for notifications and messaging.",
+        "Mixpanel and Firebase Remote Config for analytics, A/B testing, and feature rollouts.",
+        "Expo and GitHub Actions for CI/CD, builds, and App Store and Google Play releases."
+      ],
+      "project_domains": [
+        {
+          "domains": {
+            "id": 17,
+            "icon": "users",
+            "title": "social-media"
+          }
+        },
+        {
+          "domains": {
+            "id": 20,
+            "icon": "laptop",
+            "title": "technology"
+          }
+        },
+        {
+          "domains": {
+            "id": 22,
+            "icon": "heart",
+            "title": "dating"
+          }
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "created_at": "2024-02-29T19:20:51.515389+00:00",
+      "title": "AQ Shop",
+      "short_description": "Built a React Native mobile shopping experience for discovering and purchasing indie games, with live showcases, discounted listings, and in-app purchases.",
+      "long_description": "I led development of a mobile application for discovering and purchasing indie games. The product combined live game showcases, product discovery, discounted listings, and in-app purchases in a simple cross-platform experience. I worked closely with the team to shape the product around user needs while maintaining a modular architecture that was easy to extend and maintain.",
+      "banner_url": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/banner.png",
+      "images": [
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/shop-1.png",
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/shop-1.png",
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/shop-3.png",
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/shop-3.png"
+      ],
+      "github": null,
+      "personal": false,
+      "aproach": "Used a modular React Native architecture and clean, maintainable code to help the team deliver features quickly while keeping the application easy to extend, test, and support.",
+      "techical_contributions": [
+        "Led development of a mobile shopping experience for indie games.",
+        "Built a Product Hunt-style discovery system for new Steam releases.",
+        "Implemented live game showcases and real-time user engagement features.",
+        "Added discounted game listings and direct in-app purchasing.",
+        "Built and maintained the application across Android and iOS."
+      ],
+      "non_technical_contributions": [
+        "Participated in feature discovery and product brainstorming.",
+        "Used user data to guide improvements to the application experience.",
+        "Tested and debugged features to maintain product stability."
+      ],
+      "tools_technologies": [
+        "React Native and TypeScript for cross-platform mobile development.",
+        "Mixpanel for product analytics and user behavior tracking.",
+        "Sentry for error monitoring and debugging.",
+        "RevenueCat and Stripe for subscriptions and in-app purchases.",
+        "Android Studio and Xcode for platform development and release management."
+      ],
+      "project_domains": [
+        {
+          "domains": {
+            "id": 5,
+            "icon": "shopping-bag",
+            "title": "e-commerce"
+          }
+        },
+        {
+          "domains": {
+            "id": 12,
+            "icon": "gamepad",
+            "title": "gaming"
+          }
+        },
+        {
+          "domains": {
+            "id": 14,
+            "icon": "hand-holding-heart",
+            "title": "indie"
+          }
+        },
+        {
+          "domains": {
+            "id": 15,
+            "icon": "shopping-bag",
+            "title": "live shopping"
+          }
+        },
+        {
+          "domains": {
+            "id": 18,
+            "icon": "steam",
+            "title": "steam"
+          }
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "created_at": "2024-02-27T15:42:06.963717+00:00",
+      "title": "ArcadeQuest",
+      "short_description": "Built React Native applications for Fortnite players, including player statistics, live item shop updates, quests, subscriptions, onboarding, and engagement-focused mini-games.",
+      "long_description": "At ArcadeQuest, I led the development of mobile applications using React Native and TypeScript. The products provided Fortnite player statistics, live item shop data, quests, subscriptions, and interactive features. I also built backend integrations with Node.js and Supabase Edge Functions, implemented payment systems, improved onboarding, and contributed to mini-games that increased engagement and retention.",
+      "banner_url": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/banner.png",
+      "images": [
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/aq-1.png",
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/aq-2.png",
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/aq-1.png",
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/aq-3.png"
+      ],
+      "github": null,
+      "personal": false,
+      "aproach": null,
+      "techical_contributions": [
+        "Led development of React Native mobile applications for Fortnite players.",
+        "Built player statistics, live item shop updates, quests, and subscription features.",
+        "Created Node.js APIs to retrieve and display Fortnite item shop data.",
+        "Created Supabase Edge Functions for external API calls, data processing, and scheduled jobs.",
+        "Implemented a new user experience that improved onboarding, retention, and conversion.",
+        "Built a mini-games system with Node.js and Unity to increase engagement.",
+        "Managed iOS and Android builds, releases, and production updates."
+      ],
+      "non_technical_contributions": [
+        "Collaborated with product and backend teams to plan and deliver features.",
+        "Used product analytics to improve the user experience.",
+        "Tested and debugged the application to maintain production stability."
+      ],
+      "tools_technologies": [
+        "React Native and TypeScript for cross-platform mobile development.",
+        "Node.js APIs for Fortnite item shop data and application services.",
+        "Supabase Edge Functions for external API integrations and scheduled backend tasks.",
+        "RevenueCat and Stripe for subscriptions and in-app purchases.",
+        "Mixpanel, UXCam, and Sentry for analytics, user research, and error monitoring."
+      ],
+      "project_domains": [
+        {
+          "domains": {
+            "id": 2,
+            "icon": "coins",
+            "title": "coins"
+          }
+        },
+        {
+          "domains": {
+            "id": 4,
+            "icon": "database",
+            "title": "data"
+          }
+        },
+        {
+          "domains": {
+            "id": 9,
+            "icon": "fort-awesome",
+            "title": "fortnite"
+          }
+        },
+        {
+          "domains": {
+            "id": 12,
+            "icon": "gamepad",
+            "title": "gaming"
+          }
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "created_at": "2024-02-24T22:19:36.983256+00:00",
+      "title": "Twig",
+      "short_description": "Built and maintained a React Native mobile application with more than 1 million installs, delivering iOS and Android features, native integrations, performance improvements, and a full product redesign.",
+      "long_description": "At Twig, I worked as a Mobile Developer on a production application with more than 1 million installs. I developed and maintained features for iOS and Android using React Native, integrated native SDKs, resolved critical production issues, and used product data to improve conversion and engagement. I also contributed to rebuilding the application with a new design, improving usability, performance, and maintainability.",
+      "banner_url": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/twig/banner.png",
+      "images": [
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/twig/twig-1.png",
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/twig/twig-2.png",
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/twig/twig-3.png",
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/twig/twig-4.png",
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/twig/twig-4.png"
+      ],
+      "github": null,
+      "personal": false,
+      "aproach": null,
+      "techical_contributions": [
+        "Developed mobile features for an application with more than 1 million installs.",
+        "Improved application performance, reliability, and responsiveness.",
+        "Integrated native SDKs across Android and iOS.",
+        "Resolved critical production issues, including a pod versioning problem affecting iOS users.",
+        "Contributed to a full application rebuild with a new design and improved performance.",
+        "Used data-driven insights to improve conversion and user engagement."
+      ],
+      "non_technical_contributions": [
+        "Participated in user-story development, sprint planning, and retrospectives.",
+        "Collaborated with designers, product managers, backend engineers, and QA.",
+        "Supported onboarding and knowledge sharing for other team members."
+      ],
+      "tools_technologies": [
+        "React Native, React, and JavaScript for cross-platform mobile development.",
+        "MongoDB for application data.",
+        "Native Android and iOS SDKs for platform-specific functionality.",
+        "Analytics and product data for conversion and engagement optimization."
+      ],
+      "project_domains": [
+        {
+          "domains": {
+            "id": 5,
+            "icon": "shopping-bag",
+            "title": "e-commerce"
+          }
+        },
+        {
+          "domains": {
+            "id": 10,
+            "icon": "chart-area",
+            "title": "fintech"
+          }
+        },
+        {
+          "domains": {
+            "id": 19,
+            "icon": "leaf",
+            "title": "sustainability"
+          }
+        },
+        {
+          "domains": {
+            "id": 20,
+            "icon": "laptop",
+            "title": "technology"
+          }
+        }
+      ]
+    }
+  ],
+  "profile": {
+    "id": 1,
+    "created_at": "2024-02-24T23:04:36.469093+00:00",
+    "name": "Arber Haxhimusa",
+    "intro": "Senior Mobile Engineer with 7+ years of experience building and shipping production applications, including 5+ years specializing in React Native. I focus on creating reliable, intuitive mobile experiences across iOS and Android, from architecture and development through testing and production release.",
+    "about_me": "I am an experienced mobile engineer currently developing Nectar's dating experience at JubileeMedia. My work spans React Native, Expo, TypeScript, GraphQL, authentication, subscriptions, notifications, analytics, CI/CD, and native integrations. I have contributed to production applications with more than 1 million installs, led architecture decisions, mentored engineers, and delivered features from product concept through App Store and Google Play release.",
+    "email": "arberi.hh@gmail.com",
+    "linkedin": "https://www.linkedin.com/in/arber-haxhimusa/",
+    "github": "https://github.com/arberhh",
+    "profile_picture": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/profile/profile-pic.png",
+    "main_techs": ["React Native", "Expo", "TypeScript", "GraphQL", "Node.js", "Supabase"]
+  }
+}

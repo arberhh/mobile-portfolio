@@ -1,16 +1,20 @@
 import "react-native-url-polyfill/auto";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { createClient } from "@supabase/supabase-js";
+import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import { Database } from "@/types";
 
-const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY!;
+let client: SupabaseClient<Database> | null = null;
 
-export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey, {
-  auth: {
-    storage: AsyncStorage,
-    autoRefreshToken: true,
-    persistSession: true,
-    detectSessionInUrl: false,
-  },
-});
+// Created lazily: static web rendering imports every route at build time,
+// where the env vars may be absent (CI builds PRs without secrets), and
+// `createClient` throws on a missing URL. The app is read-only with no auth,
+// so there's no session to persist or refresh.
+export function getSupabase() {
+  if (!client) {
+    client = createClient<Database>(
+      process.env.EXPO_PUBLIC_SUPABASE_URL!,
+      process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY!,
+      { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } },
+    );
+  }
+  return client;
+}

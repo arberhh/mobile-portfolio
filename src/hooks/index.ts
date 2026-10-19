@@ -3,9 +3,12 @@ import { Platform, useWindowDimensions } from "react-native";
 import { WEB_WIDE_BREAKPOINT } from "@/constants";
 import useSystemThemeSync from "./use-system-theme-sync";
 
-function useAsync<T>(fetcher: () => Promise<T>, initialValue: T) {
+// `initialValue` is the build-time snapshot when one exists. With it, the
+// screen renders content immediately (and in static HTML), the fetch only
+// refreshes it, and a failed refresh keeps the snapshot instead of an error.
+function useAsync<T>(fetcher: () => Promise<T>, initialValue: T, hasInitialData = false) {
   const [data, setData] = useState<T>(initialValue);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(!hasInitialData);
   const [error, setError] = useState<string>("");
 
   useEffect(() => {
@@ -14,14 +17,14 @@ function useAsync<T>(fetcher: () => Promise<T>, initialValue: T) {
         setData(await fetcher());
       } catch (err: any) {
         console.error(err);
-        setError(err.message);
+        if (!hasInitialData) setError(err.message);
       } finally {
         setLoading(false);
       }
     }
 
     run();
-  }, [fetcher]);
+  }, [fetcher, hasInitialData]);
 
   return { data, loading, error };
 }

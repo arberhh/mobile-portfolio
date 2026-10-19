@@ -1,9 +1,10 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import { View, ActivityIndicator, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FullScreenSlideshow, Header, List, Slideshow, ThemeText, WebAppShell } from "@/components";
 import { useAsync } from "@/hooks";
-import { getProject } from "@/services";
+import { getProjects } from "@/services";
+import { snapshotProjects } from "@/content";
 import { useTheme } from "@/context";
 import { ScreenProps, Project } from "@/types";
 import { commonStyles } from "@/common";
@@ -16,8 +17,12 @@ interface ProjectDetailContentProps {
 
 function ProjectDetailContent({ id, onBack }: ProjectDetailContentProps) {
   const { theme } = useTheme();
-  const fetchProject = useCallback(() => getProject(id), [id]);
-  const { data: project, loading, error } = useAsync<Project | null>(fetchProject, null);
+  const {
+    data: projects,
+    loading,
+    error,
+  } = useAsync<Project[]>(getProjects, snapshotProjects, snapshotProjects.length > 0);
+  const project = projects.find((item) => item.id === id) ?? null;
   const [modalVisible, setModalVisible] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -38,9 +43,13 @@ function ProjectDetailContent({ id, onBack }: ProjectDetailContentProps) {
         <View style={[commonStyles.flex, commonStyles.center]}>
           <ThemeText style={commonStyles.errorText} text={error} />
         </View>
-      ) : loading || !project ? (
+      ) : !project && loading ? (
         <View style={[commonStyles.flex, commonStyles.center]}>
           <ActivityIndicator size={"large"} color={theme.color} />
+        </View>
+      ) : !project ? (
+        <View style={[commonStyles.flex, commonStyles.center]}>
+          <ThemeText style={commonStyles.errorText} text="This project doesn't exist." />
         </View>
       ) : (
         <ScrollView
