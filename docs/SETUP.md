@@ -10,8 +10,8 @@
 ## Install
 
 ```bash
-git clone https://github.com/arberhh/mobile-portofolio.git
-cd mobile-portofolio
+git clone https://github.com/arberhh/mobile-portfolio.git
+cd mobile-portfolio
 npm ci
 ```
 

@@ -1,13 +1,13 @@
-# mobile-portofolio
+# mobile-portfolio
 
-[![CI](https://github.com/arberhh/mobile-portofolio/actions/workflows/ci.yml/badge.svg)](https://github.com/arberhh/mobile-portofolio/actions/workflows/ci.yml)
-[![CodeQL](https://github.com/arberhh/mobile-portofolio/actions/workflows/codeql.yml/badge.svg)](https://github.com/arberhh/mobile-portofolio/actions/workflows/codeql.yml)
+[![CI](https://github.com/arberhh/mobile-portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/arberhh/mobile-portfolio/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/arberhh/mobile-portfolio/actions/workflows/codeql.yml/badge.svg)](https://github.com/arberhh/mobile-portfolio/actions/workflows/codeql.yml)
 
 📱 Expo Portfolio: Showcase of 4 React Native apps. Clean, modular code. Features UI designs, animations. Ready for collaboration. Connect with me!
 
 ## <img width="30" height="30" src="https://img.icons8.com/color/48/expo.png" alt="expo"/> Try it now
 
-The web build is live at **[arberhh.github.io/mobile-portofolio](https://arberhh.github.io/mobile-portofolio/)** — no app or simulator needed.
+The web build is live at **[arberhh.github.io/mobile-portfolio](https://arberhh.github.io/mobile-portfolio/)** — no app or simulator needed.
 
 Since May 2026, Expo Go only opens EAS Update links for the project owner or their org members, so scanning a QR code no longer works for outside visitors.
 
