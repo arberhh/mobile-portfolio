@@ -16,18 +16,21 @@ import styles from "./styles";
 
 interface SlideshowProps {
   images: string[];
+  // Project title, used to give each screenshot alt text.
+  title: string;
   onImagePress: (url: string) => void;
 }
 
 interface SlideItemProps {
   uri: string;
+  alt: string;
   width: number;
   height: number;
   relativeProgress: SharedValue<number>;
   onPress: () => void;
 }
 
-function SlideItem({ uri, width, height, relativeProgress, onPress }: SlideItemProps) {
+function SlideItem({ uri, alt, width, height, relativeProgress, onPress }: SlideItemProps) {
   const { theme } = useTheme();
   const animatedStyle = useAnimatedStyle(() => ({
     opacity: interpolate(relativeProgress.value, [-1, 0, 1], [0.6, 1, 0.6], Extrapolation.CLAMP),
@@ -36,10 +39,16 @@ function SlideItem({ uri, width, height, relativeProgress, onPress }: SlideItemP
 
   return (
     <Animated.View style={[{ width, height }, animatedStyle]}>
-      <Pressable style={frameStyle} onPress={onPress}>
+      <Pressable
+        style={frameStyle}
+        onPress={onPress}
+        accessibilityRole="imagebutton"
+        accessibilityLabel={alt}
+      >
         <Image
           contentFit="contain"
           source={{ uri }}
+          alt={alt}
           style={styles.image}
           // On web, native browser drag-to-select-image intercepts the mouse
           // gesture before the carousel's pan gesture can recognize a swipe,
@@ -54,6 +63,7 @@ function SlideItem({ uri, width, height, relativeProgress, onPress }: SlideItemP
 
 interface SlideshowCarouselProps {
   images: string[];
+  title: string;
   width: number;
   height: number;
   onImagePress: (url: string) => void;
@@ -62,6 +72,7 @@ interface SlideshowCarouselProps {
 
 function SlideshowCarousel({
   images,
+  title,
   width,
   height,
   onImagePress,
@@ -100,16 +111,17 @@ function SlideshowCarousel({
   };
 
   const renderItem = useCallback(
-    ({ item, relativeProgress }: CarouselRenderItemInfo<string>) => (
+    ({ item, index, relativeProgress }: CarouselRenderItemInfo<string>) => (
       <SlideItem
         uri={item}
+        alt={`${title} screenshot ${index + 1} of ${images.length}`}
         width={width}
         height={height}
         relativeProgress={relativeProgress}
         onPress={() => onImagePress(item)}
       />
     ),
-    [width, height, onImagePress],
+    [width, height, onImagePress, title, images.length],
   );
 
   if (images.length === 0) return null;
@@ -130,12 +142,22 @@ function SlideshowCarousel({
         {images.length > 1 && (
           <>
             <View style={styles.navigationLeft}>
-              <Pressable onPress={handlePrevious} hitSlop={12}>
+              <Pressable
+                onPress={handlePrevious}
+                hitSlop={12}
+                accessibilityRole="button"
+                accessibilityLabel="Previous screenshot"
+              >
                 <Icon name="chevron-back" size={24} color={theme.color} />
               </Pressable>
             </View>
             <View style={styles.navigationRight}>
-              <Pressable onPress={handleNext} hitSlop={12}>
+              <Pressable
+                onPress={handleNext}
+                hitSlop={12}
+                accessibilityRole="button"
+                accessibilityLabel="Next screenshot"
+              >
                 <Icon name="chevron-forward" size={24} color={theme.color} />
               </Pressable>
             </View>
@@ -158,7 +180,7 @@ function SlideshowCarousel({
   );
 }
 
-function Slideshow({ images = [], onImagePress }: SlideshowProps) {
+function Slideshow({ images = [], title, onImagePress }: SlideshowProps) {
   const { height } = useWindowDimensions();
   const [width, setWidth] = useState<number | null>(null);
   const slideHeight: number = height / 2.4;
@@ -168,6 +190,7 @@ function Slideshow({ images = [], onImagePress }: SlideshowProps) {
       {width !== null && (
         <SlideshowCarousel
           images={images}
+          title={title}
           width={width}
           height={slideHeight}
           onImagePress={onImagePress}

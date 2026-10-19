@@ -11,6 +11,7 @@ function FullScreenSlideshow({
   visible,
   onClose,
   images,
+  title,
   initialIndex = 0,
 }: FullScreenSlideshowProps) {
   const { theme } = useTheme();
@@ -22,13 +23,20 @@ function FullScreenSlideshow({
       <SafeAreaView
         style={[styles.modalContainer, { width, height, backgroundColor: theme.screenBackground }]}
       >
-        <Pressable style={[styles.closeButton, { top: insets.top }]} onPress={onClose} hitSlop={12}>
+        <Pressable
+          style={[styles.closeButton, { top: insets.top }]}
+          onPress={onClose}
+          hitSlop={12}
+          accessibilityRole="button"
+          accessibilityLabel="Close"
+        >
           <Icon name="close" size={28} color={theme.color} />
         </Pressable>
         <View style={[styles.content, { width, height }]}>
           <SlideshowCarousel
             key={initialIndex}
             images={images}
+            title={title}
             width={width * 0.9}
             height={height * 0.6}
             initialIndex={initialIndex}
