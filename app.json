@@ -23,7 +23,7 @@
       "output": "static"
     },
     "experiments": {
-      "baseUrl": "/mobile-portofolio"
+      "baseUrl": "/mobile-portfolio"
     },
     "extra": {
       "eas": {

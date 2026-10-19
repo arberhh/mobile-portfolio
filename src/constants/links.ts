@@ -1,6 +1,6 @@
-export const REPO_URL = "https://github.com/arberhh/mobile-portofolio";
+export const REPO_URL = "https://github.com/arberhh/mobile-portfolio";
 // Public web build (GitHub Pages). Mirrors `experiments.baseUrl` in app.json.
-export const SITE_URL = "https://arberhh.github.io/mobile-portofolio";
+export const SITE_URL = "https://arberhh.github.io/mobile-portfolio";
 export const SITE_NAME = "Arber Haxhimusa — Senior Mobile Engineer";
 export const SITE_DESCRIPTION =
   "Portfolio of React Native and Expo mobile apps by Arber Haxhimusa — architecture, CI/CD, and AI-assisted development case studies for iOS, Android, and web.";

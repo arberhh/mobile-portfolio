@@ -10,4 +10,4 @@ The client ships a public Supabase URL and an anon key (`EXPO_PUBLIC_SUPABASE_UR
 
 ## Reporting a Vulnerability
 
-If you find a vulnerability (e.g. an RLS policy that over-exposes data, or a way to write to the database from the client), please open a private report via [GitHub Security Advisories](https://github.com/arberhh/mobile-portofolio/security/advisories/new) rather than a public issue. Include steps to reproduce. This is a personal project maintained in spare time, so response times aren't guaranteed, but reports will be looked at as soon as possible.
+If you find a vulnerability (e.g. an RLS policy that over-exposes data, or a way to write to the database from the client), please open a private report via [GitHub Security Advisories](https://github.com/arberhh/mobile-portfolio/security/advisories/new) rather than a public issue. Include steps to reproduce. This is a personal project maintained in spare time, so response times aren't guaranteed, but reports will be looked at as soon as possible.
