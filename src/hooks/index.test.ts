@@ -45,6 +45,25 @@ describe("useAsync", () => {
     expect(console.error).toHaveBeenCalled();
   });
 
+  it("starts settled when given snapshot data", () => {
+    const fetcher = jest.fn(() => new Promise<string>(() => {}));
+
+    const { result } = renderHook(() => useAsync(fetcher, "snapshot", true));
+
+    expect(result.current).toEqual({ data: "snapshot", loading: false, error: "" });
+  });
+
+  it("keeps snapshot data without an error when the refresh fails", async () => {
+    const fetcher = jest.fn(() => Promise.reject(new Error("boom")));
+
+    const { result } = renderHook(() => useAsync(fetcher, "snapshot", true));
+
+    await waitFor(() => expect(fetcher).toHaveBeenCalled());
+    await waitFor(() => expect(console.error).toHaveBeenCalled());
+
+    expect(result.current).toEqual({ data: "snapshot", loading: false, error: "" });
+  });
+
   it("re-fetches when the fetcher reference changes", async () => {
     const fetcher = jest.fn(() => Promise.resolve("first"));
 

@@ -30,13 +30,22 @@ interface ProjectProps {
 
 interface Project {
   id: number;
+  slug: string;
   title: string;
+  role: string;
+  period: string;
+  highlight: string;
   banner_url: string;
+  banner_alt: string;
   images: string[];
+  short_description: string;
   long_description: string;
   tools_technologies: string[];
   non_technical_contributions: string[];
   techical_contributions: string[];
+  github: string;
+  app_store_url: string;
+  play_store_url: string;
   domains: Domain[];
 }
 

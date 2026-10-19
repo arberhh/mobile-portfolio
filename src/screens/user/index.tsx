@@ -7,6 +7,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Header, SectionHeading, SocialIcon, Tech, ThemeText, WebAppShell } from "@/components";
 import { useAsync } from "@/hooks";
 import { getProfile } from "@/services";
+import { snapshotProfile } from "@/content";
 import { useTheme } from "@/context";
 import { ScreenProps, Profile } from "@/types";
 import { commonStyles } from "@/common";
@@ -14,7 +15,11 @@ import styles from "./styles";
 
 function User({ navigation }: ScreenProps) {
   const { theme } = useTheme();
-  const { data: user, loading, error } = useAsync<Profile | null>(getProfile, null);
+  const {
+    data: user,
+    loading,
+    error,
+  } = useAsync<Profile | null>(getProfile, snapshotProfile, snapshotProfile !== null);
   const showingContent = error === "" && !loading && !!user;
 
   return (
