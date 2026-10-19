@@ -2,7 +2,15 @@ import React, { useState } from "react";
 import { View, ActivityIndicator, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { FullScreenSlideshow, Header, List, PageHead, Slideshow, ThemeText } from "@/components";
+import {
+  ExternalLink,
+  FullScreenSlideshow,
+  Header,
+  List,
+  PageHead,
+  Slideshow,
+  ThemeText,
+} from "@/components";
 import { useAsync } from "@/hooks";
 import { getProjects } from "@/services";
 import { findProject, snapshotProjects } from "@/content";
@@ -10,6 +18,32 @@ import { useTheme } from "@/context";
 import { Project } from "@/types";
 import { commonStyles } from "@/common";
 import styles from "./styles";
+
+function ProjectLinks({ project }: { project: Project }) {
+  const { theme } = useTheme();
+  const links = [
+    { label: "App Store", url: project.app_store_url },
+    { label: "Google Play", url: project.play_store_url },
+    { label: "Source", url: project.github },
+  ].filter((link) => link.url !== "");
+
+  if (links.length === 0) return null;
+
+  return (
+    <View style={styles.links}>
+      {links.map(({ label, url }) => (
+        <ExternalLink
+          key={label}
+          url={url}
+          accessibilityRole="link"
+          style={[styles.link, { borderColor: theme.chipBorder }]}
+        >
+          <ThemeText style={styles.linkLabel} text={`[${label} ↗]`} color={theme.accent} />
+        </ExternalLink>
+      ))}
+    </View>
+  );
+}
 
 function ProjectDetailScreen() {
   const router = useRouter();
@@ -39,6 +73,8 @@ function ProjectDetailScreen() {
   function closeModal() {
     setModalVisible(false);
   }
+
+  const meta = project ? [project.role, project.period].filter(Boolean).join(" · ") : "";
 
   return (
     <SafeAreaView style={[commonStyles.flex, { backgroundColor: theme.screenBackground }]}>
@@ -73,12 +109,26 @@ function ProjectDetailScreen() {
             visible={modalVisible}
             onClose={closeModal}
             images={project.images}
+            title={project.title}
             initialIndex={activeIndex}
           />
-          {/* custom slideshow */}
-          <Slideshow onImagePress={openModal} images={project.images} />
+          <Slideshow onImagePress={openModal} images={project.images} title={project.title} />
           <View style={styles.body}>
-            <ThemeText style={commonStyles.title} text={project.title} color={theme.accent} />
+            <ThemeText
+              style={commonStyles.title}
+              text={project.title}
+              color={theme.accent}
+              accessibilityRole="header"
+            />
+            {meta !== "" && <ThemeText style={styles.meta} text={meta} color={theme.text} />}
+            {project.highlight !== "" && (
+              <ThemeText
+                style={styles.highlight}
+                text={`> ${project.highlight}`}
+                color={theme.color}
+              />
+            )}
+            <ProjectLinks project={project} />
             <ThemeText
               style={commonStyles.subtitle}
               text={project.long_description}

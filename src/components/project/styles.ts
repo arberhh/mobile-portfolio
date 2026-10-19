@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { FONT_MEDIUM } from "@/constants";
+import { FONT_MEDIUM, FONT_REGULAR } from "@/constants";
 
 const styles = StyleSheet.create({
   body: {
@@ -17,11 +17,23 @@ const styles = StyleSheet.create({
     fontSize: 13,
     marginRight: 7,
   },
+  highlight: {
+    fontFamily: FONT_MEDIUM,
+    fontSize: 13,
+    lineHeight: 19,
+    marginTop: 6,
+  },
+  // Banners are exported at 1200x450 (8:3), so the frame matches them
+  // exactly at every card width instead of letterboxing in a fixed height.
   image: {
+    aspectRatio: 8 / 3,
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
-    height: 200,
     width: "100%",
+  },
+  meta: {
+    fontFamily: FONT_REGULAR,
+    fontSize: 13,
   },
   title: {
     fontFamily: FONT_MEDIUM,

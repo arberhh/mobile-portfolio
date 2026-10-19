@@ -47,6 +47,7 @@ interface FullScreenSlideshowProps {
   visible: boolean;
   onClose: () => void;
   images: string[];
+  title: string;
   initialIndex?: number;
 }
 
