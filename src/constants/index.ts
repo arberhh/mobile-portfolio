@@ -1,4 +1,4 @@
 export { FONT_REGULAR, FONT_MEDIUM } from "./fonts";
 export { TRANSPARENT } from "./colors";
-export { WEB_WIDE_BREAKPOINT, WEB_CONTENT_WIDTH } from "./web";
-export { REPO_URL } from "./links";
+export { WEB_SHELL_CSS } from "./web";
+export { REPO_URL, SITE_URL, SITE_NAME, SITE_DESCRIPTION, SITE_IMAGE } from "./links";

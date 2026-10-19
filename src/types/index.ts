@@ -7,11 +7,6 @@ type Props = {
   children: ReactNode;
 };
 
-interface ScreenProps {
-  navigation: any;
-  route?: any;
-}
-
 interface ListProps {
   color: string;
   items: string[];
@@ -22,10 +17,7 @@ interface ListProps {
 type Domain = Pick<Database["public"]["Tables"]["domains"]["Row"], "id" | "title" | "icon">;
 
 interface ProjectProps {
-  title: string;
-  image: string;
-  domains: Domain[];
-  onPress: () => void;
+  project: Project;
 }
 
 interface Project {
@@ -84,7 +76,6 @@ interface ThemeTextProps {
 export {
   Database,
   Props,
-  ScreenProps,
   ListProps,
   ProjectProps,
   Domain,

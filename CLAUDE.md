@@ -10,7 +10,7 @@ npm run lint                    # oxlint --deny-warnings . && eslint . --max-war
 npm run format                  # oxfmt . (write)
 npm run format:check            # oxfmt --check .
 npm run test                    # jest (jest-expo preset)
-npm run deadcode                # knip — unused exports/deps, entry point App.tsx
+npm run deadcode                # knip — unused exports/deps, entry points app/**/*.tsx + scripts/*.mjs
 npx expo export --platform web  # web build sanity check
 ```
 
@@ -28,9 +28,11 @@ Expo (SDK 57) + React Native 0.86 + React 19, TypeScript, targeting iOS/Android/
 
 **Backend**: Supabase (Postgres + PostgREST), read-only from the client. Tables `projects`, `domains`, `project_domains`, `profile` — RLS enabled everywhere with `select`-only policies for `anon`/`authenticated`, no auth flow or write path in the client. Migrations live in `supabase/migrations/`, applied via the Supabase CLI (`supabase/config.toml`).
 
-**Navigation**: `src/navigation/index.tsx` — native-stack with three routes: Home (`src/screens/projects`), ProjectDetails (`src/screens/project-detail`), User (`src/screens/user`). `project-detail/index.tsx` splits into a reusable `ProjectDetailContent` (takes `id` + `onBack`) and a route-level `ProjectDetailScreen` wrapper, so Home can render project details inline on wide web layouts without a second navigation stack.
+**Navigation**: Expo Router (`main: expo-router/entry`). `app/` holds only thin route files that re-export screens from `src/screens`: `index.tsx` (Home, `src/screens/projects`), `profile.tsx` (`src/screens/user`), `project/[slug].tsx` (`src/screens/project-detail`, with `generateStaticParams` from the content snapshot), `+not-found.tsx`. `app/_layout.tsx` loads fonts, mounts the providers and `WebAppShell`, and renders a headerless `Stack`. Screens navigate with `useRouter`/`<Link>`; "back" falls back to `router.replace("/")` when a deep link opened the screen with no history. Each screen sets its `<title>`/meta/canonical via `<PageHead>` (`expo-router/head`).
 
-**Web-specific behavior**: platform-extension resolution (`.web.tsx`) is used instead of scattering `Platform.OS === "web"` checks through shared components — see `src/components/web-app-shell/` (`index.tsx` native no-op vs `index.web.tsx` persistent sidebar layout above `WEB_WIDE_BREAKPOINT`, 900px, `src/constants/web.ts`). `useIsWideWeb` (`src/hooks/index.ts`) centralizes the `Platform.OS === "web" && width >= breakpoint` check. Prefer this `.web.tsx` split over inline `Platform.OS` checks for anything beyond a tiny diff.
+**Static web**: `web.output: "static"` pre-renders every route to HTML (`npx expo export --platform web`), seeded from the content snapshot, so anything a screen renders must be identical on the server and on the client's first render. Window size and icon-font state aren't (`useWindowDimensions`, `@expo/vector-icons`), hence the CSS-driven `WebAppShell` and the `Icon` wrapper (`src/components/icon`, renders after hydration via `useHydrated`). Always render icons through `Icon` — it's also what keeps Ionicons the only icon font in the bundle. `app/+html.tsx` is the HTML template (GA tag, site-wide meta, shell CSS). `scripts/postexport-web.mjs` (run by `npm run deploy`) adds `404.html` and `sitemap.xml` for GitHub Pages.
+
+**Web-specific behavior**: platform-extension resolution (`.web.tsx`) is used instead of scattering `Platform.OS === "web"` checks through shared components — see `src/components/web-app-shell/` (`index.tsx` native no-op vs `index.web.tsx` persistent sidebar, shown above 900px by a media query in `WEB_SHELL_CSS`, `src/constants/web.ts`). Prefer this `.web.tsx` split over inline `Platform.OS` checks for anything beyond a tiny diff.
 
 **Theming**: `src/context/index.tsx` — `ThemeProvider` via `useReducer`, single `TOGGLE_THEME` action, defaults to dark. `useSystemThemeSync` (`src/hooks/use-system-theme-sync`) listens to `Appearance.addChangeListener` and syncs theme to OS setting; invoked once, from `Home`. Theme tokens (`lightTheme`/`darkTheme`) live in `src/themes/index.ts`, consumed via `useTheme()`.
 

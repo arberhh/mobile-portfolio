@@ -1,30 +1,34 @@
 import React, { useState } from "react";
 import { View, ActivityIndicator, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { FullScreenSlideshow, Header, List, Slideshow, ThemeText, WebAppShell } from "@/components";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { FullScreenSlideshow, Header, List, PageHead, Slideshow, ThemeText } from "@/components";
 import { useAsync } from "@/hooks";
 import { getProjects } from "@/services";
-import { snapshotProjects } from "@/content";
+import { findProject, snapshotProjects } from "@/content";
 import { useTheme } from "@/context";
-import { ScreenProps, Project } from "@/types";
+import { Project } from "@/types";
 import { commonStyles } from "@/common";
 import styles from "./styles";
 
-interface ProjectDetailContentProps {
-  id: number;
-  onBack: () => void;
-}
-
-function ProjectDetailContent({ id, onBack }: ProjectDetailContentProps) {
+function ProjectDetailScreen() {
+  const router = useRouter();
+  const { slug } = useLocalSearchParams<{ slug: string }>();
   const { theme } = useTheme();
   const {
     data: projects,
     loading,
     error,
   } = useAsync<Project[]>(getProjects, snapshotProjects, snapshotProjects.length > 0);
-  const project = projects.find((item) => item.id === id) ?? null;
+  const project = findProject(projects, slug);
   const [modalVisible, setModalVisible] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+
+  function onBack() {
+    // A deep link opens this screen with no history, so "back" goes Home.
+    if (router.canGoBack()) router.back();
+    else router.replace("/");
+  }
 
   function openModal(img: string) {
     if (!project) return;
@@ -38,7 +42,15 @@ function ProjectDetailContent({ id, onBack }: ProjectDetailContentProps) {
 
   return (
     <SafeAreaView style={[commonStyles.flex, { backgroundColor: theme.screenBackground }]}>
-      <Header title="ProjectDetails" leftIcon="back" onLeftPress={onBack} />
+      {project && (
+        <PageHead
+          title={project.title}
+          description={project.short_description || undefined}
+          path={`/project/${project.slug}`}
+          image={project.banner_url}
+        />
+      )}
+      <Header title={project?.title ?? "Project"} leftIcon="back" onLeftPress={onBack} />
       {error !== "" ? (
         <View style={[commonStyles.flex, commonStyles.center]}>
           <ThemeText style={commonStyles.errorText} text={error} />
@@ -97,13 +109,4 @@ function ProjectDetailContent({ id, onBack }: ProjectDetailContentProps) {
   );
 }
 
-function ProjectDetailScreen({ navigation, route }: ScreenProps) {
-  return (
-    <WebAppShell>
-      <ProjectDetailContent id={route.params.id} onBack={() => navigation.goBack()} />
-    </WebAppShell>
-  );
-}
-
 export default ProjectDetailScreen;
-export { ProjectDetailContent };

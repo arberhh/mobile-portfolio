@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { Platform, useWindowDimensions } from "react-native";
-import { WEB_WIDE_BREAKPOINT } from "@/constants";
+import useHydrated from "./use-hydrated";
 import useSystemThemeSync from "./use-system-theme-sync";
 
 // `initialValue` is the build-time snapshot when one exists. With it, the
@@ -29,9 +28,4 @@ function useAsync<T>(fetcher: () => Promise<T>, initialValue: T, hasInitialData 
   return { data, loading, error };
 }
 
-function useIsWideWeb() {
-  const { width } = useWindowDimensions();
-  return Platform.OS === "web" && width >= WEB_WIDE_BREAKPOINT;
-}
-
-export { useAsync, useSystemThemeSync, useIsWideWeb };
+export { useAsync, useHydrated, useSystemThemeSync };

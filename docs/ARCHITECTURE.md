@@ -6,7 +6,7 @@ A technical overview of how this app is put together — for local setup and run
 
 - **Expo (SDK 57) + React Native 0.86 + React 19**, written in TypeScript.
 - **react-native-web** — the same codebase targets iOS, Android, and web (`npm run web`, or `npx expo export --platform web` for a static build).
-- **React Navigation** (`@react-navigation/native-stack`) for screen routing.
+- **Expo Router** for file-based routing, with static rendering on web (`web.output: "static"`): every route, including each project, is pre-rendered to its own HTML page.
 - **Supabase** (`@supabase/supabase-js`) as the backend — Postgres + PostgREST, read-only from the client.
 - **react-native-reanimated** / **react-native-gesture-handler** for animation and gestures (the project carousel, slideshow).
 - **oxlint + eslint**, **oxfmt**, **tsc**, **knip**, and **jest** for linting, formatting, type checking, dead-code detection, and tests — all wired into CI (`.github/workflows/ci.yml`).
@@ -14,13 +14,19 @@ A technical overview of how this app is put together — for local setup and run
 ## Project structure
 
 ```
-App.tsx                  # entry: fonts, providers, NavigationContainer
+app/                     # Expo Router routes (thin files re-exporting screens)
+  _layout.tsx             # fonts, providers, WebAppShell, Stack
+  +html.tsx               # web HTML template (static rendering)
+  index.tsx               # / (Home)
+  profile.tsx             # /profile
+  project/[slug].tsx      # /project/<slug>, pre-rendered per snapshot project
+  +not-found.tsx          # 404
+scripts/                 # snapshot-content.mjs, postexport-web.mjs
 src/
-  navigation/             # native-stack route table (Home, ProjectDetails, User)
-  screens/                # one folder per screen (projects=Home, project-detail, user)
+  screens/                # one folder per screen (projects=Home, project-detail, user, not-found)
   components/             # shared presentational components
   context/                # ThemeProvider (light/dark theme state)
-  hooks/                  # useAsync, useIsWideWeb, useSystemThemeSync
+  hooks/                  # useAsync, useHydrated, useSystemThemeSync
   services/                # data-fetching layer (wraps the Supabase client)
   content/                # build-time content snapshot (snapshot.json) + accessors
   util/supabase/          # Supabase client instantiation
@@ -52,22 +58,23 @@ Path alias `@/*` (see `tsconfig.json`) maps to `src/*`, so imports read as `@/co
 
 ## Screens & navigation
 
-`src/navigation/index.tsx` defines a native-stack with three routes:
+Routes live in `app/` (Expo Router) and re-export screens from `src/screens`:
 
-- **Home** (`src/screens/projects`) — fetches and lists all projects (`getProjects`), renders `Project` cards in a `FlatList`.
-- **ProjectDetails** (`src/screens/project-detail`) — finds its project in the (snapshot-seeded) `getProjects` list, renders its slideshow, description, and tech/contribution lists.
-- **User** (`src/screens/user`) — fetches the profile (`getProfile`), renders the bio, tech stack, and social links (LinkedIn/GitHub/email via `Linking.openURL`).
+- **`/`** (`src/screens/projects`) — lists all projects (`getProjects`) as `Project` cards; each card is a `<Link>` (a real `<a href>` on web) to its project page.
+- **`/project/[slug]`** (`src/screens/project-detail`) — finds its project by slug in the (snapshot-seeded) `getProjects` list, renders its slideshow, description, and tech/contribution lists. `generateStaticParams` pre-renders one page per snapshot project.
+- **`/profile`** (`src/screens/user`) — the profile (`getProfile`): bio, tech stack, and contact links.
+- **`+not-found`** — exported as `404.html` for GitHub Pages.
 
-`project-detail/index.tsx` splits its UI into a reusable `ProjectDetailContent` (takes `id` + `onBack`) and a route-level `ProjectDetailScreen` wrapper. This split exists so Home can render project details inline on wide web layouts (see below) without a second navigation stack.
+Each screen sets its own `<title>`, description, canonical and Open Graph tags through `<PageHead>` (`expo-router/head`), so shared links preview the right page. Back buttons call `router.back()`, or `router.replace("/")` when a deep link opened the screen with no history.
 
 ## Web-specific behavior
 
 React Native's platform-extension resolution (`.web.tsx`) is used instead of scattering `Platform.OS === "web"` checks through shared components — see `src/components/web-app-shell/`:
 
 - `index.tsx` (native default) is a no-op passthrough.
-- `index.web.tsx` renders a persistent sidebar (Home/Profile) and constrains content to a fixed reading width, but only above `WEB_WIDE_BREAKPOINT` (900px, `src/constants/web.ts`) — narrow web viewports fall back to the same single-column layout as native.
+- `index.web.tsx` wraps the whole router stack (from `app/_layout.tsx`) with a persistent sidebar (Projects/Profile) and a fixed-width reading column. The markup is identical at every width; a media query (`WEB_SHELL_CSS` in `src/constants/web.ts`, injected by `app/+html.tsx`) shows the sidebar above 900px. It's CSS rather than `useWindowDimensions` because static HTML is rendered without a window, and a JS-measured layout would never hydrate cleanly.
 
-`useIsWideWeb` (`src/hooks/index.ts`) centralizes that `Platform.OS === "web" && width >= breakpoint` check. On wide web, `Home` shows project details in an overlay (`selectedProjectId` state) instead of navigating to a new stack screen, since a sidebar layout reads better with detail content swapped in place.
+The same constraint is why icons go through `src/components/icon`: glyph rendering depends on the icon font having loaded, which differs between server and client, so on web the glyph renders right after hydration (`useHydrated`) in a same-size box.
 
 ## Theming
 
@@ -80,7 +87,7 @@ Schema and policies live as SQL migrations in `supabase/migrations/`, applied vi
 ## CI/CD
 
 - **`ci.yml`** — on every PR/push to `main`: `npm ci`, `npm audit`, `ts:check`, `lint`, `test`, a web export (`expo export --platform web`) as a build sanity check, and `deadcode` (knip). Formatting isn't a CI check — the `.githooks/pre-commit` hook runs `oxfmt` on staged files before they're ever committed.
-- **`deploy-web.yml`** — on push to `main`, builds the web export and publishes it to GitHub Pages (`gh-pages` branch) via `npm run deploy`. Requires the `EXPO_PUBLIC_SUPABASE_URL` / `EXPO_PUBLIC_SUPABASE_ANON_KEY` repo secrets (baked into the client bundle at build time — same public, RLS-scoped values as local `.env`). Live at [arberhh.github.io/mobile-portofolio](https://arberhh.github.io/mobile-portofolio/). `app.json`'s `experiments.baseUrl` (`/mobile-portofolio`) prefixes exported asset paths to match the Pages subpath.
+- **`deploy-web.yml`** — on push to `main`, publishes the web build to GitHub Pages (`gh-pages` branch) via `npm run deploy`, whose `predeploy` refreshes the content snapshot, runs the static export, and adds `404.html` + `sitemap.xml` (`scripts/postexport-web.mjs`). Requires the `EXPO_PUBLIC_SUPABASE_URL` / `EXPO_PUBLIC_SUPABASE_ANON_KEY` repo secrets (baked into the client bundle at build time — same public, RLS-scoped values as local `.env`). Live at [arberhh.github.io/mobile-portofolio](https://arberhh.github.io/mobile-portofolio/). `app.json`'s `experiments.baseUrl` (`/mobile-portofolio`) prefixes exported asset paths to match the Pages subpath.
 - **`eas-update-on-release.yml`** — on push to `main`, runs an EAS Update workflow (`.eas/workflows/publish-update.yml`) to publish an OTA update to the production channel.
 - **`claude.yml` / `claude-code-review.yml`** — Claude Code GitHub Actions for automated PR review/assistance.
 
