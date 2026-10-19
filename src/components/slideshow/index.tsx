@@ -1,7 +1,6 @@
 import React, { useCallback, useRef, useState } from "react";
 import { Pressable, useWindowDimensions, View } from "react-native";
 import { Image } from "expo-image";
-import { Ionicons } from "@expo/vector-icons";
 import { Carousel, Pagination } from "react-native-reanimated-carousel";
 import type { CarouselRef, CarouselRenderItemInfo } from "react-native-reanimated-carousel";
 import Animated, {
@@ -12,6 +11,7 @@ import Animated, {
   useSharedValue,
 } from "react-native-reanimated";
 import { useTheme } from "@/context";
+import Icon from "../icon";
 import styles from "./styles";
 
 interface SlideshowProps {
@@ -131,12 +131,12 @@ function SlideshowCarousel({
           <>
             <View style={styles.navigationLeft}>
               <Pressable onPress={handlePrevious} hitSlop={12}>
-                <Ionicons name="chevron-back" size={24} color={theme.color} />
+                <Icon name="chevron-back" size={24} color={theme.color} />
               </Pressable>
             </View>
             <View style={styles.navigationRight}>
               <Pressable onPress={handleNext} hitSlop={12}>
-                <Ionicons name="chevron-forward" size={24} color={theme.color} />
+                <Icon name="chevron-forward" size={24} color={theme.color} />
               </Pressable>
             </View>
           </>

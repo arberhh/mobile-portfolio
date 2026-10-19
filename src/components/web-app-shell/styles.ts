@@ -3,8 +3,9 @@ import { FONT_MEDIUM } from "@/constants";
 
 const styles = StyleSheet.create({
   content: {
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+    flex: 1,
   },
   link: {
     alignItems: "center",
@@ -21,6 +22,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
   },
   row: {
+    flex: 1,
     flexDirection: "row",
     justifyContent: "center",
   },

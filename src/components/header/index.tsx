@@ -1,7 +1,7 @@
 import React from "react";
 import { Pressable, View } from "react-native";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useTheme } from "@/context";
+import Icon from "../icon";
 import ThemeText from "../theme-text";
 import styles from "./styles";
 
@@ -17,15 +17,15 @@ function Header({ title, leftIcon, onLeftPress }: HeaderProps) {
   return (
     <View style={[styles.container, { backgroundColor: theme.screenBackground }]}>
       <Pressable style={styles.iconButton} onPress={onLeftPress} hitSlop={12}>
-        {leftIcon === "back" ? (
-          <Ionicons name="chevron-back" size={24} color={theme.color} />
-        ) : (
-          <MaterialIcons name="account-circle" size={24} color={theme.color} />
-        )}
+        <Icon
+          name={leftIcon === "back" ? "chevron-back" : "person-circle"}
+          size={24}
+          color={theme.color}
+        />
       </Pressable>
       <ThemeText style={styles.title} text={title} color={theme.accent} numberOfLines={1} />
       <Pressable style={styles.iconButton} onPress={toggleTheme} hitSlop={12}>
-        <MaterialIcons name="dark-mode" size={24} color={theme.color} />
+        <Icon name="moon" size={22} color={theme.color} />
       </Pressable>
     </View>
   );

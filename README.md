@@ -23,7 +23,7 @@ Want to run it yourself? See [docs/SETUP.md](docs/SETUP.md) for local setup and 
 
 ## 📁 Project Structure Overview
 
-This project keeps code files organized in a TypeScript Expo project. It splits things into reusable pieces, screens for each view, and navigation to move between them. The context folder holds app-wide state, and themes keep the styling the same everywhere.
+This project keeps code files organized in a TypeScript Expo project. It splits things into reusable pieces, screens for each view, and file-based routes (Expo Router) to move between them. The context folder holds app-wide state, and themes keep the styling the same everywhere.
 
 See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for a full technical breakdown — data flow, web-specific behavior, theming, and CI/CD.
 

@@ -10,4 +10,8 @@ const snapshotProjects: Project[] = parseProjects(
 );
 const snapshotProfile = snapshot.profile as unknown as Profile | null;
 
-export { snapshotProjects, snapshotProfile };
+function findProject(projects: Project[], slug: string | undefined) {
+  return projects.find((project) => project.slug === slug) ?? null;
+}
+
+export { snapshotProjects, snapshotProfile, findProject };

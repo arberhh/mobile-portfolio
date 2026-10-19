@@ -1,10 +1,6 @@
 import { Props } from "@/types";
 
-interface WebAppShellProps extends Props {
-  active?: "Home" | "User";
-}
-
-function WebAppShell({ children }: WebAppShellProps) {
+function WebAppShell({ children }: Props) {
   return <>{children}</>;
 }
 

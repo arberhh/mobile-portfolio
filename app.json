@@ -2,7 +2,7 @@
   "expo": {
     "name": "ArberPortofolio",
     "slug": "ArberPortofolio",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
@@ -20,7 +20,7 @@
     "web": {
       "favicon": "./assets/favicon.png",
       "bundler": "metro",
-      "output": "single"
+      "output": "static"
     },
     "experiments": {
       "baseUrl": "/mobile-portofolio"
@@ -37,6 +37,7 @@
       "url": "https://u.expo.dev/19f7580b-c0e5-44e3-a264-8bb2b365cae8"
     },
     "plugins": [
+      "expo-router",
       "expo-font",
       "expo-status-bar",
       [
@@ -48,6 +49,7 @@
         }
       ],
       "expo-image"
-    ]
+    ],
+    "scheme": "arberportfolio"
   }
 }

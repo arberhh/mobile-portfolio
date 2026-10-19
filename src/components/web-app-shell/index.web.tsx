@@ -1,28 +1,27 @@
 import { useState } from "react";
-import { Pressable, View, useWindowDimensions } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { Pressable, StyleSheet, View, ViewProps } from "react-native";
+import { Link, usePathname } from "expo-router";
 import { useTheme } from "@/context";
-import { useIsWideWeb } from "@/hooks";
+import Icon, { IconName } from "../icon";
 import ThemeText from "../theme-text";
 import { Props } from "@/types";
-import { WEB_CONTENT_WIDTH } from "@/constants";
 import styles from "./styles";
 
-interface WebAppShellProps extends Props {
-  active?: "Home" | "User";
-}
-
-const SIDEBAR_WIDTH = 220;
+// react-native-web renders `dataSet` as data-* attributes; react-native's
+// types don't know about it.
+const WebView = View as unknown as React.ComponentType<
+  ViewProps & { dataSet?: Record<string, string> }
+>;
 
 interface SidebarLinkProps {
   label: string;
+  href: "/" | "/profile";
   focused: boolean;
-  onPress: () => void;
-  renderIcon: (color: string) => React.ReactNode;
+  icon: IconName;
+  focusedIcon: IconName;
 }
 
-function SidebarLink({ label, focused, onPress, renderIcon }: SidebarLinkProps) {
+function SidebarLink({ label, href, focused, icon, focusedIcon }: SidebarLinkProps) {
   const { theme } = useTheme();
   const [hovered, setHovered] = useState(false);
 
@@ -30,49 +29,49 @@ function SidebarLink({ label, focused, onPress, renderIcon }: SidebarLinkProps) 
   const backgroundColor = hovered ? theme.cardBackground : "transparent";
 
   return (
-    <Pressable
-      onPress={onPress}
-      onHoverIn={() => setHovered(true)}
-      onHoverOut={() => setHovered(false)}
-      style={[styles.link, { backgroundColor }]}
-    >
-      {renderIcon(color)}
-      <ThemeText style={styles.linkLabel} text={label} color={color} />
-    </Pressable>
+    <Link href={href} asChild>
+      <Pressable
+        onHoverIn={() => setHovered(true)}
+        onHoverOut={() => setHovered(false)}
+        // Link's Slot rejects style arrays, so flatten.
+        style={StyleSheet.flatten([styles.link, { backgroundColor }])}
+      >
+        <Icon name={focused ? focusedIcon : icon} size={24} color={color} />
+        <ThemeText style={styles.linkLabel} text={label} color={color} />
+      </Pressable>
+    </Link>
   );
 }
 
-function WebAppShell({ children, active }: WebAppShellProps) {
-  const { width, height } = useWindowDimensions();
+// Rendered once around the whole router stack (app/_layout.tsx), so the
+// sidebar stays put while routes change in the centre column. The markup is
+// the same at every width; WEB_SHELL_CSS (in app/+html.tsx) shows the
+// sidebar and fixes the column width above the wide breakpoint.
+function WebAppShell({ children }: Props) {
   const { theme } = useTheme();
-  const navigation = useNavigation<any>();
-  const isWideWeb = useIsWideWeb();
-
-  if (!isWideWeb) {
-    return <>{children}</>;
-  }
+  const pathname = usePathname();
 
   return (
-    <View style={[styles.row, { width, height, backgroundColor: theme.screenBackground }]}>
-      <View style={[styles.sidebar, { width: SIDEBAR_WIDTH }]}>
+    <View style={[styles.row, { backgroundColor: theme.screenBackground }]}>
+      <WebView dataSet={{ shellSidebar: "" }} style={styles.sidebar}>
         <SidebarLink
-          label="Home"
-          focused={active === "Home"}
-          onPress={() => navigation.navigate("Home")}
-          renderIcon={(color) => (
-            <Ionicons name={active === "Home" ? "home" : "home-outline"} size={24} color={color} />
-          )}
+          label="Projects"
+          href="/"
+          focused={pathname === "/" || pathname.startsWith("/project/")}
+          icon="home-outline"
+          focusedIcon="home"
         />
         <SidebarLink
           label="Profile"
-          focused={active === "User"}
-          onPress={() => navigation.navigate("User")}
-          renderIcon={(color) => <MaterialIcons name="account-circle" size={24} color={color} />}
+          href="/profile"
+          focused={pathname === "/profile"}
+          icon="person-circle-outline"
+          focusedIcon="person-circle"
         />
-      </View>
-      <View style={[styles.content, { width: WEB_CONTENT_WIDTH, height, borderColor: theme.line }]}>
+      </WebView>
+      <WebView dataSet={{ shellContent: "" }} style={[styles.content, { borderColor: theme.line }]}>
         {children}
-      </View>
+      </WebView>
     </View>
   );
 }
