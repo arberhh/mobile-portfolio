@@ -1,8 +1,10 @@
-import { SocialIcon, Tech } from "./account";
+import { Tech } from "./account";
+import ContactLinks from "./contact-links";
 import Divider from "./divider";
 import ExternalLink from "./external-link";
 import Header from "./header";
 import Icon from "./icon";
+import Intro from "./intro";
 import Project from "./project";
 import FullScreenSlideshow from "./full-screen";
 import List from "./list";
@@ -13,17 +15,18 @@ import SectionHeading from "./section-heading";
 import WebAppShell from "./web-app-shell";
 
 export {
+  ContactLinks,
   Divider,
   ExternalLink,
   Header,
   Icon,
+  Intro,
   Project,
   Slideshow,
   FullScreenSlideshow,
   List,
   PageHead,
   SectionHeading,
-  SocialIcon,
   Tech,
   ThemeText,
   WebAppShell,

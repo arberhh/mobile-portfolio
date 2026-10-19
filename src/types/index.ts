@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { TextStyle } from "react-native";
+import { AccessibilityRole, TextStyle } from "react-native";
 import { Theme } from "../themes";
 import { Database } from "./supabase";
 
@@ -50,12 +50,6 @@ interface FullScreenSlideshowProps {
   initialIndex?: number;
 }
 
-interface SocialIconProps {
-  color: string;
-  url: string;
-  iconType: "linkedin" | "github" | "google";
-}
-
 interface TechProps {
   title: string;
   theme: Theme;
@@ -71,6 +65,7 @@ interface ThemeTextProps {
   text: string;
   color?: string;
   numberOfLines?: number;
+  accessibilityRole?: AccessibilityRole;
 }
 
 export {
@@ -82,7 +77,6 @@ export {
   Project,
   Profile,
   FullScreenSlideshowProps,
-  SocialIconProps,
   TechProps,
   SectionHeadingProps,
   ThemeTextProps,

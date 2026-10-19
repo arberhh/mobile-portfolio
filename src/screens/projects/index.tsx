@@ -3,12 +3,21 @@ import { FlatList, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import { useRouter } from "expo-router";
-import { Divider, ExternalLink, Header, Icon, PageHead, Project, ThemeText } from "@/components";
+import {
+  Divider,
+  ExternalLink,
+  Header,
+  Icon,
+  Intro,
+  PageHead,
+  Project,
+  ThemeText,
+} from "@/components";
 import { useAsync, useSystemThemeSync } from "@/hooks";
-import { getProjects } from "@/services";
-import { snapshotProjects } from "@/content";
+import { getProfile, getProjects } from "@/services";
+import { snapshotProfile, snapshotProjects } from "@/content";
 import { useTheme } from "@/context";
-import { Project as ProjectData } from "@/types";
+import { Profile, Project as ProjectData } from "@/types";
 import { commonStyles } from "@/common";
 import { REPO_URL } from "@/constants";
 import styles from "./styles";
@@ -32,7 +41,7 @@ function RepoLink() {
     <ExternalLink url={REPO_URL} style={styles.repoLink} accessibilityRole="link">
       <Icon name="logo-github" size={16} color={theme.textSecondary} style={styles.repoIcon} />
       <ThemeText
-        text="View source on GitHub"
+        text="View this site's source on GitHub"
         color={theme.textSecondary}
         style={commonStyles.subtitle}
       />
@@ -46,6 +55,11 @@ function Home() {
     getProjects,
     snapshotProjects,
     snapshotProjects.length > 0,
+  );
+  const { data: profile } = useAsync<Profile | null>(
+    getProfile,
+    snapshotProfile,
+    snapshotProfile !== null,
   );
 
   const { theme } = useTheme();
@@ -71,11 +85,12 @@ function Home() {
           data={projects}
           keyExtractor={keyExtractor}
           showsVerticalScrollIndicator={false}
+          ListHeaderComponent={profile ? <Intro profile={profile} /> : null}
           ItemSeparatorComponent={renderItemSeparator}
           renderItem={renderProjectItem}
+          ListFooterComponent={RepoLink}
         />
       )}
-      <RepoLink />
     </SafeAreaView>
   );
 }
