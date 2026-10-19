@@ -58,8 +58,10 @@ export type Database = {
         Row: {
           about_me: string | null;
           created_at: string;
+          cv_url: string | null;
           email: string | null;
           github: string | null;
+          headline: string | null;
           id: number;
           intro: string | null;
           linkedin: string | null;
@@ -70,8 +72,10 @@ export type Database = {
         Insert: {
           about_me?: string | null;
           created_at?: string;
+          cv_url?: string | null;
           email?: string | null;
           github?: string | null;
+          headline?: string | null;
           id?: number;
           intro?: string | null;
           linkedin?: string | null;
@@ -82,8 +86,10 @@ export type Database = {
         Update: {
           about_me?: string | null;
           created_at?: string;
+          cv_url?: string | null;
           email?: string | null;
           github?: string | null;
+          headline?: string | null;
           id?: number;
           intro?: string | null;
           linkedin?: string | null;
@@ -125,46 +131,67 @@ export type Database = {
       };
       projects: {
         Row: {
+          app_store_url: string | null;
           aproach: string | null;
+          banner_alt: string | null;
           banner_url: string | null;
           created_at: string;
           github: string | null;
+          highlight: string | null;
           id: number;
           images: string[] | null;
           long_description: string | null;
           non_technical_contributions: string[] | null;
+          period: string | null;
           personal: boolean | null;
+          play_store_url: string | null;
+          role: string | null;
           short_description: string | null;
+          slug: string | null;
           techical_contributions: string[] | null;
           title: string | null;
           tools_technologies: string[] | null;
         };
         Insert: {
+          app_store_url?: string | null;
           aproach?: string | null;
+          banner_alt?: string | null;
           banner_url?: string | null;
           created_at?: string;
           github?: string | null;
+          highlight?: string | null;
           id?: number;
           images?: string[] | null;
           long_description?: string | null;
           non_technical_contributions?: string[] | null;
+          period?: string | null;
           personal?: boolean | null;
+          play_store_url?: string | null;
+          role?: string | null;
           short_description?: string | null;
+          slug?: string | null;
           techical_contributions?: string[] | null;
           title?: string | null;
           tools_technologies?: string[] | null;
         };
         Update: {
+          app_store_url?: string | null;
           aproach?: string | null;
+          banner_alt?: string | null;
           banner_url?: string | null;
           created_at?: string;
           github?: string | null;
+          highlight?: string | null;
           id?: number;
           images?: string[] | null;
           long_description?: string | null;
           non_technical_contributions?: string[] | null;
+          period?: string | null;
           personal?: boolean | null;
+          play_store_url?: string | null;
+          role?: string | null;
           short_description?: string | null;
+          slug?: string | null;
           techical_contributions?: string[] | null;
           title?: string | null;
           tools_technologies?: string[] | null;
