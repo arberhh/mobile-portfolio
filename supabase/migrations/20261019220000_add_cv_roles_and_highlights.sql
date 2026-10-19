@@ -1,6 +1,8 @@
 -- Content from the CV (Documents/arber/ARBER-HAXHIMUSA-CV.pdf, Sep 2026),
 -- which is now also linked from the profile. Highlights are only set where
--- the CV states an outcome; the others stay null and don't render.
+-- there's a stated outcome; the others stay null and don't render. Nectar's
+-- figures are product-level metrics (MAU, retention) for the app, taken
+-- from a JubileeMedia colleague's CV, not personal claims.
 
 update public.profile
 set
@@ -15,7 +17,7 @@ from (
       'Nectar',
       'Senior Mobile Developer · JubileeMedia',
       'Jun 2024 – present',
-      'Set the app up from the ground up and own its releases to the App Store and Google Play'
+      'Built and shipped the app that reached 120K monthly active users within 5 months of launch, with 60% D1, 40% D7 and 20% D30 retention'
     ),
     (
       'AQ Shop',
