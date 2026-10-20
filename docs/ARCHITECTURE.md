@@ -52,7 +52,7 @@ Path alias `@/*` (see `tsconfig.json`) maps to `src/*`, so imports read as `@/co
    - flattens the `project_domains` join table into a plain `domains` array (`withFlattenedDomains`),
    - coerces nullable Postgres columns to safe defaults (`toProject`), deriving a `slug` from the title when none is stored,
    - prefetches image URLs via `expo-image`'s `Image.prefetch` so banners/gallery images are warm before they're rendered.
-3. `scripts/snapshot-content.mjs` (`npm run snapshot`) copies the current projects + profile into `src/content/snapshot.json`, which is committed and refreshed before every web deploy. `src/content` parses it with the same `parseProjects` the service uses.
+3. `scripts/snapshot-content.mjs` (`npm run snapshot`) copies the current projects + profile into `src/content/snapshot.json`, which is committed. `npm run deploy` refreshes its own copy before building, but doesn't commit it back, so the committed copy (what CI builds and the native app's first render use) only updates when someone runs `npm run snapshot` and commits. `src/content` parses it with the same `parseProjects` the service uses.
 4. Screens call the service functions through `useAsync`, a small hook (`src/hooks/index.ts`) that tracks `{ data, loading, error }` for a fetcher function — this is the app's only data-fetching pattern, there is no separate query-caching library. Screens pass the snapshot as the initial value (`hasInitialData`), so content renders immediately, the fetch only refreshes it, and a failed refresh keeps the snapshot rather than showing an error.
 5. Types for the Supabase schema (`src/types/supabase.ts`) are generated from the database; hand-written domain types (`Project`, `Profile`, `Domain`, …) in `src/types/index.ts` derive from them with `Pick`/mapped types rather than being redefined by hand.
 
@@ -60,9 +60,9 @@ Path alias `@/*` (see `tsconfig.json`) maps to `src/*`, so imports read as `@/co
 
 Routes live in `app/` (Expo Router) and re-export screens from `src/screens`:
 
-- **`/`** (`src/screens/projects`) — lists all projects (`getProjects`) as `Project` cards; each card is a `<Link>` (a real `<a href>` on web) to its project page.
-- **`/project/[slug]`** (`src/screens/project-detail`) — finds its project by slug in the (snapshot-seeded) `getProjects` list, renders its slideshow, description, and tech/contribution lists. `generateStaticParams` pre-renders one page per snapshot project.
-- **`/profile`** (`src/screens/user`) — the profile (`getProfile`): bio, tech stack, and contact links.
+- **`/`** (`src/screens/projects`) — opens with an `Intro` (name, headline, bio, and `ContactLinks` from the profile), then lists all projects (`getProjects`) as `Project` cards: banner, role · period, a one-line highlight, and tags. Each card is a `<Link>` (a real `<a href>` on web) to its project page.
+- **`/project/[slug]`** (`src/screens/project-detail`) — finds its project by slug in the (snapshot-seeded) `getProjects` list, renders its slideshow, role/period/highlight, store and source links (each only when set), description, and tech/contribution lists. `generateStaticParams` pre-renders one page per snapshot project.
+- **`/profile`** (`src/screens/user`) — the profile (`getProfile`): headline, bio, tech stack, and contact links (Email, LinkedIn, GitHub, and CV when `cv_url` is set).
 - **`+not-found`** — exported as `404.html` for GitHub Pages.
 
 Each screen sets its own `<title>`, description, canonical and Open Graph tags through `<PageHead>` (`expo-router/head`), so shared links preview the right page. Back buttons call `router.back()`, or `router.replace("/")` when a deep link opened the screen with no history.
@@ -82,13 +82,13 @@ The same constraint is why icons go through `src/components/icon`: glyph renderi
 
 ## Backend (Supabase)
 
-Schema and policies live as SQL migrations in `supabase/migrations/`, applied via the Supabase CLI (`supabase/config.toml`). Tables: `projects`, `domains`, `project_domains` (join table), `profile`. Row-level security is enabled on all public tables with `select`-only policies for `anon`/`authenticated` — the client has no write path and no auth flow; the anon key is meant to be public and access is restricted entirely by RLS. See [SECURITY.md](../SECURITY.md).
+Schema and policies live as SQL migrations in `supabase/migrations/`, applied via the Supabase CLI (`supabase/config.toml`). Tables: `projects` (including `slug`, `role`, `period`, `highlight`, store links, and `banner_alt`), `domains`, `project_domains` (join table), `profile` (including `headline` and `cv_url`). To add or change content, see "Updating content" in [SETUP.md](SETUP.md). Row-level security is enabled on all public tables with `select`-only policies for `anon`/`authenticated` — the client has no write path and no auth flow; the anon key is meant to be public and access is restricted entirely by RLS. See [SECURITY.md](../SECURITY.md).
 
 ## CI/CD
 
 - **`ci.yml`** — on every PR/push to `main`: `npm ci`, `npm audit`, `ts:check`, `lint`, `test`, a web export (`expo export --platform web`) as a build sanity check, and `deadcode` (knip). Formatting isn't a CI check — the `.githooks/pre-commit` hook runs `oxfmt` on staged files before they're ever committed.
 - **`deploy-web.yml`** — on push to `main`, publishes the web build to GitHub Pages (`gh-pages` branch) via `npm run deploy`, whose `predeploy` refreshes the content snapshot, runs the static export, and adds `404.html` + `sitemap.xml` (`scripts/postexport-web.mjs`). Requires the `EXPO_PUBLIC_SUPABASE_URL` / `EXPO_PUBLIC_SUPABASE_ANON_KEY` repo secrets (baked into the client bundle at build time — same public, RLS-scoped values as local `.env`). Live at [arberhh.github.io/mobile-portfolio](https://arberhh.github.io/mobile-portfolio/). `app.json`'s `experiments.baseUrl` (`/mobile-portfolio`) prefixes exported asset paths to match the Pages subpath.
-- **`eas-update-on-release.yml`** — on push to `main`, runs an EAS Update workflow (`.eas/workflows/publish-update.yml`) to publish an OTA update to the production channel.
+- **`eas-update-on-release.yml`** — on push to `main`, runs an EAS Update workflow (`.eas/workflows/publish-update.yml`) to publish an OTA update to the production channel. `runtimeVersion` follows `appVersion` (`app.json`), so **bump `version` whenever native dependencies change** (e.g. adding `expo-router`): otherwise the update reaches installed binaries that lack the native code.
 - **`claude.yml` / `claude-code-review.yml`** — Claude Code GitHub Actions for automated PR review/assistance.
 
 Builds/submits (as opposed to OTA updates) are configured in `eas.json` (`development`, `preview`, `production` profiles) and run manually via `eas build`/`eas submit`.

@@ -6,7 +6,7 @@ This is a single-instance portfolio app, not a versioned library — only the co
 
 ## Scope
 
-The client ships a public Supabase URL and an anon key (`EXPO_PUBLIC_SUPABASE_URL`, `EXPO_PUBLIC_SUPABASE_ANON_KEY`). These are meant to be public: access is restricted server-side by Postgres row-level security policies that grant read-only access to the `projects`, `domains`, and `profile` tables. There is no authentication or write path exposed to the client.
+The client ships a public Supabase URL and an anon key (`EXPO_PUBLIC_SUPABASE_URL`, `EXPO_PUBLIC_SUPABASE_ANON_KEY`). These are meant to be public: access is restricted server-side by Postgres row-level security policies that grant read-only access to the `projects`, `domains`, `project_domains`, and `profile` tables. There is no authentication or write path exposed to the client. The committed content snapshot (`src/content/snapshot.json`) holds only what those public tables already expose.
 
 ## Reporting a Vulnerability
 

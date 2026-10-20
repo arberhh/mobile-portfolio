@@ -11,6 +11,7 @@ npm run format                  # oxfmt . (write)
 npm run format:check            # oxfmt --check .
 npm run test                    # jest (jest-expo preset)
 npm run deadcode                # knip — unused exports/deps, entry points app/**/*.tsx + scripts/*.mjs
+npm run snapshot                # refresh src/content/snapshot.json from Supabase (needs .env); not a CI check
 npx expo export --platform web  # web build sanity check
 ```
 
@@ -24,7 +25,9 @@ Formatting isn't a CI check — a pre-commit hook (`.githooks/pre-commit`, insta
 
 Expo (SDK 57) + React Native 0.86 + React 19, TypeScript, targeting iOS/Android/web from one codebase via `react-native-web`. Path alias `@/*` → `src/*`.
 
-**Data flow**: `src/util/supabase/index.ts` lazily creates one Supabase client via `getSupabase()` (env: `EXPO_PUBLIC_SUPABASE_URL`/`EXPO_PUBLIC_SUPABASE_ANON_KEY`; lazy so a missing env never throws at import, no session persistence). `src/services/supabase-service` is the _only_ place that talks to Supabase — `getProjects` and `getProfile`, each running through a shared `runQuery` helper (normalizes `{ data, error }` into a thrown `Error`), flattening the `project_domains` join via `withFlattenedDomains`, coercing nullable columns via `toProject`, and prefetching images with `Image.prefetch`. Screens consume these through `useAsync` (`src/hooks/index.ts`), a `{ data, loading, error }` hook — the app's only data-fetching pattern, no query-caching library. The initial value is the committed build-time snapshot (`src/content/snapshot.json`, refreshed by `npm run snapshot` / `scripts/snapshot-content.mjs`), so screens render content immediately and the fetch only refreshes it. Generated Supabase types live in `src/types/supabase.ts`; hand-written domain types in `src/types/index.ts` derive from them with `Pick`/mapped types rather than being redefined.
+**Data flow**: `src/util/supabase/index.ts` lazily creates one Supabase client via `getSupabase()` (env: `EXPO_PUBLIC_SUPABASE_URL`/`EXPO_PUBLIC_SUPABASE_ANON_KEY`; lazy so a missing env never throws at import, no session persistence). `src/services/supabase-service` is the _only_ place that talks to Supabase — `getProjects` and `getProfile`, each running through a shared `runQuery` helper (normalizes `{ data, error }` into a thrown `Error`), flattening the `project_domains` join via `withFlattenedDomains`, coercing nullable columns via `toProject`, and prefetching images with `Image.prefetch`. Screens consume these through `useAsync` (`src/hooks/index.ts`), a `{ data, loading, error }` hook — the app's only data-fetching pattern, no query-caching library. The initial value is the committed build-time snapshot (`src/content/snapshot.json`, refreshed by `npm run snapshot` / `scripts/snapshot-content.mjs`), so screens render content immediately and the fetch only refreshes it. `npm run deploy` refreshes its own copy but doesn't commit it, so the committed copy only changes when someone runs `npm run snapshot` and commits.
+
+**Content**: projects/profile are edited only through SQL migrations in `supabase/migrations/` (the user applies them with `supabase db push`). Card banners must be 1200×450 PNGs (8:3, the fixed card frame); project `slug`s are the URL (`/project/<slug>`); `role`/`period`/`highlight`/store links/`banner_alt` are optional and hidden when null. Storage uploads are allowed via `supabase storage cp --experimental --linked`. The step-by-step is in `docs/SETUP.md`. Generated Supabase types live in `src/types/supabase.ts`; hand-written domain types in `src/types/index.ts` derive from them with `Pick`/mapped types rather than being redefined.
 
 **Backend**: Supabase (Postgres + PostgREST), read-only from the client. Tables `projects`, `domains`, `project_domains`, `profile` — RLS enabled everywhere with `select`-only policies for `anon`/`authenticated`, no auth flow or write path in the client. Migrations live in `supabase/migrations/`, applied via the Supabase CLI (`supabase/config.toml`).
 
@@ -39,7 +42,7 @@ Expo (SDK 57) + React Native 0.86 + React 19, TypeScript, targeting iOS/Android/
 ## CI/CD
 
 - `ci.yml` — `npm ci`, `npm audit --audit-level=high`, `ts:check`, `lint`, `test`, web export build check, `deadcode` (knip). Formatting is enforced by the pre-commit hook, not CI.
-- `eas-update-on-release.yml` — on push to `main`, publishes an OTA update to production via `.eas/workflows/publish-update.yml`.
+- `eas-update-on-release.yml` — on push to `main`, publishes an OTA update to production via `.eas/workflows/publish-update.yml`. `runtimeVersion` = `appVersion`, so bump `version` in `app.json` whenever native dependencies change, or the update reaches binaries that lack the native code.
 - `claude.yml` / `claude-code-review.yml` — Claude Code GitHub Actions for PR review/assistance.
 - Builds/submits (not OTA) are configured in `eas.json` (`development`/`preview`/`production` profiles), run manually via `eas build`/`eas submit`.
 
