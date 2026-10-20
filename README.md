@@ -3,11 +3,11 @@
 [![CI](https://github.com/arberhh/mobile-portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/arberhh/mobile-portfolio/actions/workflows/ci.yml)
 [![CodeQL](https://github.com/arberhh/mobile-portfolio/actions/workflows/codeql.yml/badge.svg)](https://github.com/arberhh/mobile-portfolio/actions/workflows/codeql.yml)
 
-📱 The portfolio of Arber Haxhimusa, a senior React Native engineer: case studies for four production apps (Nectar, AQ Shop, ArcadeQuest, Twig) and for this app itself, built with Expo for iOS, Android, and web.
+📱 My portfolio as a React Native engineer: case studies for four production apps I've worked on (Nectar, AQ Shop, ArcadeQuest, Twig) and for this app itself, built with Expo for iOS, Android, and web.
 
 - **One codebase, three platforms**: Expo Router with `react-native-web`.
 - **Linkable web pages**: every project has its own URL (e.g. `/project/nectar`), pre-rendered to HTML with its own title and link preview.
-- **Real backend**: content lives in Supabase, with a committed snapshot so pages render instantly and offline-safe.
+- **Real backend**: content lives in Supabase, with a committed snapshot, so pages render instantly with real content.
 - **Dark / light themes** and a sidebar layout on wide screens.
 
 ## <img width="30" height="30" src="https://img.icons8.com/color/48/expo.png" alt="expo"/> Try it now
