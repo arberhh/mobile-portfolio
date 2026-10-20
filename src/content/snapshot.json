@@ -6,11 +6,11 @@
       "title": "Mobile Portfolio",
       "short_description": "Picked this portfolio app back up after a roughly two-year gap and rebuilt it end to end using Claude Code as an AI pair programmer, including a full redesign, first-class web support, and a real engineering workflow around it.",
       "long_description": "This portfolio app itself, dormant for roughly two years before I picked it back up in August 2026. Rather than writing every line by hand, I ran Claude Code as an AI pair programmer: scoped and planned the work in Linear through its MCP server, directed the agent through implementation session by session, and reviewed every pull request it opened before merging. Along the way I also built out the tooling that made that loop reliable, custom Claude Code skills, CI/CD, and an automated GitHub reviewer, so the process itself, not just this one redesign, became the reusable part.",
-      "banner_url": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/mobile-portfolio/banner.png",
+      "banner_url": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/mobile-portfolio/banner-card.png",
       "images": [
-        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/mobile-portfolio/screen-home-mobile.png",
-        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/mobile-portfolio/screen-home-web.png",
-        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/mobile-portfolio/screen-profile-web.png"
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/mobile-portfolio/screen-home-mobile-v2.png",
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/mobile-portfolio/screen-home-web-v2.png",
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/mobile-portfolio/screen-profile-web-v2.png"
       ],
       "github": "https://github.com/arberhh/mobile-portfolio",
       "personal": true,
@@ -40,14 +40,14 @@
         "EAS for OTA updates, and Supabase (Postgres, PostgREST, RLS) as the read-only content backend for this app.",
         "GitHub Pages, via a scripted gh-pages deploy, for the live web build."
       ],
+      "slug": "mobile-portfolio",
+      "role": "Personal project",
+      "period": "2026",
+      "highlight": "Every pull request gated by type checks, lint, tests, dead-code detection and CodeQL",
+      "app_store_url": null,
+      "play_store_url": null,
+      "banner_alt": "mobile-portfolio wordmark under a lime terminal prompt, captioned \"Rebuilt with Claude Code\"",
       "project_domains": [
-        {
-          "domains": {
-            "id": 20,
-            "icon": "laptop",
-            "title": "technology"
-          }
-        },
         {
           "domains": {
             "id": 23,
@@ -70,7 +70,7 @@
       "title": "Nectar",
       "short_description": "Build and maintain Nectar, a React Native dating application for iOS and Android, owning mobile architecture, typed GraphQL integrations, authentication, subscriptions, notifications, analytics, and releases.",
       "long_description": "At JubileeMedia, I build and maintain Nectar's dating experience using React Native, Expo, and TypeScript. I own mobile architecture and delivery across Development, Staging, and Production environments, including CI/CD pipelines, authentication, subscriptions, notifications, typed GraphQL integrations, analytics, and App Store and Google Play releases. I also work with backend and QA teams to validate APIs, investigate data issues, and deliver features from concept through production.",
-      "banner_url": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/jubilee/banner.png",
+      "banner_url": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/jubilee/nectar-card.png",
       "images": [
         "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/jubilee/nectar-1.png",
         "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/jubilee/nectar-2.png",
@@ -107,19 +107,19 @@
         "Mixpanel and Firebase Remote Config for analytics, A/B testing, and feature rollouts.",
         "Expo and GitHub Actions for CI/CD, builds, and App Store and Google Play releases."
       ],
+      "slug": "nectar",
+      "role": "Senior Mobile Developer \u00b7 JubileeMedia",
+      "period": "Jun 2024 \u2013 present",
+      "highlight": "Built and shipped the app that reached 120K monthly active users within 5 months of launch, with 60% D1, 40% D7 and 20% D30 retention",
+      "app_store_url": "https://apps.apple.com/us/app/nectar-dating-compatibility/id6476018063",
+      "play_store_url": null,
+      "banner_alt": "Three Nectar App Store screenshots: a loveprint profile, relationship questions, and choosing what you're looking for",
       "project_domains": [
         {
           "domains": {
             "id": 17,
             "icon": "users",
             "title": "social-media"
-          }
-        },
-        {
-          "domains": {
-            "id": 20,
-            "icon": "laptop",
-            "title": "technology"
           }
         },
         {
@@ -137,7 +137,7 @@
       "title": "AQ Shop",
       "short_description": "Built a React Native mobile shopping experience for discovering and purchasing indie games, with live showcases, discounted listings, and in-app purchases.",
       "long_description": "I led development of a mobile application for discovering and purchasing indie games. The product combined live game showcases, product discovery, discounted listings, and in-app purchases in a simple cross-platform experience. I worked closely with the team to shape the product around user needs while maintaining a modular architecture that was easy to extend and maintain.",
-      "banner_url": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/banner.png",
+      "banner_url": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/aq-shop-card.png",
       "images": [
         "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/shop-1.png",
         "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/shop-1.png",
@@ -166,6 +166,13 @@
         "RevenueCat and Stripe for subscriptions and in-app purchases.",
         "Android Studio and Xcode for platform development and release management."
       ],
+      "slug": "aq-shop",
+      "role": "React Native Engineer \u00b7 ArcadeQuest",
+      "period": "Dec 2022 \u2013 May 2024",
+      "highlight": null,
+      "app_store_url": null,
+      "play_store_url": null,
+      "banner_alt": "Four AQ Shop App Store screenshots: featured game deals, a game page with a Buy Now button, creator videos, and weekly new games",
       "project_domains": [
         {
           "domains": {
@@ -210,7 +217,7 @@
       "title": "ArcadeQuest",
       "short_description": "Built React Native applications for Fortnite players, including player statistics, live item shop updates, quests, subscriptions, onboarding, and engagement-focused mini-games.",
       "long_description": "At ArcadeQuest, I led the development of mobile applications using React Native and TypeScript. The products provided Fortnite player statistics, live item shop data, quests, subscriptions, and interactive features. I also built backend integrations with Node.js and Supabase Edge Functions, implemented payment systems, improved onboarding, and contributed to mini-games that increased engagement and retention.",
-      "banner_url": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/banner.png",
+      "banner_url": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/banner-card.png",
       "images": [
         "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/aq-1.png",
         "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/aq-2.png",
@@ -241,6 +248,13 @@
         "RevenueCat and Stripe for subscriptions and in-app purchases.",
         "Mixpanel, UXCam, and Sentry for analytics, user research, and error monitoring."
       ],
+      "slug": "arcadequest",
+      "role": "React Native Engineer \u00b7 ArcadeQuest",
+      "period": "Dec 2022 \u2013 May 2024",
+      "highlight": "Shipped a new onboarding flow that significantly improved retention and conversion",
+      "app_store_url": null,
+      "play_store_url": null,
+      "banner_alt": "ArcadeQuest logo on a dark background",
       "project_domains": [
         {
           "domains": {
@@ -278,7 +292,7 @@
       "title": "Twig",
       "short_description": "Built and maintained a React Native mobile application with more than 1 million installs, delivering iOS and Android features, native integrations, performance improvements, and a full product redesign.",
       "long_description": "At Twig, I worked as a Mobile Developer on a production application with more than 1 million installs. I developed and maintained features for iOS and Android using React Native, integrated native SDKs, resolved critical production issues, and used product data to improve conversion and engagement. I also contributed to rebuilding the application with a new design, improving usability, performance, and maintainability.",
-      "banner_url": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/twig/banner.png",
+      "banner_url": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/twig/banner-card.png",
       "images": [
         "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/twig/twig-1.png",
         "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/twig/twig-2.png",
@@ -308,6 +322,13 @@
         "Native Android and iOS SDKs for platform-specific functionality.",
         "Analytics and product data for conversion and engagement optimization."
       ],
+      "slug": "twig",
+      "role": "Mobile Developer \u00b7 Twig, London",
+      "period": "Nov 2020 \u2013 Dec 2022",
+      "highlight": "Built features for an app with 1M+ installs",
+      "app_store_url": null,
+      "play_store_url": null,
+      "banner_alt": "Twig logo with the tagline \"Your bank of things\" on a sky-blue background",
       "project_domains": [
         {
           "domains": {
@@ -329,13 +350,6 @@
             "icon": "leaf",
             "title": "sustainability"
           }
-        },
-        {
-          "domains": {
-            "id": 20,
-            "icon": "laptop",
-            "title": "technology"
-          }
         }
       ]
     }
@@ -350,6 +364,8 @@
     "linkedin": "https://www.linkedin.com/in/arber-haxhimusa/",
     "github": "https://github.com/arberhh",
     "profile_picture": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/profile/profile-pic.png",
-    "main_techs": ["React Native", "Expo", "TypeScript", "GraphQL", "Node.js", "Supabase"]
+    "main_techs": ["React Native", "Expo", "TypeScript", "GraphQL", "Node.js", "Supabase"],
+    "headline": "Senior Mobile Developer (React Native)",
+    "cv_url": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/profile/arber-haxhimusa-cv.pdf"
   }
 }
