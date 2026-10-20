@@ -82,7 +82,7 @@ The same constraint is why icons go through `src/components/icon`: glyph renderi
 
 ## Backend (Supabase)
 
-Schema and policies live as SQL migrations in `supabase/migrations/`, applied via the Supabase CLI (`supabase/config.toml`). Tables: `projects` (including `slug`, `role`, `period`, `highlight`, store links, and `banner_alt`), `domains`, `project_domains` (join table), `profile` (including `headline` and `cv_url`). To add or change content, see "Updating content" in [SETUP.md](SETUP.md). Row-level security is enabled on all public tables with `select`-only policies for `anon`/`authenticated` — the client has no write path and no auth flow; the anon key is meant to be public and access is restricted entirely by RLS. See [SECURITY.md](../SECURITY.md).
+Schema and policies live as SQL migrations in `supabase/migrations/`, applied by the Supabase GitHub integration when a PR merges to `main` (CLI config in `supabase/config.toml`). Tables: `projects` (including `slug`, `role`, `period`, `highlight`, store links, and `banner_alt`), `domains`, `project_domains` (join table), `profile` (including `headline` and `cv_url`). To add or change content, see "Updating content" in [SETUP.md](SETUP.md). Row-level security is enabled on all public tables with `select`-only policies for `anon`/`authenticated` — the client has no write path and no auth flow; the anon key is meant to be public and access is restricted entirely by RLS. See [SECURITY.md](../SECURITY.md).
 
 ## CI/CD
 

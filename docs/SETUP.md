@@ -61,5 +61,5 @@ Projects and the profile live in Supabase, and every change is a migration in `s
    ```bash
    supabase storage cp banner-card.png ss:///portofolio/<project>/banner-card.png --experimental --linked
    ```
-3. **Apply it** with `supabase db push`.
-4. **Refresh the snapshot** with `npm run snapshot` and commit `src/content/snapshot.json`. Each web deploy rebuilds its own copy from Supabase, but doesn't commit it back, so the committed copy is what CI builds and the native app's first render use.
+3. **Merge the PR.** The Supabase GitHub integration applies new migrations when it merges to `main`, so there's no manual `supabase db push`. That's why the images go up first: the migration can reference them the moment it runs.
+4. **Refresh the snapshot** after the migration has landed, with `npm run snapshot`, and commit `src/content/snapshot.json`. Each web deploy rebuilds its own copy from Supabase, but doesn't commit it back, so the committed copy is what CI builds and the native app's first render use. If the deploy triggered by the merge builds before the migration is applied, the next deploy catches up, and the browser's live refresh shows current data in the meantime.
