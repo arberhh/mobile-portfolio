@@ -5,7 +5,15 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 
-import { ContactLinks, Header, PageHead, SectionHeading, Tech, ThemeText } from "@/components";
+import {
+  ContactLinks,
+  ContributionGraph,
+  Header,
+  PageHead,
+  SectionHeading,
+  Tech,
+  ThemeText,
+} from "@/components";
 import { useAsync } from "@/hooks";
 import { getProfile } from "@/services";
 import { snapshotProfile } from "@/content";
@@ -13,6 +21,10 @@ import { useTheme } from "@/context";
 import { Profile } from "@/types";
 import { commonStyles } from "@/common";
 import styles from "./styles";
+
+function githubUsername(url: string | null) {
+  return url?.replace(/\/+$/, "").split("/").pop() ?? "";
+}
 
 function User() {
   const router = useRouter();
@@ -75,6 +87,7 @@ function User() {
                   ))}
                 </View>
               </View>
+              <ContributionGraph username={githubUsername(user.github)} />
               <View style={styles.contactLinks}>
                 <ContactLinks profile={user} center />
               </View>

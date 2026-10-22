@@ -16,6 +16,17 @@ interface ListProps {
 
 type Domain = Pick<Database["public"]["Tables"]["domains"]["Row"], "id" | "title" | "icon">;
 
+interface ContributionDay {
+  date: string;
+  count: number;
+  level: 0 | 1 | 2 | 3 | 4;
+}
+
+interface Contributions {
+  total: number;
+  days: ContributionDay[];
+}
+
 interface ProjectProps {
   project: Project;
 }
@@ -71,6 +82,8 @@ interface ThemeTextProps {
 
 export {
   Database,
+  ContributionDay,
+  Contributions,
   Props,
   ListProps,
   ProjectProps,
