@@ -24,8 +24,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: GAP,
   },
-  // The skeleton's glowing layer, laid exactly over its column of empty cells.
-  litColumn: {
+  // The skeleton's lit layer, laid exactly over its empty cell.
+  litCell: {
     bottom: 0,
     left: 0,
     position: "absolute",
