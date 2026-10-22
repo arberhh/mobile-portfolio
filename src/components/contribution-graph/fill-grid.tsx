@@ -22,7 +22,6 @@ import {
 import styles from "./styles";
 
 const PLACEHOLDER: Level[][] = Array.from({ length: PLACEHOLDER_WEEKS }, () => Array(DAYS).fill(0));
-const LEVELS = [0, 1, 2, 3, 4];
 
 // One SVG path of rounded squares for every cell `keep` accepts.
 function squaresPath(weeks: Level[][], keep: (level: Level) => boolean) {
@@ -39,24 +38,10 @@ function squaresPath(weeks: Level[][], keep: (level: Level) => boolean) {
 }
 
 // A few paths instead of a view per square keeps native navigation smooth.
-function GridSvg({
-  paths,
-  width,
-  outline,
-}: {
-  paths: [string, string][];
-  width: number;
-  outline?: boolean;
-}) {
+function GridSvg({ paths, width }: { paths: [string, string][]; width: number }) {
   return (
     <Svg width={width} height={GRID_HEIGHT}>
-      {paths.map(([d, color]) =>
-        !d ? null : outline ? (
-          <Path key={color} d={d} fill="none" stroke={color} strokeWidth={1} />
-        ) : (
-          <Path key={color} d={d} fill={color} />
-        ),
-      )}
+      {paths.map(([d, color]) => !!d && <Path key={color} d={d} fill={color} />)}
     </Svg>
   );
 }
@@ -109,12 +94,13 @@ export default function FillGrid({
     progress.set(reduceMotion ? 1 : withTiming(1, { duration: FILL_MS, easing: Easing.linear }));
   }, [weeks, progress, reduceMotion]);
 
-  const emptyPaths = useMemo<[string, string][]>(
-    () => [[squaresPath(shape, (level) => level !== null), colors[0]]],
-    [shape, colors],
-  );
-  const levelPaths = useMemo<[string, string][]>(
-    () => LEVELS.map((l) => [weeks ? squaresPath(weeks, (level) => level === l) : "", colors[l]]),
+  const emptyPath = useMemo(() => squaresPath(shape, (level) => level !== null), [shape]);
+  const levelPaths = useMemo(
+    () =>
+      colors.map((color, l): [string, string] => [
+        weeks ? squaresPath(weeks, (level) => level === l) : "",
+        color,
+      ]),
     [weeks, colors],
   );
 
@@ -141,7 +127,9 @@ export default function FillGrid({
     >
       <View style={{ width, height: GRID_HEIGHT }}>
         {/* Outlines, so filling an empty day still visibly changes it. */}
-        <GridSvg paths={emptyPaths} width={width} outline />
+        <Svg width={width} height={GRID_HEIGHT}>
+          <Path d={emptyPath} fill="none" stroke={colors[0]} strokeWidth={1} />
+        </Svg>
         {weeks && (
           <>
             <Reveal x={finishedX} style={styles.clip}>
