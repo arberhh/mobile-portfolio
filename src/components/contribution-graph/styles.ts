@@ -3,6 +3,8 @@ import { FONT_REGULAR } from "@/constants";
 
 const CELL = 10;
 const GAP = 3;
+// One week's column plus the gap after it.
+export const COLUMN_WIDTH = CELL + GAP;
 
 const styles = StyleSheet.create({
   cell: {

@@ -11,13 +11,15 @@ import Animated, {
 } from "react-native-reanimated";
 import { useTheme } from "@/context";
 import ThemeText from "../theme-text";
-import styles from "./styles";
+import styles, { COLUMN_WIDTH } from "./styles";
 
 const WEEKS = 53;
 const DAYS = 7;
-// Width of the glowing band, in columns.
-const BAND = 6;
-const SWEEP_MS = 1800;
+// How many columns are mid-fade at once along the fill's leading edge.
+const EDGE = 3;
+const CYCLE_MS = 3200;
+// Share of each cycle spent filling; the rest fades the full grid out.
+const FILL_END = 0.8;
 
 // A fixed fake "year" so the server HTML and the client's first render match
 // (no Math.random). Roughly a third of the days stay empty, like a real graph.
@@ -30,15 +32,22 @@ function ghostLevel(week: number, day: number) {
 interface ColumnProps {
   week: number;
   progress: SharedValue<number>;
+  // Columns on screen; the grid opens scrolled to the end, so the fill runs
+  // across only those, starting from the leftmost visible one.
+  visible: SharedValue<number>;
   colors: readonly string[];
 }
 
-function GhostColumn({ week, progress, colors }: ColumnProps) {
-  // A band of light sweeps left to right; each column glows as it passes,
-  // briefly showing the fake year underneath.
+function GhostColumn({ week, progress, visible, colors }: ColumnProps) {
+  // Columns light up one after another from left to right and stay lit until
+  // the grid is full, then everything fades out and the fill starts over.
   const litStyle = useAnimatedStyle(() => {
-    const center = progress.value * (WEEKS + BAND * 2) - BAND;
-    return { opacity: Math.max(0, 1 - Math.abs(week - center) / BAND) };
+    const position = Math.max(0, week - (WEEKS - visible.value));
+    const head = Math.min(progress.value / FILL_END, 1) * (visible.value + EDGE);
+    const filled = Math.min(Math.max((head - position) / EDGE, 0), 1);
+    const fadeOut =
+      progress.value < FILL_END ? 1 : 1 - (progress.value - FILL_END) / (1 - FILL_END);
+    return { opacity: filled * fadeOut };
   });
 
   return (
@@ -62,13 +71,12 @@ export default function ContributionGraphSkeleton({ colors }: { colors: readonly
   const { theme } = useTheme();
   const scrollRef = useRef<ScrollView>(null);
   const progress = useSharedValue(0);
+  const visible = useSharedValue(WEEKS);
   const reduceMotion = useReducedMotion();
 
   useEffect(() => {
     if (reduceMotion) return;
-    progress.set(
-      withRepeat(withTiming(1, { duration: SWEEP_MS, easing: Easing.inOut(Easing.quad) }), -1),
-    );
+    progress.set(withRepeat(withTiming(1, { duration: CYCLE_MS, easing: Easing.linear }), -1));
   }, [progress, reduceMotion]);
 
   return (
@@ -77,13 +85,22 @@ export default function ContributionGraphSkeleton({ colors }: { colors: readonly
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
+        onLayout={(event) =>
+          visible.set(Math.min(WEEKS, Math.floor(event.nativeEvent.layout.width / COLUMN_WIDTH)))
+        }
         // Match the real graph, which opens on the most recent weeks.
         ref={scrollRef}
         onContentSizeChange={() => scrollRef.current?.scrollToEnd({ animated: false })}
       >
         <View style={styles.grid}>
           {Array.from({ length: WEEKS }, (_, week) => (
-            <GhostColumn key={week} week={week} progress={progress} colors={colors} />
+            <GhostColumn
+              key={week}
+              week={week}
+              progress={progress}
+              visible={visible}
+              colors={colors}
+            />
           ))}
         </View>
       </ScrollView>
