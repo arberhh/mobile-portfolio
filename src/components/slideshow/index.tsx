@@ -47,6 +47,7 @@ function SlideItem({ uri, alt, width, height, relativeProgress, onPress }: Slide
       >
         <Image
           contentFit="contain"
+          transition={200}
           source={{ uri }}
           alt={alt}
           style={styles.image}
