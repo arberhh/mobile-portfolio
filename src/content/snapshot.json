@@ -366,6 +366,6 @@
     "profile_picture": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/profile/profile-pic.png",
     "main_techs": ["React Native", "Expo", "TypeScript", "GraphQL", "Node.js", "Supabase"],
     "headline": "Senior Mobile Developer (React Native)",
-    "cv_url": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/profile/arber-haxhimusa-cv.pdf"
+    "cv_url": null
   }
 }
