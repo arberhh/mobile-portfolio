@@ -1,102 +1,135 @@
-import React, { useEffect, useRef } from "react";
+import React, { ComponentProps, ReactNode, useEffect, useMemo, useRef } from "react";
 import { ScrollView, View } from "react-native";
 import Animated, {
   Easing,
   SharedValue,
   useAnimatedStyle,
+  useDerivedValue,
   useReducedMotion,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { TRANSPARENT } from "@/constants";
-import styles, { COLUMN_WIDTH } from "./styles";
+import Svg, { Path } from "react-native-svg";
+import {
+  CELL,
+  COLUMN_WIDTH,
+  DAYS,
+  FILL_MS,
+  GRID_HEIGHT,
+  Level,
+  PLACEHOLDER_WEEKS,
+} from "./constants";
+import styles from "./styles";
 
-const DAYS = 7;
-// How many squares are mid-fade at once along the fill's leading edge.
-const EDGE = 4;
-const FILL_MS = 6000;
-const HOLD_MS = 800;
-const FADE_MS = 700;
+const PLACEHOLDER: Level[][] = Array.from({ length: PLACEHOLDER_WEEKS }, () => Array(DAYS).fill(0));
+const LEVELS = [0, 1, 2, 3, 4];
 
-// One square's level (0-4), or null for the padding before the first day.
-export type Level = number | null;
-
-interface CellProps {
-  week: number;
-  day: number;
-  level: Level;
-  weekCount: number;
-  progress: SharedValue<number>;
-  fade: SharedValue<number>;
-  // Columns on screen; the grid opens scrolled to the end, so the fill runs
-  // across only those, starting from the leftmost visible one.
-  visible: SharedValue<number>;
-  colors: readonly string[];
+// One SVG path of rounded squares for every cell `keep` accepts.
+function squaresPath(weeks: Level[][], keep: (level: Level) => boolean) {
+  const side = CELL - 4;
+  return weeks
+    .flatMap((week, w) =>
+      week.map((level, d) =>
+        keep(level)
+          ? `M${w * COLUMN_WIDTH + 2},${d * COLUMN_WIDTH}h${side}a2,2 0 0 1 2,2v${side}a2,2 0 0 1 -2,2h-${side}a2,2 0 0 1 -2,-2v-${side}a2,2 0 0 1 2,-2z`
+          : "",
+      ),
+    )
+    .join("");
 }
 
-function Cell({ week, day, level, weekCount, progress, fade, visible, colors }: CellProps) {
-  // Squares light up one at a time, down each week and then on to the next.
-  const litStyle = useAnimatedStyle(() => {
-    const onScreen = Math.min(visible.value, weekCount);
-    const order = Math.max(0, week - (weekCount - onScreen)) * DAYS + day;
-    const head = progress.value * (onScreen * DAYS + EDGE);
-    const filled = Math.min(Math.max((head - order) / EDGE, 0), 1);
-    return { opacity: filled * fade.value };
-  });
-
-  if (level === null) return <View style={[styles.cell, { backgroundColor: TRANSPARENT }]} />;
-
+// A few paths instead of a view per square keeps native navigation smooth.
+function GridSvg({
+  paths,
+  width,
+  outline,
+}: {
+  paths: [string, string][];
+  width: number;
+  outline?: boolean;
+}) {
   return (
-    <View style={[styles.cell, { backgroundColor: colors[0] }]}>
-      <Animated.View
-        style={[styles.cell, styles.litCell, { backgroundColor: colors[level] }, litStyle]}
-      />
-    </View>
+    <Svg width={width} height={GRID_HEIGHT}>
+      {paths.map(([d, color]) =>
+        !d ? null : outline ? (
+          <Path key={color} d={d} fill="none" stroke={color} strokeWidth={1} />
+        ) : (
+          <Path key={color} d={d} fill={color} />
+        ),
+      )}
+    </Svg>
   );
 }
 
-interface FillGridProps {
-  weeks: Level[][];
-  // Whether `weeks` is the real data yet. Until it is, the fill loops over
-  // whatever placeholder `weeks` it's given.
-  loaded: boolean;
-  colors: readonly string[];
+// Clip moved by `x`/`y` with its content moved back, so only the clip's
+// edges move (transforms only, so no frame needs a layout pass).
+function Reveal({
+  x,
+  y,
+  style,
+  children,
+}: {
+  x: SharedValue<number>;
+  y?: SharedValue<number>;
+  style: ComponentProps<typeof Animated.View>["style"];
+  children: ReactNode;
+}) {
+  const clip = useAnimatedStyle(() => ({
+    transform: [{ translateX: x.value }, { translateY: y?.value ?? 0 }],
+  }));
+  const content = useAnimatedStyle(() => ({
+    transform: [{ translateX: -x.value }, { translateY: -(y?.value ?? 0) }],
+  }));
+  return (
+    <Animated.View style={[style, clip]}>
+      <Animated.View style={content}>{children}</Animated.View>
+    </Animated.View>
+  );
 }
 
-// Fills the grid from the first square on screen to the last, then stops if
-// the real data is in by then; otherwise it fades out and fills again. Data
-// that arrives mid-fill just colors the squares the fill hasn't reached yet.
-export default function FillGrid({ weeks, loaded, colors }: FillGridProps) {
+// Empty grid straight away (the loading state), then the real squares fill
+// in on top, down each week and across, from the first on screen to the last.
+export default function FillGrid({
+  weeks,
+  colors,
+}: {
+  weeks: Level[][] | null;
+  colors: readonly string[];
+}) {
   const scrollRef = useRef<ScrollView>(null);
+  const shape = weeks ?? PLACEHOLDER;
+  const width = shape.length * COLUMN_WIDTH;
   const progress = useSharedValue(0);
-  const fade = useSharedValue(1);
-  const visible = useSharedValue(weeks.length);
-  const loadedRef = useRef(loaded);
+  // Weeks on screen; it opens scrolled to the end, so the fill covers only those.
+  const visible = useSharedValue(shape.length);
   const reduceMotion = useReducedMotion();
 
   useEffect(() => {
-    loadedRef.current = loaded;
-  }, [loaded]);
+    if (!weeks) return;
+    progress.set(reduceMotion ? 1 : withTiming(1, { duration: FILL_MS, easing: Easing.linear }));
+  }, [weeks, progress, reduceMotion]);
 
-  useEffect(() => {
-    if (reduceMotion) {
-      progress.set(1);
-      return;
-    }
-    let timer: ReturnType<typeof setTimeout>;
-    function fill() {
-      progress.set(0);
-      fade.set(1);
-      progress.set(withTiming(1, { duration: FILL_MS, easing: Easing.linear }));
-      timer = setTimeout(() => {
-        if (loadedRef.current) return;
-        fade.set(withTiming(0, { duration: FADE_MS }));
-        timer = setTimeout(fill, FADE_MS);
-      }, FILL_MS + HOLD_MS);
-    }
-    fill();
-    return () => clearTimeout(timer);
-  }, [progress, fade, reduceMotion]);
+  const emptyPaths = useMemo<[string, string][]>(
+    () => [[squaresPath(shape, (level) => level !== null), colors[0]]],
+    [shape, colors],
+  );
+  const levelPaths = useMemo<[string, string][]>(
+    () => LEVELS.map((l) => [weeks ? squaresPath(weeks, (level) => level === l) : "", colors[l]]),
+    [weeks, colors],
+  );
+
+  // Squares filled so far, fractional so the fill moves every frame;
+  // off-screen weeks count as already filled.
+  const filled = useDerivedValue(() => {
+    const onScreen = Math.min(visible.value, shape.length);
+    return (shape.length - onScreen + progress.value * onScreen) * DAYS;
+  });
+  const doneX = useDerivedValue(() => Math.floor(filled.value / DAYS) * COLUMN_WIDTH);
+  const finishedX = useDerivedValue(() => doneX.value - width);
+  // The current week's clip slides down from above as its squares fill.
+  const currentY = useDerivedValue(() => (filled.value % DAYS) * COLUMN_WIDTH - GRID_HEIGHT);
+
+  const grid = <GridSvg paths={levelPaths} width={width} />;
 
   return (
     <ScrollView
@@ -104,27 +137,21 @@ export default function FillGrid({ weeks, loaded, colors }: FillGridProps) {
       horizontal
       showsHorizontalScrollIndicator={false}
       onLayout={(event) => visible.set(Math.floor(event.nativeEvent.layout.width / COLUMN_WIDTH))}
-      // Open on the most recent weeks.
       onContentSizeChange={() => scrollRef.current?.scrollToEnd({ animated: false })}
     >
-      <View style={styles.grid}>
-        {weeks.map((week, w) => (
-          <View key={w} style={styles.column}>
-            {week.map((level, d) => (
-              <Cell
-                key={d}
-                week={w}
-                day={d}
-                level={level}
-                weekCount={weeks.length}
-                progress={progress}
-                fade={fade}
-                visible={visible}
-                colors={colors}
-              />
-            ))}
-          </View>
-        ))}
+      <View style={{ width, height: GRID_HEIGHT }}>
+        {/* Outlines, so filling an empty day still visibly changes it. */}
+        <GridSvg paths={emptyPaths} width={width} outline />
+        {weeks && (
+          <>
+            <Reveal x={finishedX} style={styles.clip}>
+              {grid}
+            </Reveal>
+            <Reveal x={doneX} y={currentY} style={styles.currentWeek}>
+              {grid}
+            </Reveal>
+          </>
+        )}
       </View>
     </ScrollView>
   );
