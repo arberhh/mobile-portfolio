@@ -7,6 +7,7 @@ import { useTheme } from "@/context";
 import { Contributions, ContributionDay } from "@/types";
 import SectionHeading from "../section-heading";
 import ThemeText from "../theme-text";
+import ContributionGraphSkeleton from "./skeleton";
 import styles from "./styles";
 
 // Solid, GitHub-style ramps (alpha on the accent looked muddy on the dark card).
@@ -34,14 +35,26 @@ export default function ContributionGraph({ username }: { username: string }) {
     () => (username ? () => getContributions(username) : fetchNothing),
     [username],
   );
-  const { data } = useAsync<Contributions | null>(fetcher, null, true);
+  // No snapshot to start from, so this one does report `loading`.
+  const { data, loading } = useAsync<Contributions | null>(fetcher, null);
   const weeks = useMemo(() => toWeeks(data?.days ?? []), [data]);
 
-  // Decorative and non-essential: render nothing until (and unless) it loads.
+  const colors = LEVEL_COLORS[theme.theme];
+
+  // Hold the graph's space while it loads so the contact links below don't
+  // jump; if it fails, it's decorative, so just render nothing.
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <SectionHeading bracket="[github]" title="Contribution activity" />
+        <ContributionGraphSkeleton colors={colors} />
+      </View>
+    );
+  }
   if (!data || weeks.length === 0) return null;
 
   function colorFor(level: ContributionDay["level"]) {
-    return LEVEL_COLORS[theme.theme][level];
+    return colors[level];
   }
 
   return (

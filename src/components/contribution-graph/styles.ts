@@ -22,6 +22,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: GAP,
   },
+  // The skeleton's glowing layer, laid exactly over its column of empty cells.
+  litColumn: {
+    bottom: 0,
+    left: 0,
+    position: "absolute",
+    right: 0,
+    top: 0,
+  },
   total: {
     fontFamily: FONT_REGULAR,
     fontSize: 12,

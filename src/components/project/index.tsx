@@ -21,6 +21,7 @@ function Project({ project }: ProjectProps) {
         <Image
           source={{ uri: banner_url }}
           contentFit="contain"
+          transition={200}
           alt={banner_alt || `${title} banner`}
           accessibilityLabel={banner_alt || `${title} banner`}
           style={[styles.image, { backgroundColor: theme.cardBackground }]}
