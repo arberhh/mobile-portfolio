@@ -9,8 +9,11 @@ import SectionHeading from "../section-heading";
 import ThemeText from "../theme-text";
 import styles from "./styles";
 
-// Level 0 uses the theme's hairline colour; 1-4 are the accent at rising opacity.
-const LEVEL_ALPHA = ["", "55", "88", "BB", ""] as const;
+// Solid, GitHub-style ramps (alpha on the accent looked muddy on the dark card).
+const LEVEL_COLORS = {
+  dark: ["#1C211D", "#0E4429", "#006D32", "#26A641", "#B6FF6B"],
+  light: ["#E3E9E1", "#AEDCA0", "#6CC35B", "#3F8C1F", "#1F5C0C"],
+} as const;
 
 function toWeeks(days: ContributionDay[]) {
   if (days.length === 0) return [];
@@ -38,9 +41,7 @@ export default function ContributionGraph({ username }: { username: string }) {
   if (!data || weeks.length === 0) return null;
 
   function colorFor(level: ContributionDay["level"]) {
-    if (level === 0) return theme.line;
-    if (level === 4) return theme.accent;
-    return `${theme.accent}${LEVEL_ALPHA[level]}`;
+    return LEVEL_COLORS[theme.theme][level];
   }
 
   return (
