@@ -1,3 +1,4 @@
+import { getContributions } from "./github-service";
 import { getProjects, getProfile, parseProjects } from "./supabase-service";
 
-export { getProjects, getProfile, parseProjects };
+export { getContributions, getProjects, getProfile, parseProjects };

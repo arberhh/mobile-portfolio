@@ -1,5 +1,6 @@
 import { Tech } from "./account";
 import ContactLinks from "./contact-links";
+import ContributionGraph from "./contribution-graph";
 import Divider from "./divider";
 import ExternalLink from "./external-link";
 import Header from "./header";
@@ -16,6 +17,7 @@ import WebAppShell from "./web-app-shell";
 
 export {
   ContactLinks,
+  ContributionGraph,
   Divider,
   ExternalLink,
   Header,
