@@ -1,7 +1,7 @@
 // Config for the "Audit dependencies" step in .github/workflows/ci.yml.
 //
 // Fails CI on any high or critical advisory EXCEPT the ones allowlisted
-// below. A plain `npm audit` can't express an exception. These two
+// below. A plain `npm audit` can't express an exception. The first two
 // packages have no patched release (checked 2026-10-15: the advisories
 // list no fixed version and the npm registry's latest release of each
 // is vulnerable), so an `overrides` pin cannot clear them. The only
@@ -24,5 +24,10 @@
     // extra nested DigestAlgorithm elements. Reached via @expo/cli and
     // expo-updates' code-signing certificate tooling.
     "GHSA-86w9-cpqp-85rv",
+    // zod < 4.6.6: memory exhaustion validating oversized constrained
+    // collections. Reached via @expo/cli, which pins zod ^3.25.76 (checked
+    // 2026-10-26: 57.0.32 is the latest @expo/cli and no 3.x release is
+    // patched), so only a zod 4 major would clear it. CLI tooling only.
+    "GHSA-mrhx-c7xc-m3w5",
   ],
 }
