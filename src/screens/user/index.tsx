@@ -66,7 +66,8 @@ function User() {
                 source={{ uri: user.profile_picture ?? undefined }}
                 alt={`Photo of ${user.name ?? "the developer"}`}
                 accessibilityLabel={`Photo of ${user.name ?? "the developer"}`}
-                style={styles.profileImage}
+                transition={200}
+                style={[styles.profileImage, { backgroundColor: theme.cardBackground }]}
               />
               {!!user.headline && (
                 <ThemeText style={styles.headline} text={user.headline} color={theme.accent} />
