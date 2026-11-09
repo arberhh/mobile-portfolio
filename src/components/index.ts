@@ -8,6 +8,7 @@ import Icon from "./icon";
 import Intro from "./intro";
 import Project from "./project";
 import FullScreenSlideshow from "./full-screen";
+import LinkedText from "./linked-text";
 import List from "./list";
 import PageHead from "./page-head";
 import ThemeText from "./theme-text";
@@ -26,6 +27,7 @@ export {
   Project,
   Slideshow,
   FullScreenSlideshow,
+  LinkedText,
   List,
   PageHead,
   SectionHeading,
