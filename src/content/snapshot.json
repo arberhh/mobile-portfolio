@@ -475,7 +475,7 @@
     "created_at": "2024-02-24T23:04:36.469093+00:00",
     "name": "Arber Haxhimusa",
     "intro": "Software engineer with 7+ years of shipping production products across mobile, web and back end, including 5+ years of React Native. I take features from architecture and development through testing, CI/CD and release.",
-    "about_me": "I currently build Nectar, a dating app at JubileeMedia that reached 120K monthly active users within five months of launch. Before that I developed React Native apps and the Node.js services behind them at ArcadeQuest, and worked on Twig, an app with more than 1 million installs. On my own I built [Dosvita](https://dosvita.app), a live web app that turns a CV into a portfolio with the Claude API, and I try out new ideas in side projects like a [multimodal RAG app](https://github.com/arberhh/multimodal-rag) for chatting with PDFs. Along the way I have led architecture decisions and mentored engineers.",
+    "about_me": "Senior Software Engineer with 7+ years building mobile apps and the backends behind them, 5+ in React Native. At JubileeMedia, I build Nectar, a dating app that reached 120K monthly active users within five months of launch. Previously shipped React Native and Node.js products at ArcadeQuest and Twig (1M+ installs). Independently built [Dosvita](https://dosvita.app), a live web app that turns a CV into a portfolio using the Claude API, and a [multimodal RAG app](https://github.com/arberhh/multimodal-rag) for chatting with docs.",
     "email": "arberi.hh@gmail.com",
     "linkedin": "https://www.linkedin.com/in/arber-haxhimusa/",
     "github": "https://github.com/arberhh",
