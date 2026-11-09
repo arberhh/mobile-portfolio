@@ -37,9 +37,9 @@ with new_project as (
     'dosvita',
     'Personal product',
     'Aug 2026 – present',
-    'Live at dosvita.app: a CV in, a published portfolio page out, with paid plans through Paddle',
-    'A web app that turns a CV into a portfolio page: upload a PDF or Word file, Claude extracts it into structured data, and you edit and publish the result. Built with TanStack Start, Supabase and the Claude API, with subscriptions through Paddle.',
-    'Dosvita is my own product, live at dosvita.app. You sign in with Google, upload a CV as a PDF or Word file, and Claude turns it into structured data that becomes a portfolio page you can edit, extend with projects and media, and publish at your own link. Pro plans run through Paddle. I built it end to end, from the Postgres data model to payments.',
+    'Live at dosvita.app: a CV in, a published portfolio page out, with Pro plans and a free trial through Freemius',
+    'A web app that turns a CV into a portfolio page: upload a PDF or Word file, Claude extracts it into structured data, and you edit and publish the result. Built with TanStack Start, Supabase and the Claude API, with subscriptions through Freemius.',
+    'Dosvita is my own product, live at dosvita.app. You sign in with Google, upload a CV as a PDF or Word file, and Claude turns it into structured data that becomes a portfolio page you can edit, extend with projects and media, and publish at your own link. Pro plans run through Freemius, which handles checkout as merchant of record. I built it end to end, from the Postgres data model to payments.',
     true,
     'https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/dosvita/web-banner.png',
     'Dosvita in the browser: the home page and an example portfolio',
@@ -47,25 +47,26 @@ with new_project as (
       'https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/dosvita/web-home.png',
       'https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/dosvita/web-example.png',
       'https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/dosvita/web-example-2.png',
-      'https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/dosvita/web-pricing.png'
+      'https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/dosvita/web-pricing-trial.png'
     ],
     array[
       'Web app: TanStack Start, TanStack Query, TypeScript in strict mode',
       'UI: Tailwind CSS v4, shadcn/ui',
       'Back end: Supabase (Postgres with row-level security, Google sign-in, Storage, Deno Edge Functions)',
       'AI: the Claude API with strict tool use, plus unpdf and mammoth to read PDF and Word files',
-      'Payments: Paddle',
+      'Payments: Freemius',
       'Delivery: GitHub Actions, migrations applied by the Supabase GitHub integration'
     ],
     array[
       'Came up with the product, named it, and took it from idea to a live, paid product.',
-      'Defined the Free and Pro plans, the pricing page, and the terms, privacy and refund pages.',
+      'Defined the Free and Pro plans (US$5 a month or US$39 a year, with a 7-day trial), the pricing page, and the terms, privacy and refund pages.',
       'Built it with Claude Code as an AI pair programmer, reviewing every pull request before merging.'
     ],
     array[
       'Built CV extraction as an Edge Function: reads PDF and Word files, calls Claude with a strict tool schema, and stores the structured result on the portfolio.',
       'Designed the Postgres schema (profiles, CV uploads, portfolios, subscriptions, usage log) with row-level security and locked-down writes.',
-      'Integrated Paddle checkout and a signed webhook that keeps subscriptions in sync, and enforced plan limits for portfolios, uploads and media on the server.',
+      'Integrated Freemius checkout and a webhook that re-reads each license from Freemius to keep subscriptions in sync, and enforced plan limits for portfolios, uploads and media on the server.',
+      'Moved payments from Paddle to Freemius behind provider-neutral billing columns, with sandbox checkout only for test accounts and preview builds.',
       'Kept a lapsed plan''s page online for a while, frozen and with a badge, instead of taking it down straight away.',
       'Added abuse limits on extraction: an in-flight cap, a failure cap, a daily free cap and per-IP limits.',
       'Moved data loading to TanStack Query and kept the Supabase admin client out of the browser bundle.',
