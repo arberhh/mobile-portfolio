@@ -3,7 +3,7 @@
 [![CI](https://github.com/arberhh/mobile-portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/arberhh/mobile-portfolio/actions/workflows/ci.yml)
 [![CodeQL](https://github.com/arberhh/mobile-portfolio/actions/workflows/codeql.yml/badge.svg)](https://github.com/arberhh/mobile-portfolio/actions/workflows/codeql.yml)
 
-📱 My portfolio as a React Native engineer: case studies for four production apps I've worked on (Nectar, AQ Shop, ArcadeQuest, Twig) and for this app itself, built with Expo for iOS, Android, and web.
+📱 My portfolio as a software engineer, built with Expo for iOS, Android, and web: case studies across mobile, web and back end, covering the production and personal projects I've worked on.
 
 - **One codebase, three platforms**: Expo Router with `react-native-web`.
 - **Linkable web pages**: every project has its own URL (e.g. `/project/nectar`), pre-rendered to HTML with its own title and link preview.

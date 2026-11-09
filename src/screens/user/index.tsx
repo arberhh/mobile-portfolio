@@ -9,6 +9,7 @@ import {
   ContactLinks,
   ContributionGraph,
   Header,
+  LinkedText,
   PageHead,
   SectionHeading,
   Tech,
@@ -72,11 +73,11 @@ function User() {
               {!!user.headline && (
                 <ThemeText style={styles.headline} text={user.headline} color={theme.accent} />
               )}
-              {/* About Me Section */}
+              {/* About Me Section: Home already shows `intro`, so this is the longer story. */}
               <View style={styles.section}>
-                <ThemeText
+                <LinkedText
                   style={commonStyles.subtitle}
-                  text={user.intro ?? ""}
+                  text={user.about_me || user.intro || ""}
                   color={theme.textSecondary}
                 />
               </View>
