@@ -54,6 +54,7 @@ function toProject(row: ProjectRow & { domains: Domain[] }): Project {
     github: row.github ?? "",
     app_store_url: row.app_store_url ?? "",
     play_store_url: row.play_store_url ?? "",
+    personal: row.personal ?? false,
     domains: row.domains,
   };
 }

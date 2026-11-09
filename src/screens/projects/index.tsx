@@ -1,5 +1,5 @@
-import React, { useCallback } from "react";
-import { FlatList, View } from "react-native";
+import React, { useCallback, useMemo } from "react";
+import { SectionList, SectionListData, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import { useRouter } from "expo-router";
@@ -34,6 +34,25 @@ function renderProjectItem({ item }: { item: ProjectData }) {
   return <Project project={item} />;
 }
 
+type ProjectSection = { prompt: string };
+
+function SectionPrompt({ section }: { section: SectionListData<ProjectData, ProjectSection> }) {
+  const { theme } = useTheme();
+  return <ThemeText style={styles.prompt} text={section.prompt} color={theme.color} />;
+}
+
+function renderSectionHeader(info: { section: SectionListData<ProjectData, ProjectSection> }) {
+  return <SectionPrompt section={info.section} />;
+}
+
+// Work first, then personal projects; an empty group is left out.
+function groupProjects(projects: ProjectData[]) {
+  return [
+    { prompt: "$ ls ./work", data: projects.filter((project) => !project.personal) },
+    { prompt: "$ ls ./personal", data: projects.filter((project) => project.personal) },
+  ].filter((section) => section.data.length > 0);
+}
+
 function RepoLink() {
   const { theme } = useTheme();
 
@@ -63,6 +82,7 @@ function Home() {
   );
 
   const { theme } = useTheme();
+  const sections = useMemo(() => groupProjects(projects), [projects]);
 
   useSystemThemeSync();
 
@@ -80,12 +100,14 @@ function Home() {
           <ThemeText style={commonStyles.errorText} text={error} />
         </View>
       ) : (
-        <FlatList
+        <SectionList
           style={commonStyles.horizontalPadding}
-          data={projects}
+          sections={sections}
           keyExtractor={keyExtractor}
           showsVerticalScrollIndicator={false}
+          stickySectionHeadersEnabled={false}
           ListHeaderComponent={profile ? <Intro profile={profile} /> : null}
+          renderSectionHeader={renderSectionHeader}
           ItemSeparatorComponent={renderItemSeparator}
           renderItem={renderProjectItem}
           ListFooterComponent={RepoLink}

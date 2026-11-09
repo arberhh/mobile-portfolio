@@ -49,6 +49,7 @@ interface Project {
   github: string;
   app_store_url: string;
   play_store_url: string;
+  personal: boolean;
   domains: Domain[];
 }
 

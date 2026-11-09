@@ -102,6 +102,7 @@ describe("getProjects", () => {
         github: "",
         app_store_url: "https://apps.apple.com/app/id1",
         play_store_url: "",
+        personal: false,
         domains: [{ id: 1, title: "dating", icon: "heart" }],
       },
       {
@@ -122,6 +123,7 @@ describe("getProjects", () => {
         github: "",
         app_store_url: "",
         play_store_url: "",
+        personal: false,
         domains: [],
       },
     ]);

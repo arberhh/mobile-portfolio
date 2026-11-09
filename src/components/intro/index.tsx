@@ -29,7 +29,6 @@ function Intro({ profile }: IntroProps) {
       <View style={styles.links}>
         <ContactLinks profile={profile} />
       </View>
-      <ThemeText style={styles.prompt} text="$ ls ./projects" color={theme.color} />
     </View>
   );
 }

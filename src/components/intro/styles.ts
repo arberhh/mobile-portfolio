@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   links: {
-    marginBottom: 28,
+    marginBottom: 4, // Home's first section prompt adds the rest of the gap
     marginTop: 16,
   },
   name: {
