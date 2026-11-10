@@ -5,4 +5,4 @@ export const SITE_NAME = "Arber Haxhimusa — Senior Software Engineer";
 export const SITE_DESCRIPTION =
   "Portfolio of Arber Haxhimusa, a software engineer building across mobile, web, and back end — case studies covering architecture, CI/CD, and AI-assisted development.";
 export const SITE_IMAGE =
-  "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/mobile-portfolio/og.png";
+  "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/mobile-portfolio/og-v2.png";

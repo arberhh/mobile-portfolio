@@ -13,7 +13,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#0B0D0C"
+        "backgroundColor": "#0B2545"
       },
       "package": "com.arberh.ArberPortofolio"
     },
@@ -45,7 +45,7 @@
         {
           "image": "./assets/splash.png",
           "resizeMode": "contain",
-          "backgroundColor": "#0B0D0C"
+          "backgroundColor": "#0B2545"
         }
       ],
       "expo-image"
