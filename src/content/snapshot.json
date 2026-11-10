@@ -117,20 +117,6 @@
             "icon": "cloud",
             "title": "saas"
           }
-        },
-        {
-          "domains": {
-            "id": 26,
-            "icon": "cloud",
-            "title": "saas"
-          }
-        },
-        {
-          "domains": {
-            "id": 27,
-            "icon": "cloud",
-            "title": "saas"
-          }
         }
       ]
     },
