@@ -72,17 +72,21 @@ Each screen sets its own `<title>`, description, canonical and Open Graph tags t
 React Native's platform-extension resolution (`.web.tsx`) is used instead of scattering `Platform.OS === "web"` checks through shared components — see `src/components/web-app-shell/`:
 
 - `index.tsx` (native default) is a no-op passthrough.
-- `index.web.tsx` wraps the whole router stack (from `app/_layout.tsx`) with a persistent sidebar (Projects/Profile) and a fixed-width reading column. The markup is identical at every width; a media query (`WEB_SHELL_CSS` in `src/constants/web.ts`, injected by `app/+html.tsx`) shows the sidebar above 900px. It's CSS rather than `useWindowDimensions` because static HTML is rendered without a window, and a JS-measured layout would never hydrate cleanly.
+- `index.web.tsx` wraps the whole router stack (from `app/_layout.tsx`) with a persistent sidebar (Projects/Profile) and a fixed-width reading column, shown as a window on a sky backdrop (with a dot grid) at 900px and up and full width below. The markup is identical at every width; a media query (`WEB_SHELL_CSS` in `src/constants/web.ts`, injected by `app/+html.tsx`) shows the sidebar above 900px. It's CSS rather than `useWindowDimensions` because static HTML is rendered without a window, and a JS-measured layout would never hydrate cleanly.
 
 The same constraint is why icons go through `src/components/icon`: glyph rendering depends on the icon font having loaded, which differs between server and client, so on web the glyph renders right after hydration (`useHydrated`) in a same-size box.
 
+### First paint and motion
+
+The exported HTML is always dark. `app/+html.tsx` runs a tiny inline script before first paint: if the OS prefers light it sets `data-theme-pending` on `<html>`, which hides the shell (`WEB_SHELL_CSS`) so there is no dark flash, and a timeout removes the attribute after 1.5s even if the bundle never loads. `useSystemThemeSync` applies the theme, clears the attribute and sets `data-theme-ready`, and only then do colour transitions apply. Entrance animations (`src/constants/motion.ts`, shared `src/components/enter`) are CSS keyframes keyed off `data-enter`, paused while the page is pending and disabled by `prefers-reduced-motion`.
+
 ## Theming
 
-`src/context/index.tsx` implements a `ThemeProvider` backed by `useReducer` with a single `TOGGLE_THEME` action, defaulting to dark (`darkState`). `useSystemThemeSync` (`src/hooks/use-system-theme-sync`) listens to `Appearance.addChangeListener` and toggles the theme when it drifts from the OS setting — it's invoked once, from `Home`. Theme values themselves (`src/themes/index.ts`) are plain color-token objects (`lightTheme`, `darkTheme`) consumed via `useTheme()`.
+`src/context/index.tsx` implements a `ThemeProvider` backed by `useReducer` with a single `TOGGLE_THEME` action, defaulting to dark (`darkState`). `useSystemThemeSync` (`src/hooks/use-system-theme-sync`) listens to `Appearance.addChangeListener` and toggles the theme when it drifts from the OS setting — it's invoked once, from `Home`. Theme values themselves (`src/themes/index.ts`) are plain color-token objects (`lightTheme`, `darkTheme`) consumed via `useTheme()`, alongside spacing and radius scales. `ThemeScope` re-provides the context with a given theme, which is how the intro and 404 windows stay navy on a light page. Raspberry is limited to a handful of roles, and every text pair passes WCAG AA.
 
 ## Backend (Supabase)
 
-Schema and policies live as SQL migrations in `supabase/migrations/`, applied by the Supabase GitHub integration when a PR merges to `main` (CLI config in `supabase/config.toml`). Tables: `projects` (including `slug`, `role`, `period`, `highlight`, store links, and `banner_alt`), `domains`, `project_domains` (join table), `profile` (including `headline` and `cv_url`). To add or change content, see "Updating content" in [SETUP.md](SETUP.md). Row-level security is enabled on all public tables with `select`-only policies for `anon`/`authenticated` — the client has no write path and no auth flow; the anon key is meant to be public and access is restricted entirely by RLS. See [SECURITY.md](../SECURITY.md).
+Schema and policies live as SQL migrations in `supabase/migrations/`, applied by the Supabase GitHub integration when a PR merges to `main` (CLI config in `supabase/config.toml`). Tables: `projects` (including `slug`, `role`, `period`, `highlight`, store links, `website_url`, `personal` and `banner_alt`), `domains`, `project_domains` (join table), `profile` (including `headline` and `cv_url`). To add or change content, see "Updating content" in [SETUP.md](SETUP.md). Row-level security is enabled on all public tables with `select`-only policies for `anon`/`authenticated` — the client has no write path and no auth flow; the anon key is meant to be public and access is restricted entirely by RLS. See [SECURITY.md](../SECURITY.md).
 
 ## CI/CD
 
