@@ -1,6 +1,14 @@
 import React from "react";
 import { Text, View } from "react-native";
+import Animated, {
+  useAnimatedStyle,
+  useReducedMotion,
+  useSharedValue,
+  withSpring,
+} from "react-native-reanimated";
 import { useTheme } from "@/context";
+import { commonStyles } from "@/common";
+import { SPRING_PRESS } from "@/constants/motion";
 import { Profile } from "@/types";
 import ExternalLink from "../external-link";
 import Icon, { IconName } from "../icon";
@@ -27,24 +35,50 @@ function buildLinks({ email, linkedin, github, cv_url }: ContactLinksProps["prof
   return links.filter((link): link is ContactLink => link !== null);
 }
 
-// Labelled chips rather than bare icons: "Email" needs to read as email, and
-// screen readers need a name for each link.
-function ContactLinks({ profile, center = false }: ContactLinksProps) {
+// Web hover (fill / brightness) is CSS on `data-contact` in WEB_MOTION_CSS.
+function ContactButton({ link, primary }: { link: ContactLink; primary: boolean }) {
   const { theme } = useTheme();
+  const reduceMotion = useReducedMotion();
+  const scale = useSharedValue(1);
+  const press = useAnimatedStyle(() => ({ transform: [{ scale: scale.value }] }));
+  const color = primary ? theme.onAccent : theme.text;
+
+  function pressTo(value: number) {
+    if (!reduceMotion) scale.set(withSpring(value, SPRING_PRESS));
+  }
 
   return (
+    <Animated.View style={press}>
+      <ExternalLink
+        url={link.url}
+        accessibilityRole="link"
+        accessibilityLabel={link.label}
+        // The button's own theme, not the shell's: it may sit in a ThemeScope.
+        dataSet={{ contact: primary ? "primary" : "secondary", contactTheme: theme.theme }}
+        onPressIn={() => pressTo(0.98)}
+        onPressOut={() => pressTo(1)}
+        style={[
+          styles.button,
+          primary
+            ? { backgroundColor: theme.accent, borderColor: theme.accent }
+            : { backgroundColor: theme.cardBackground, borderColor: theme.chipBorder },
+        ]}
+      >
+        <Icon name={link.icon} size={16} color={color} />
+        <Text style={[commonStyles.button, { color }]}>{link.label}</Text>
+      </ExternalLink>
+    </Animated.View>
+  );
+}
+
+// Labelled buttons rather than bare icons: "Email" needs to read as email,
+// and screen readers need a name for each link. The first one is the call to
+// action, so it's the only pink one.
+function ContactLinks({ profile, center = false }: ContactLinksProps) {
+  return (
     <View style={[styles.row, center && styles.center]}>
-      {buildLinks(profile).map(({ label, url, icon }) => (
-        <ExternalLink
-          key={label}
-          url={url}
-          accessibilityRole="link"
-          accessibilityLabel={label}
-          style={[styles.chip, { borderColor: theme.chipBorder }]}
-        >
-          <Icon name={icon} size={16} color={theme.accent} />
-          <Text style={[styles.label, { color: theme.accent }]}>{label}</Text>
-        </ExternalLink>
+      {buildLinks(profile).map((link, index) => (
+        <ContactButton key={link.label} link={link} primary={index === 0} />
       ))}
     </View>
   );

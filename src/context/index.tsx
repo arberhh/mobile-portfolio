@@ -49,4 +49,15 @@ function ThemeProvider({ children }: Props) {
   );
 }
 
-export { ThemeProvider, useTheme, themeReducer, darkState };
+interface ThemeScopeProps extends Props {
+  theme: Theme;
+}
+
+// Re-provides fixed tokens to a subtree (e.g. the always-navy hero window)
+// while the toggle still flips the app theme.
+function ThemeScope({ theme, children }: ThemeScopeProps) {
+  const { toggleTheme } = useTheme();
+  return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>;
+}
+
+export { ThemeProvider, ThemeScope, useTheme, themeReducer, darkState };

@@ -1,37 +1,59 @@
 import { StyleSheet } from "react-native";
-import { FONT_MEDIUM, FONT_REGULAR } from "@/constants";
+import { INSET, radius, space } from "@/themes";
 
 const styles = StyleSheet.create({
+  // Padding, not margin, so `data-gutter` can widen it to 32 on wide web.
   body: {
-    marginHorizontal: 20,
-    marginTop: 20,
+    paddingHorizontal: space.xl,
+  },
+  content: {
+    paddingBottom: space["5xl"],
+    paddingTop: space.xl,
+  },
+  description: {
+    marginTop: space["2xl"],
   },
   highlight: {
-    fontFamily: FONT_MEDIUM,
-    fontSize: 14,
-    lineHeight: 21,
-    marginBottom: 12,
+    borderLeftWidth: 3,
+    borderRadius: radius.md,
+    marginTop: space.xl,
+    paddingHorizontal: space.lg,
+    paddingVertical: 14,
+  },
+  inset: {
+    paddingHorizontal: INSET,
   },
   link: {
-    borderRadius: 4,
-    borderWidth: 1,
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-  },
-  linkLabel: {
-    fontFamily: FONT_MEDIUM,
-    fontSize: 13,
+    alignItems: "center",
+    borderRadius: radius.md,
+    flexDirection: "row",
+    gap: space.sm,
+    height: 44,
+    paddingHorizontal: 18,
   },
   links: {
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: 8,
-    marginBottom: 16,
+    gap: 10,
+    marginTop: space.xl,
   },
   meta: {
-    fontFamily: FONT_REGULAR,
-    fontSize: 14,
-    marginBottom: 8,
+    marginTop: 6,
+  },
+  secondaryLink: {
+    borderWidth: 1.5,
+  },
+  toolDivider: {
+    borderTopWidth: 1,
+  },
+  // 6 + 6 puts rows 12 apart with the hairline in the middle.
+  toolRow: {
+    gap: space.xs,
+    paddingVertical: 6,
+  },
+  window: {
+    marginBottom: space["2xl"],
+    paddingHorizontal: space.xl,
   },
 });
 export default styles;

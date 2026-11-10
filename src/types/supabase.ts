@@ -151,6 +151,7 @@ export type Database = {
           techical_contributions: string[] | null;
           title: string | null;
           tools_technologies: string[] | null;
+          website_url: string | null;
         };
         Insert: {
           app_store_url?: string | null;
@@ -173,6 +174,7 @@ export type Database = {
           techical_contributions?: string[] | null;
           title?: string | null;
           tools_technologies?: string[] | null;
+          website_url?: string | null;
         };
         Update: {
           app_store_url?: string | null;
@@ -195,6 +197,7 @@ export type Database = {
           techical_contributions?: string[] | null;
           title?: string | null;
           tools_technologies?: string[] | null;
+          website_url?: string | null;
         };
         Relationships: [];
       };

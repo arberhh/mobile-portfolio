@@ -1,8 +1,8 @@
 import { Tech } from "./account";
 import ContactLinks from "./contact-links";
 import ContributionGraph from "./contribution-graph";
-import Divider from "./divider";
 import ExternalLink from "./external-link";
+import Footer from "./footer";
 import Header from "./header";
 import Icon from "./icon";
 import Intro from "./intro";
@@ -13,14 +13,15 @@ import List from "./list";
 import PageHead from "./page-head";
 import ThemeText from "./theme-text";
 import Slideshow from "./slideshow";
-import SectionHeading from "./section-heading";
+import SectionHeading, { PromptHeading } from "./section-heading";
+import TerminalWindow from "./terminal-window";
 import WebAppShell from "./web-app-shell";
 
 export {
   ContactLinks,
   ContributionGraph,
-  Divider,
   ExternalLink,
+  Footer,
   Header,
   Icon,
   Intro,
@@ -30,8 +31,10 @@ export {
   LinkedText,
   List,
   PageHead,
+  PromptHeading,
   SectionHeading,
   Tech,
+  TerminalWindow,
   ThemeText,
   WebAppShell,
 };

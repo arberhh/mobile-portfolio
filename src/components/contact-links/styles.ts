@@ -1,27 +1,25 @@
 import { StyleSheet } from "react-native";
-import { FONT_MEDIUM } from "@/constants";
+import { radius, space } from "@/themes";
 
 const styles = StyleSheet.create({
-  center: {
-    justifyContent: "center",
-  },
-  chip: {
+  button: {
     alignItems: "center",
-    borderRadius: 4,
-    borderWidth: 1,
+    borderRadius: radius.md,
+    borderWidth: 1.5,
     flexDirection: "row",
     gap: 6,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
+    height: 44,
+    paddingHorizontal: space.md,
   },
-  label: {
-    fontFamily: FONT_MEDIUM,
-    fontSize: 13,
+  // Shrinks to its buttons, so one row is centred; once it wraps it fills the
+  // width and the rows stay left-aligned instead of centring a lone button.
+  center: {
+    alignSelf: "center",
   },
   row: {
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: 8,
+    gap: 10,
   },
 });
 

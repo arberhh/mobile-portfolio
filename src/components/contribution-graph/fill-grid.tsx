@@ -121,6 +121,9 @@ export default function FillGrid({
     <ScrollView
       ref={scrollRef}
       horizontal
+      // Browsers make the scroller a tab stop, so it needs a name.
+      role="group"
+      aria-label="GitHub contribution calendar"
       showsHorizontalScrollIndicator={false}
       onLayout={(event) => visible.set(Math.floor(event.nativeEvent.layout.width / COLUMN_WIDTH))}
       onContentSizeChange={() => scrollRef.current?.scrollToEnd({ animated: false })}

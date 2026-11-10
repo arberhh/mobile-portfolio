@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { AccessibilityRole, TextStyle } from "react-native";
+import { AccessibilityRole, StyleProp, TextStyle } from "react-native";
 import { Theme } from "../themes";
 import { Database } from "./supabase";
 
@@ -49,6 +49,7 @@ interface Project {
   github: string;
   app_store_url: string;
   play_store_url: string;
+  website_url: string;
   personal: boolean;
   domains: Domain[];
 }
@@ -74,7 +75,7 @@ interface SectionHeadingProps {
 }
 
 interface ThemeTextProps {
-  style: TextStyle;
+  style: StyleProp<TextStyle>;
   text: string;
   color?: string;
   numberOfLines?: number;

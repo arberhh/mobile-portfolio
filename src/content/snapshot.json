@@ -40,6 +40,7 @@
       "app_store_url": null,
       "play_store_url": null,
       "banner_alt": "Three iPhone screens: the home screen, an answer citing product-launch.pdf page 2, and the documents list",
+      "website_url": null,
       "project_domains": [
         {
           "domains": {
@@ -103,6 +104,7 @@
       "app_store_url": null,
       "play_store_url": null,
       "banner_alt": "Dosvita in the browser: the home page and an example portfolio",
+      "website_url": "https://dosvita.app",
       "project_domains": [
         {
           "domains": {
@@ -126,11 +128,11 @@
       "title": "Portfolio App",
       "short_description": "Picked this portfolio app back up after a roughly two-year gap and rebuilt it end to end using Claude Code as an AI pair programmer, including a full redesign, first-class web support, and a real engineering workflow around it.",
       "long_description": "This app, picked back up in August 2026 after about two years. I rebuilt it with Claude Code as an AI pair programmer: I planned the work in Linear, directed the agent session by session, and reviewed every pull request before merging. The tooling around that loop, not just the redesign, became the reusable part.",
-      "banner_url": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/mobile-portfolio/banner-card.png",
+      "banner_url": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/mobile-portfolio/banner-sky.png",
       "images": [
-        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/mobile-portfolio/screen-home-mobile-v2.png",
-        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/mobile-portfolio/screen-home-web-v2.png",
-        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/mobile-portfolio/screen-profile-web-v2.png"
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/mobile-portfolio/screen-home-mobile-v3.png",
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/mobile-portfolio/screen-home-web-v3.png",
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/mobile-portfolio/screen-profile-web-v3.png"
       ],
       "github": "https://github.com/arberhh/mobile-portfolio",
       "personal": true,
@@ -159,7 +161,8 @@
       "highlight": "Every pull request gated by type checks, lint, tests, dead-code detection and CodeQL",
       "app_store_url": null,
       "play_store_url": null,
-      "banner_alt": "mobile-portfolio wordmark under a lime terminal prompt, captioned \"Rebuilt with Claude Code\"",
+      "banner_alt": "The redesigned portfolio on a dotted sky: the desktop site in a browser window and the home screen on a phone",
+      "website_url": null,
       "project_domains": [
         {
           "domains": {
@@ -222,6 +225,7 @@
       "app_store_url": "https://apps.apple.com/us/app/nectar-dating-compatibility/id6476018063",
       "play_store_url": null,
       "banner_alt": "Three Nectar App Store screenshots: a loveprint profile, relationship questions, and choosing what you're looking for",
+      "website_url": null,
       "project_domains": [
         {
           "domains": {
@@ -245,11 +249,9 @@
       "title": "AQ Shop",
       "short_description": "Built a React Native mobile shopping experience for discovering and purchasing indie games, with live showcases, discounted listings, and in-app purchases.",
       "long_description": "AQ Shop was ArcadeQuest's app for discovering and buying indie games. I developed the app, keeping the architecture modular and the code clean so the team could ship features quickly while it stayed easy to extend, test and support.",
-      "banner_url": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/aq-shop-card.png",
+      "banner_url": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/aq-shop-banner-navy.png",
       "images": [
         "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/shop-1.png",
-        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/shop-1.png",
-        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/shop-3.png",
         "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/shop-3.png"
       ],
       "github": null,
@@ -278,7 +280,8 @@
       "highlight": null,
       "app_store_url": null,
       "play_store_url": null,
-      "banner_alt": "Four AQ Shop App Store screenshots: featured game deals, a game page with a Buy Now button, creator videos, and weekly new games",
+      "banner_alt": "Two AQ Shop App Store screenshots on navy: featured game deals and creator videos",
+      "website_url": null,
       "project_domains": [
         {
           "domains": {
@@ -323,11 +326,10 @@
       "title": "ArcadeQuest",
       "short_description": "Built React Native applications for Fortnite players, including player statistics, live item shop updates, quests, subscriptions, onboarding, and engagement-focused mini-games.",
       "long_description": "ArcadeQuest makes companion apps for Fortnite players. I developed the React Native apps and the services behind them: player statistics, live item shop data, quests and subscriptions in the app, backed by Node.js APIs and Supabase Edge Functions.",
-      "banner_url": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/banner-card.png",
+      "banner_url": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/arcadequest-banner-navy.png",
       "images": [
         "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/aq-1.png",
         "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/aq-2.png",
-        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/aq-1.png",
         "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/aq-3.png"
       ],
       "github": null,
@@ -358,7 +360,8 @@
       "highlight": "Shipped a new onboarding flow that significantly improved retention and conversion",
       "app_store_url": null,
       "play_store_url": null,
-      "banner_alt": "ArcadeQuest logo on a dark background",
+      "banner_alt": "Three ArcadeQuest screens on navy: kill-race quests, the cash store and playing with streamers",
+      "website_url": null,
       "project_domains": [
         {
           "domains": {
@@ -401,7 +404,6 @@
         "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/twig/twig-1.png",
         "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/twig/twig-2.png",
         "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/twig/twig-3.png",
-        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/twig/twig-4.png",
         "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/twig/twig-4.png"
       ],
       "github": null,
@@ -431,6 +433,7 @@
       "app_store_url": null,
       "play_store_url": null,
       "banner_alt": "Twig logo with the tagline \"Your bank of things\" on a sky-blue background",
+      "website_url": null,
       "project_domains": [
         {
           "domains": {
