@@ -1,30 +1,18 @@
 import { StyleSheet } from "react-native";
-import { FONT_MEDIUM } from "@/constants";
+import { space } from "@/themes";
 
 const styles = StyleSheet.create({
-  container: {
-    paddingBottom: 4,
-    paddingHorizontal: 10,
-    paddingTop: 16,
-  },
   headline: {
-    fontFamily: FONT_MEDIUM,
-    fontSize: 15,
-    marginBottom: 10,
+    marginBottom: space.lg,
   },
-  links: {
-    marginBottom: 4, // Home's first section prompt adds the rest of the gap
-    marginTop: 16,
+  intro: {
+    marginBottom: space["2xl"],
   },
   name: {
-    fontFamily: FONT_MEDIUM,
-    fontSize: 26,
-    marginBottom: 6,
+    marginBottom: space.sm,
   },
   prompt: {
-    fontFamily: FONT_MEDIUM,
-    fontSize: 12,
-    marginBottom: 8,
+    marginBottom: space.md,
   },
 });
 

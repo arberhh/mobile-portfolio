@@ -1,41 +1,61 @@
 import { StyleSheet } from "react-native";
+import { radius, space } from "@/themes";
+
+const NAV_BUTTON_SIZE = 40;
+
+// Fixed, not derived from the window or the images: the server render
+// knows neither. Narrow web overrides it with CSS (PROJECT_CARD_CSS).
+const SLIDE_HEIGHT = 360;
+export const NAVIGATION_HEIGHT = space.md + NAV_BUTTON_SIZE;
+
 const styles = StyleSheet.create({
+  activeDot: {
+    borderRadius: radius.pill,
+    height: 6,
+    width: 20,
+  },
+  area: {
+    height: SLIDE_HEIGHT,
+  },
+  dot: {
+    borderRadius: radius.pill,
+    height: 6,
+    width: 6,
+  },
   dots: {
     gap: 6,
   },
   frame: {
     alignItems: "center",
-    borderRadius: 8,
+    borderRadius: radius.sm,
     flex: 1,
     justifyContent: "center",
-    marginHorizontal: 10,
-    padding: 8,
+    overflow: "hidden",
   },
   image: {
-    borderRadius: 8,
     height: "100%",
     width: "100%",
+  },
+  navButton: {
+    alignItems: "center",
+    borderRadius: radius.pill,
+    height: NAV_BUTTON_SIZE,
+    justifyContent: "center",
+    opacity: 0.92,
+    width: NAV_BUTTON_SIZE,
   },
   navigation: {
     alignItems: "center",
     flexDirection: "row",
-    justifyContent: "center",
-    paddingHorizontal: 20,
-    paddingTop: 10,
+    height: NAVIGATION_HEIGHT,
+    justifyContent: "space-between",
+    paddingTop: space.md,
   },
-  navigationLeft: {
-    left: 20,
+  overlay: {
+    left: 0,
     position: "absolute",
-    top: "50%",
-    transform: [{ translateY: -12 }],
-    zIndex: 1,
-  },
-  navigationRight: {
-    position: "absolute",
-    right: 20,
-    top: "50%",
-    transform: [{ translateY: -12 }],
-    zIndex: 1,
+    right: 0,
+    top: 0,
   },
 });
 export default styles;

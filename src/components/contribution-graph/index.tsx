@@ -3,6 +3,7 @@ import { View } from "react-native";
 import { getContributions } from "@/services";
 import { useAsync } from "@/hooks";
 import { useTheme } from "@/context";
+import { cardElevation } from "@/themes";
 import { Contributions, ContributionDay } from "@/types";
 import SectionHeading from "../section-heading";
 import { DAYS, Level, LEVEL_COLORS } from "./constants";
@@ -41,6 +42,8 @@ export default function ContributionGraph({ username }: { username: string }) {
       {/* The empty grid and rolling total are the loading state; the grid
           also holds its space, so the contact links below don't jump. */}
       <View
+        dataSet={{ inset: "" }}
+        style={[styles.card, { backgroundColor: theme.cardBackground }, cardElevation[theme.theme]]}
         accessible
         accessibilityLabel={
           data

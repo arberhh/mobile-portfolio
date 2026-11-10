@@ -1,23 +1,23 @@
 import { StyleSheet } from "react-native";
-import { FONT_MEDIUM } from "@/constants";
+import { radius, space } from "@/themes";
 
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     flexDirection: "row",
-    height: 52,
-    paddingHorizontal: 8,
+    height: 56,
+    paddingHorizontal: space.md,
   },
   iconButton: {
     alignItems: "center",
+    borderRadius: radius.pill,
     height: 44,
     justifyContent: "center",
     width: 44,
   },
   title: {
     flex: 1,
-    fontFamily: FONT_MEDIUM,
-    fontSize: 17,
+    marginHorizontal: space.sm,
     textAlign: "center",
   },
 });

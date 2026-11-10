@@ -1,34 +1,37 @@
 import { StyleSheet } from "react-native";
 import { FONT_MEDIUM } from "@/constants";
+import { radius, space } from "@/themes";
 
 const styles = StyleSheet.create({
+  brand: {
+    alignItems: "center",
+    flexDirection: "row",
+    height: 48,
+    marginBottom: space["3xl"],
+    paddingHorizontal: space.lg,
+  },
+  brandText: {
+    fontFamily: FONT_MEDIUM,
+    fontSize: 16,
+    lineHeight: 20,
+  },
   content: {
-    borderLeftWidth: 0,
-    borderRightWidth: 0,
     flex: 1,
   },
   link: {
     alignItems: "center",
-    borderRadius: 999,
+    borderRadius: radius.pill,
     cursor: "pointer",
     flexDirection: "row",
-    gap: 12,
-    marginBottom: 8,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-  },
-  linkLabel: {
-    fontFamily: FONT_MEDIUM,
-    fontSize: 17,
+    gap: space.md,
+    height: 48,
+    marginBottom: space.sm,
+    paddingHorizontal: space.lg,
   },
   row: {
     flex: 1,
     flexDirection: "row",
     justifyContent: "center",
-  },
-  sidebar: {
-    paddingRight: 16,
-    paddingTop: 32,
   },
 });
 

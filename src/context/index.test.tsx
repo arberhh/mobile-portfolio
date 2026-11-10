@@ -1,5 +1,7 @@
+import React, { ReactNode, useEffect } from "react";
+import { act, renderHook } from "@testing-library/react-native";
 import { lightTheme, darkTheme } from "@/themes";
-import { themeReducer, darkState } from "./index";
+import { ThemeProvider, ThemeScope, themeReducer, darkState, useTheme } from "./index";
 
 describe("themeReducer", () => {
   it("flips from dark to light on TOGGLE_THEME", () => {
@@ -38,5 +40,32 @@ describe("themeReducer", () => {
     const next = themeReducer(state, { type: "UNKNOWN" });
 
     expect(next).toBe(state);
+  });
+});
+
+describe("ThemeScope", () => {
+  it("keeps its own tokens under a light provider and passes the toggle up", () => {
+    const appThemes: string[] = [];
+    function AppTheme({ children }: { children: ReactNode }) {
+      const { theme } = useTheme();
+      useEffect(() => {
+        appThemes.push(theme.theme);
+      }, [theme.theme]);
+      return <ThemeScope theme={darkTheme}>{children}</ThemeScope>;
+    }
+    function wrapper({ children }: { children: ReactNode }) {
+      return (
+        <ThemeProvider>
+          <AppTheme>{children}</AppTheme>
+        </ThemeProvider>
+      );
+    }
+
+    const { result } = renderHook(() => useTheme(), { wrapper });
+    // The provider starts dark; the scoped toggle flips the app to light.
+    act(() => result.current.toggleTheme());
+
+    expect(appThemes.at(-1)).toBe("light");
+    expect(result.current.theme.theme).toBe("dark");
   });
 });

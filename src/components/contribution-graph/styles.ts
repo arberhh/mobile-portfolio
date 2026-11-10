@@ -1,10 +1,17 @@
 import { StyleSheet } from "react-native";
-import { FONT_REGULAR } from "@/constants";
+import { INSET, radius, space } from "@/themes";
 import { COLUMN_WIDTH, GRID_HEIGHT } from "./constants";
 
-export const LINE_HEIGHT = 16;
+// The `h2` line height, so a digit window shows exactly one digit.
+export const LINE_HEIGHT = 28;
 
 const styles = StyleSheet.create({
+  // Horizontal padding is the shared inset; web widens it via `data-inset`.
+  card: {
+    borderRadius: radius.lg,
+    paddingHorizontal: INSET,
+    paddingVertical: space.lg,
+  },
   // A grid copy over the empty grid, partly revealed.
   clip: {
     bottom: 0,
@@ -16,8 +23,6 @@ const styles = StyleSheet.create({
   },
   container: {
     alignSelf: "stretch",
-    marginHorizontal: 20,
-    marginVertical: 10,
   },
   // The week being filled.
   currentWeek: {
@@ -33,15 +38,18 @@ const styles = StyleSheet.create({
     height: LINE_HEIGHT,
     overflow: "hidden",
   },
+  // Bottom-aligned so the small suffix sits on the big number's line.
+  suffix: {
+    marginBottom: 2,
+  },
   total: {
+    alignItems: "flex-end",
     flexDirection: "row",
-    marginBottom: 10,
+    flexWrap: "wrap",
+    marginBottom: space.md,
   },
   totalText: {
-    fontFamily: FONT_REGULAR,
-    fontSize: 12,
     height: LINE_HEIGHT,
-    lineHeight: LINE_HEIGHT,
   },
 });
 

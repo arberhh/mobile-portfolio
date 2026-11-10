@@ -9,6 +9,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { useTheme } from "@/context";
+import { commonStyles } from "@/common";
 import styles, { LINE_HEIGHT } from "./styles";
 
 const LOADING = "0,000";
@@ -49,7 +50,7 @@ function RollingDigit({
     <View style={styles.digit}>
       <Animated.View style={roll}>
         {STRIP.map((n, i) => (
-          <Text key={i} style={[styles.totalText, { color }]}>
+          <Text key={i} style={[commonStyles.h2, styles.totalText, { color }]}>
             {n}
           </Text>
         ))}
@@ -73,15 +74,15 @@ export default function RollingTotal({ value }: { value: number | null }) {
             key={i}
             index={digitIndex++}
             digit={value === null ? null : Number(char)}
-            color={theme.textSecondary}
+            color={theme.text}
           />
         ) : (
-          <Text key={i} style={[styles.totalText, { color: theme.textSecondary }]}>
+          <Text key={i} style={[commonStyles.h2, styles.totalText, { color: theme.text }]}>
             {char}
           </Text>
         ),
       )}
-      <Text style={[styles.totalText, { color: theme.textSecondary }]}>
+      <Text style={[commonStyles.bodySmall, styles.suffix, { color: theme.textSecondary }]}>
         {" contributions in the last year"}
       </Text>
     </View>

@@ -11,8 +11,9 @@ export const FILL_MS = 6000;
 // GitHub's year view, for the empty grid shown while loading.
 export const PLACEHOLDER_WEEKS = 53;
 
-// Solid, GitHub-style ramps (alpha on the accent looked muddy on the dark card).
+// Sky ramp that peaks in pink, so the busiest days are the accent (DESIGN §4).
+// Level 0 is a step off the card colour so empty days still read as cells.
 export const LEVEL_COLORS = {
-  dark: ["#1C211D", "#0E4429", "#006D32", "#26A641", "#B6FF6B"],
-  light: ["#E3E9E1", "#AEDCA0", "#6CC35B", "#3F8C1F", "#1F5C0C"],
+  dark: ["#15385F", "#2A5F94", "#4D93C4", "#9CCBE6", "#FF4D94"],
+  light: ["#DCEEF7", "#9ED6EE", "#5FB3DC", "#2F78AB", "#D81B72"],
 } as const;
