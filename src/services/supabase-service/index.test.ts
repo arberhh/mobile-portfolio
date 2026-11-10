@@ -38,6 +38,7 @@ const projectRow = {
   highlight: "Shipped to 100k users",
   app_store_url: "https://apps.apple.com/app/id1",
   play_store_url: null,
+  website_url: null,
   banner_alt: "Nectar logo",
   project_domains: [{ domains: { id: 1, title: "dating", icon: "heart" } }],
 };
@@ -62,6 +63,7 @@ const sparseProjectRow = {
   highlight: null,
   app_store_url: null,
   play_store_url: null,
+  website_url: null,
   banner_alt: null,
   project_domains: [],
 };
@@ -102,6 +104,7 @@ describe("getProjects", () => {
         github: "",
         app_store_url: "https://apps.apple.com/app/id1",
         play_store_url: "",
+        website_url: "",
         personal: false,
         domains: [{ id: 1, title: "dating", icon: "heart" }],
       },
@@ -123,6 +126,7 @@ describe("getProjects", () => {
         github: "",
         app_store_url: "",
         play_store_url: "",
+        website_url: "",
         personal: false,
         domains: [],
       },
