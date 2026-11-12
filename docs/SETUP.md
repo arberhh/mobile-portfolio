@@ -43,21 +43,22 @@ npm run snapshot # refresh src/content/snapshot.json from Supabase (needs the en
 Run the same checks CI runs before opening a PR:
 
 ```bash
-npm run ts:check                # TypeScript
-npm run lint                    # oxlint + ESLint
-npm run test                    # Jest
-npm run deadcode                # knip — unused exports/deps
-npx expo export --platform web  # static web build (works without the Supabase env vars)
+npx --yes audit-ci@7.1.0 --config audit-ci.jsonc  # dependency audit (high/critical, minus the allowlist)
+npm run ts:check                                  # TypeScript
+npm run lint                                      # oxlint + ESLint
+npm run test                                      # Jest
+npm run deadcode                                  # knip — unused exports/deps
+npx expo export --platform web                    # static web build (works without the Supabase env vars)
 ```
 
-Formatting isn't one of them — a pre-commit hook already runs `oxfmt` on staged files and re-stages them, so it's handled automatically on every commit. Run `npm run format` yourself only if you want to see the fix before committing.
+Formatting isn't one of them — a pre-commit hook already runs `oxfmt` on staged files and re-stages them, so it's handled automatically on every commit. `npm ci` turns the hook on (its `prepare` script points `core.hooksPath` at `.githooks/`). Run `npm run format` yourself only if you want to see the fix before committing.
 
 ## Updating content
 
 Projects and the profile live in Supabase, and every change is a migration in `supabase/migrations/`, never an edit in the dashboard.
 
-1. **Write a migration** that inserts or updates the row. A project has a unique `slug` (its URL, `/project/<slug>`), and optionally `role`, `period`, a one-line `highlight`, `app_store_url`, `play_store_url`, and `banner_alt`. Fields left null aren't shown. The profile has `headline` and `cv_url`.
-2. **Upload images** to the `portofolio` storage bucket. Card banners are **1200×450 PNGs (8:3)**: the card frame is a fixed 8:3, so other ratios show empty bands. For example:
+1. **Write a migration** that inserts or updates the row. A project has a unique `slug` (its URL, `/project/<slug>`), and optionally `role`, `period`, a one-line `highlight`, `website_url`, `app_store_url`, `play_store_url`, `github`, and `banner_alt`. Fields left null aren't shown. Set `personal = true` to list it under personal projects instead of work. Home sorts projects by `created_at`, newest first. The profile has `headline`, `intro` (shown on Home), `about_me` (shown on Profile, and can contain `[label](url)` links), `main_techs`, `github` (also drives the contribution graph), and `cv_url` (adds a CV link when set).
+2. **Upload images** to the `portofolio` storage bucket. Card banners are **1200×450 PNGs (8:3)**: the card frame is a fixed 8:3, so other ratios show empty bands. Give a replaced image a new file name, because the CDN keeps serving the old file. For example:
    ```bash
    supabase storage cp banner-card.png ss:///portofolio/<project>/banner-card.png --experimental --linked
    ```
