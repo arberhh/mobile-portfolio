@@ -9,42 +9,9 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import Svg, { Path } from "react-native-svg";
-import {
-  CELL,
-  COLUMN_WIDTH,
-  DAYS,
-  FILL_MS,
-  GRID_HEIGHT,
-  Level,
-  PLACEHOLDER_WEEKS,
-} from "./constants";
+import { COLUMN_WIDTH, DAYS, FILL_MS, GRID_HEIGHT, Level } from "./constants";
+import { GridSvg, OutlineSvg, PLACEHOLDER, squaresPath } from "./grid-svg";
 import styles from "./styles";
-
-const PLACEHOLDER: Level[][] = Array.from({ length: PLACEHOLDER_WEEKS }, () => Array(DAYS).fill(0));
-
-// One SVG path of rounded squares for every cell `keep` accepts.
-function squaresPath(weeks: Level[][], keep: (level: Level) => boolean) {
-  const side = CELL - 4;
-  return weeks
-    .flatMap((week, w) =>
-      week.map((level, d) =>
-        keep(level)
-          ? `M${w * COLUMN_WIDTH + 2},${d * COLUMN_WIDTH}h${side}a2,2 0 0 1 2,2v${side}a2,2 0 0 1 -2,2h-${side}a2,2 0 0 1 -2,-2v-${side}a2,2 0 0 1 2,-2z`
-          : "",
-      ),
-    )
-    .join("");
-}
-
-// A few paths instead of a view per square keeps native navigation smooth.
-function GridSvg({ paths, width }: { paths: [string, string][]; width: number }) {
-  return (
-    <Svg width={width} height={GRID_HEIGHT}>
-      {paths.map(([d, color]) => !!d && <Path key={color} d={d} fill={color} />)}
-    </Svg>
-  );
-}
 
 // Clip moved by `x`/`y` with its content moved back, so only the clip's
 // edges move (transforms only, so no frame needs a layout pass).
@@ -129,10 +96,7 @@ export default function FillGrid({
       onContentSizeChange={() => scrollRef.current?.scrollToEnd({ animated: false })}
     >
       <View style={{ width, height: GRID_HEIGHT }}>
-        {/* Outlines, so filling an empty day still visibly changes it. */}
-        <Svg width={width} height={GRID_HEIGHT}>
-          <Path d={emptyPath} fill="none" stroke={colors[0]} strokeWidth={1} />
-        </Svg>
+        <OutlineSvg path={emptyPath} color={colors[0]} width={width} />
         {weeks && (
           <>
             <Reveal x={finishedX} style={styles.clip}>

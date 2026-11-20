@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { Pressable, StyleSheet } from "react-native";
 import Animated, {
+  Easing,
   interpolate,
   useAnimatedStyle,
   useReducedMotion,
@@ -9,10 +10,10 @@ import Animated, {
 } from "react-native-reanimated";
 import { useTheme } from "@/context";
 import { DURATION, EASE_STANDARD } from "@/constants/motion";
-import { radius } from "@/themes";
 import Icon from "../icon";
+import styles, { ICON_SIZE } from "./styles";
 
-const ICON_SIZE = 22;
+const EASING = Easing.bezier(...EASE_STANDARD);
 
 // Sun (shown in dark) and moon (shown in light) are stacked; one value runs
 // 0 → 1 as the theme goes light → dark, turning the pair 180° while they
@@ -30,7 +31,7 @@ function ThemeToggle() {
     const animate = fromPress.current && !reduceMotion;
     fromPress.current = false;
     progress.set(
-      animate ? withTiming(target, { duration: DURATION.theme, easing: EASE_STANDARD }) : target,
+      animate ? withTiming(target, { duration: DURATION.theme, easing: EASING }) : target,
     );
   }, [isDark, progress, reduceMotion]);
 
@@ -64,16 +65,5 @@ function ThemeToggle() {
     </Pressable>
   );
 }
-
-const styles = StyleSheet.create({
-  button: {
-    alignItems: "center",
-    borderRadius: radius.pill,
-    height: 44,
-    justifyContent: "center",
-    width: 44,
-  },
-  icons: { height: ICON_SIZE, width: ICON_SIZE },
-});
 
 export default ThemeToggle;
