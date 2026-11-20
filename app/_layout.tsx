@@ -1,7 +1,6 @@
 import React from "react";
 import { ActivityIndicator, Platform, View } from "react-native";
 import { Stack } from "expo-router";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
 // Deep imports: the package barrel references all 14 weights.
@@ -13,6 +12,7 @@ import { IBMPlexSans_600SemiBold } from "@expo-google-fonts/ibm-plex-sans/600Sem
 import { ThemeProvider } from "@/context";
 import { useSystemThemeSync } from "@/hooks";
 import { WebAppShell } from "@/components";
+import GestureRoot from "@/components/gesture-root";
 import { commonStyles } from "@/common";
 
 // Lives inside ThemeProvider so the OS theme sync runs whichever route a
@@ -47,12 +47,12 @@ export default function RootLayout() {
   }
 
   return (
-    <GestureHandlerRootView style={commonStyles.flex}>
+    <GestureRoot>
       <SafeAreaProvider>
         <ThemeProvider>
           <AppStack />
         </ThemeProvider>
       </SafeAreaProvider>
-    </GestureHandlerRootView>
+    </GestureRoot>
   );
 }
