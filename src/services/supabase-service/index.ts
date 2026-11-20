@@ -1,9 +1,9 @@
 import { Image } from "expo-image";
-import { getSupabase, slugify } from "@/util";
+import { fetchRows, slugify } from "@/util";
 import { Database, Domain, Profile, Project } from "@/types";
 
 // Also used by scripts/snapshot-content.mjs, keep the two in sync.
-const DOMAINS_SELECT = "*, project_domains(domains(id, title, icon))";
+const DOMAINS_SELECT = "*,project_domains(domains(id,title,icon))";
 
 function prefetchImages(urls: string[]) {
   const validUrls = urls.filter((url) => url !== "");
@@ -15,14 +15,9 @@ function prefetchImages(urls: string[]) {
 type ProjectRow = Database["public"]["Tables"]["projects"]["Row"];
 type ProjectRowWithDomains = ProjectRow & { project_domains: { domains: Domain }[] };
 
-async function runQuery<T>(
-  query: PromiseLike<{ data: T; error: unknown }>,
-  fallbackMessage: string,
-): Promise<T> {
+async function runQuery<T>(query: Promise<T>, fallbackMessage: string): Promise<T> {
   try {
-    const { data, error } = await query;
-    if (error) throw error;
-    return data;
+    return await query;
   } catch (error) {
     console.error(fallbackMessage, error);
     throw new Error(fallbackMessage);
@@ -66,7 +61,7 @@ function parseProjects(rows: ProjectRowWithDomains[] | null): Project[] {
 
 async function getProjects(): Promise<Project[]> {
   const rows = await runQuery(
-    getSupabase().from("projects").select(DOMAINS_SELECT).order("created_at", { ascending: false }),
+    fetchRows<ProjectRowWithDomains[]>(`projects?select=${DOMAINS_SELECT}&order=created_at.desc`),
     "There was an issue with fetching the projects, please try again later!",
   );
   const projects = parseProjects(rows);
@@ -77,8 +72,8 @@ async function getProjects(): Promise<Project[]> {
 async function getProfile(): Promise<Profile> {
   const fallbackMessage =
     "There was an issue with fetching the developer profile, please try again later!";
-  const profile = await runQuery(
-    getSupabase().from("profile").select("*").single(),
+  const [profile] = await runQuery(
+    fetchRows<Profile[]>("profile?select=*&limit=1"),
     fallbackMessage,
   );
   if (!profile) throw new Error(fallbackMessage);

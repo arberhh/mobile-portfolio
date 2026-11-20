@@ -7,7 +7,7 @@ A technical overview of how this app is put together — for local setup and run
 - **Expo (SDK 57) + React Native 0.86 + React 19**, written in TypeScript.
 - **react-native-web** — the same codebase targets iOS, Android, and web (`npm run web`, or `npx expo export --platform web` for a static build).
 - **Expo Router** for file-based routing, with static rendering on web (`web.output: "static"`): every route, including each project, is pre-rendered to its own HTML page.
-- **Supabase** (`@supabase/supabase-js`) as the backend — Postgres + PostgREST, read-only from the client.
+- **Supabase** as the backend — Postgres + PostgREST, read-only from the client. The app calls the REST API with `fetch` rather than bundling `@supabase/supabase-js`, whose auth, realtime and storage clients it doesn't use.
 - **GitHub contributions** for the profile's activity graph, read from a public, CORS-enabled proxy of the contribution calendar (`github-contributions-api.jogruber.de`), since GitHub has no tokenless endpoint for it.
 - **react-native-reanimated** / **react-native-gesture-handler** (with `react-native-reanimated-carousel`) for press springs and the project slideshow; **expo-image** for images, **expo-linear-gradient** for the hero band, **IBM Plex Sans / Mono** (`@expo-google-fonts`) for type, and **Ionicons** (`@expo/vector-icons`) behind a single `Icon` component.
 - **oxlint + eslint**, **oxfmt**, **tsc**, **knip**, and **jest** for linting, formatting, type checking, dead-code detection, and tests — all but oxfmt run in CI (`.github/workflows/ci.yml`); oxfmt runs in a pre-commit hook.
@@ -52,9 +52,9 @@ Path alias `@/*` (see `tsconfig.json`) maps to `src/*`, so imports read as `@/co
 
 ## Data flow
 
-1. `src/util/supabase/index.ts` lazily creates a single Supabase client (`getSupabase()`) from the `EXPO_PUBLIC_SUPABASE_URL` / `EXPO_PUBLIC_SUPABASE_ANON_KEY` env vars, with the `react-native-url-polyfill` for `fetch`/URL support on native. It's lazy so importing it never throws when the env vars are absent (e.g. CI building without secrets), and it doesn't persist a session — the app is read-only with no auth.
+1. `src/util/supabase/index.ts` exports `fetchRows(path)`, a GET to Supabase's REST API (`/rest/v1/<path>`) with the `EXPO_PUBLIC_SUPABASE_URL` / `EXPO_PUBLIC_SUPABASE_ANON_KEY` env vars, the same request `scripts/snapshot-content.mjs` makes. It reads the env vars per call, so importing it never throws when they're absent (e.g. CI building without secrets). There's no session — the app is read-only with no auth.
 2. `src/services/supabase-service` is the only place that talks to Supabase. It exposes `getProjects` (newest first by `created_at`) and `getProfile`, each of which:
-   - runs a PostgREST query through a shared `runQuery` helper that normalizes Supabase's `{ data, error }` response into a thrown `Error` with a user-facing fallback message,
+   - runs a PostgREST query through a shared `runQuery` helper that turns any failure (network, non-2xx, missing env) into a thrown `Error` with a user-facing fallback message,
    - flattens the `project_domains` join table into a plain `domains` array (`withFlattenedDomains`),
    - coerces nullable Postgres columns to safe defaults (`toProject`), deriving a `slug` from the title when none is stored (`src/util/slugify`, which mirrors the migration's backfill),
    - prefetches banner URLs via `expo-image`'s `Image.prefetch` so they're warm before they're rendered.
