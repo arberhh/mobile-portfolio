@@ -1,22 +1,11 @@
 import { getProjects, getProfile } from "./index";
 
-const mockSupabase = { from: jest.fn() };
+const mockFetchRows = jest.fn();
 
 jest.mock("@/util", () => ({
   ...jest.requireActual("@/util/slugify"),
-  getSupabase: () => mockSupabase,
+  fetchRows: (path: string) => mockFetchRows(path),
 }));
-
-function mockQueryBuilder(result: { data: unknown; error: unknown }) {
-  const builder: any = {};
-  builder.select = jest.fn(() => builder);
-  builder.order = jest.fn(() => builder);
-  builder.eq = jest.fn(() => builder);
-  builder.single = jest.fn(() => builder);
-  // oxlint-disable-next-line unicorn/no-thenable -- mimics Supabase's real thenable query builder
-  builder.then = (resolve: any, reject?: any) => Promise.resolve(result).then(resolve, reject);
-  return builder;
-}
 
 const projectRow = {
   id: 1,
@@ -79,11 +68,13 @@ afterEach(() => {
 
 describe("getProjects", () => {
   it("flattens project_domains into domains and maps nullable columns to fallbacks", async () => {
-    mockSupabase.from.mockReturnValue(
-      mockQueryBuilder({ data: [projectRow, sparseProjectRow], error: null }),
-    );
+    mockFetchRows.mockResolvedValue([projectRow, sparseProjectRow]);
 
     const result = await getProjects();
+
+    expect(mockFetchRows).toHaveBeenCalledWith(
+      "projects?select=*,project_domains(domains(id,title,icon))&order=created_at.desc",
+    );
 
     expect(result).toEqual([
       {
@@ -134,26 +125,21 @@ describe("getProjects", () => {
   });
 
   it("derives a slug from the title when none is stored", async () => {
-    mockSupabase.from.mockReturnValue(
-      mockQueryBuilder({
-        data: [{ ...sparseProjectRow, title: "AQ Shop" }],
-        error: null,
-      }),
-    );
+    mockFetchRows.mockResolvedValue([{ ...sparseProjectRow, title: "AQ Shop" }]);
 
     const [project] = await getProjects();
 
     expect(project.slug).toBe("aq-shop");
   });
 
-  it("returns an empty list when there is no data and no error", async () => {
-    mockSupabase.from.mockReturnValue(mockQueryBuilder({ data: null, error: null }));
+  it("returns an empty list when there are no rows", async () => {
+    mockFetchRows.mockResolvedValue([]);
 
     await expect(getProjects()).resolves.toEqual([]);
   });
 
-  it("logs and throws a friendly message when the query errors", async () => {
-    mockSupabase.from.mockReturnValue(mockQueryBuilder({ data: null, error: { message: "boom" } }));
+  it("logs and throws a friendly message when the request fails", async () => {
+    mockFetchRows.mockRejectedValue(new Error("GET projects failed: 500"));
 
     await expect(getProjects()).rejects.toThrow(
       "There was an issue with fetching the projects, please try again later!",
@@ -179,13 +165,13 @@ describe("getProfile", () => {
   };
 
   it("returns the profile row as-is", async () => {
-    mockSupabase.from.mockReturnValue(mockQueryBuilder({ data: profileRow, error: null }));
+    mockFetchRows.mockResolvedValue([profileRow]);
 
     await expect(getProfile()).resolves.toEqual(profileRow);
   });
 
-  it("logs and throws a friendly message when the query errors", async () => {
-    mockSupabase.from.mockReturnValue(mockQueryBuilder({ data: null, error: { message: "boom" } }));
+  it("logs and throws a friendly message when the request fails", async () => {
+    mockFetchRows.mockRejectedValue(new Error("GET profile failed: 500"));
 
     await expect(getProfile()).rejects.toThrow(
       "There was an issue with fetching the developer profile, please try again later!",
@@ -193,8 +179,8 @@ describe("getProfile", () => {
     expect(console.error).toHaveBeenCalled();
   });
 
-  it("throws a friendly message when there is no data and no error", async () => {
-    mockSupabase.from.mockReturnValue(mockQueryBuilder({ data: null, error: null }));
+  it("throws a friendly message when there is no profile row", async () => {
+    mockFetchRows.mockResolvedValue([]);
 
     await expect(getProfile()).rejects.toThrow(
       "There was an issue with fetching the developer profile, please try again later!",

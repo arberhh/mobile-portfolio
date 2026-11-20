@@ -1,4 +1,4 @@
-import { getSupabase } from "./supabase";
+import { fetchRows } from "./supabase";
 import { slugify } from "./slugify";
 
-export { getSupabase, slugify };
+export { fetchRows, slugify };
