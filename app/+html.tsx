@@ -1,7 +1,7 @@
 import React from "react";
 import { ScrollViewStyleReset } from "expo-router/html";
 import { Props } from "@/types";
-import { WEB_SHELL_CSS } from "@/constants";
+import { WEB_FONT_CSS, WEB_FONT_FILES, WEB_SHELL_CSS } from "@/constants";
 import { WEB_MOTION_CSS } from "@/constants/motion";
 import { PROJECT_CARD_CSS } from "@/components/project/web-styles";
 import { darkTheme, lightTheme } from "@/themes";
@@ -54,12 +54,18 @@ export default function Root({ children }: Props) {
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Arber Haxhimusa" />
         <meta name="twitter:card" content="summary_large_image" />
+        {/* Every page uses all five, so fetch them alongside the HTML. */}
+        {WEB_FONT_FILES.map(({ url }) => (
+          <link key={url} rel="preload" href={url} as="font" type="font/woff2" crossOrigin="" />
+        ))}
         <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} />
         <script dangerouslySetInnerHTML={{ __html: gaSnippet }} />
         {/* Disables body scrolling so ScrollView behaves like it does on native. */}
         <ScrollViewStyleReset />
         <style
-          dangerouslySetInnerHTML={{ __html: WEB_SHELL_CSS + PROJECT_CARD_CSS + WEB_MOTION_CSS }}
+          dangerouslySetInnerHTML={{
+            __html: WEB_FONT_CSS + WEB_SHELL_CSS + PROJECT_CARD_CSS + WEB_MOTION_CSS,
+          }}
         />
       </head>
       <body>{children}</body>

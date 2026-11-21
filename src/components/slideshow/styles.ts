@@ -23,6 +23,8 @@ const styles = StyleSheet.create({
     width: 6,
   },
   dots: {
+    alignItems: "center",
+    flexDirection: "row",
     gap: 6,
   },
   frame: {

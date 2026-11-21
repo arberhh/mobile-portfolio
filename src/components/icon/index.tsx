@@ -1,42 +1,41 @@
 import React from "react";
-import { StyleProp, StyleSheet, TextStyle, View } from "react-native";
-// Deep import: the package barrel would bundle every icon set's glyph map.
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { useHydrated } from "@/hooks";
+import Svg, { Path } from "react-native-svg";
+import { GLYPHS } from "./glyphs";
 
-type IconName = React.ComponentProps<typeof Ionicons>["name"];
+type IconName = keyof typeof GLYPHS;
 
 interface IconProps {
   name: IconName;
   size: number;
   color: string;
-  style?: StyleProp<TextStyle>;
 }
 
-// The app's only icon component, so only the Ionicons font ships. Icon
-// glyphs depend on the icon font having loaded, which differs between the
-// static HTML and the client, so on web the glyph renders after hydration
-// in a same-size box. The glyph keeps that box: until the icon font loads it
-// is a narrower fallback character, which would reflow wrapping rows.
-function Icon({ name, size, color, style }: IconProps) {
-  const hydrated = useHydrated();
-
-  if (!hydrated) {
-    return <View style={[{ width: size, height: size }, style]} />;
-  }
+// The app's only icon component. Inline SVG rather than an icon font, so no
+// font file ships and the static HTML already has every icon (a font glyph
+// differs before and after the font loads, so it couldn't render until
+// hydration). `currentColor` lets web CSS recolour an icon (the card arrow's
+// hover).
+function Icon({ name, size, color }: IconProps) {
   return (
-    <Ionicons
-      name={name}
-      size={size}
-      color={color}
-      style={[styles.glyph, { width: size, height: size }, style]}
-    />
+    <Svg width={size} height={size} viewBox="0 0 512 512" color={color} aria-hidden>
+      {GLYPHS[name].map(({ d, stroke }: { d: string; stroke?: number }) =>
+        stroke ? (
+          <Path
+            key={d}
+            d={d}
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={stroke}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        ) : (
+          <Path key={d} d={d} fill="currentColor" />
+        ),
+      )}
+    </Svg>
   );
 }
-
-const styles = StyleSheet.create({
-  glyph: { textAlign: "center" },
-});
 
 export default Icon;
 export type { IconName };

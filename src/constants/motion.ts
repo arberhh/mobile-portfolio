@@ -1,4 +1,3 @@
-import { Easing } from "react-native-reanimated";
 import { darkTheme, lightTheme } from "@/themes";
 
 // Motion tokens (DESIGN §5).
@@ -6,10 +5,12 @@ export const DURATION = { press: 120, hover: 200, enter: 280, theme: 240 } as co
 export const STAGGER = 50;
 export const MAX_STAGGER_ITEMS = 5;
 export const CARET_PERIOD = 1060;
-export const EASE_STANDARD = Easing.bezier(0.2, 0, 0, 1);
+// Native callers pass it to Reanimated's Easing.bezier; motion.ts itself
+// stays free of Reanimated so the web bundle can leave it out.
+export const EASE_STANDARD = [0.2, 0, 0, 1] as const;
 export const SPRING_PRESS = { damping: 18, stiffness: 260 };
 
-const EASE_CSS = "cubic-bezier(0.2, 0, 0, 1)";
+export const EASE_CSS = `cubic-bezier(${EASE_STANDARD.join(", ")})`;
 
 // Web motion is CSS on data-* attributes, so the static HTML and the first
 // client render are identical and nothing waits on JS. Injected by
@@ -50,8 +51,10 @@ html[data-theme-ready] [data-window] {
   transition: background-color ${DURATION.theme}ms ${EASE_CSS}, color ${DURATION.theme}ms ${EASE_CSS};
 }
 html[data-theme-ready] [data-contact] {
-  transition: background-color ${DURATION.hover}ms ${EASE_CSS}, filter ${DURATION.hover}ms ${EASE_CSS};
+  transition: background-color ${DURATION.hover}ms ${EASE_CSS}, filter ${DURATION.hover}ms ${EASE_CSS},
+    transform ${DURATION.press}ms ${EASE_CSS};
 }
+[data-contact]:active { transform: scale(0.98); }
 
 /* RN web text is pre-wrap, which keeps (and underlines) the space where a
    link wraps; normal lets it hang without the underline. */

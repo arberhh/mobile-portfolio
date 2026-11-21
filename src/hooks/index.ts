@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import useHydrated from "./use-hydrated";
+import useAppFonts from "./use-app-fonts";
 import useSystemThemeSync from "./use-system-theme-sync";
 
 // `initialValue` is the build-time snapshot when one exists. With it, the
@@ -28,4 +28,4 @@ function useAsync<T>(fetcher: () => Promise<T>, initialValue: T, hasInitialData 
   return { data, loading, error };
 }
 
-export { useAsync, useHydrated, useSystemThemeSync };
+export { useAppFonts, useAsync, useSystemThemeSync };

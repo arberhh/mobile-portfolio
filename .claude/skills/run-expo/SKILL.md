@@ -81,8 +81,8 @@ To check the static export (what GitHub Pages serves), run
 `node scripts/postexport-web.mjs`, and serve `dist/` under the
 `/mobile-portfolio/` base path. Load each page in a browser and read the
 console: a hydration error ("server rendered HTML didn't match") means
-something rendered differently on the server, usually window size or an
-icon-font glyph outside `src/components/icon`. `npx playwright` installs into an
+something rendered differently on the server, usually window size or a
+value read from `window` during render. `npx playwright` installs into an
 npx cache directory rather than this project's `node_modules`; if a
 plain `node script.js` can't `require('playwright')`, point `NODE_PATH`
 at that cache dir (find it via `find ~/.npm/_npx -maxdepth 3 -iname

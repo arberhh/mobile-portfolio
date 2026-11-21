@@ -8,6 +8,11 @@ export const COLUMN_WIDTH = CELL + GAP;
 export const GRID_HEIGHT = DAYS * COLUMN_WIDTH - GAP;
 
 export const FILL_MS = 6000;
+
+// Rolling total: 0-9 twice, so every digit rolls a full turn before landing.
+export const STRIP = [...Array(20).keys()].map((n) => n % 10);
+export const STAGGER_MS = 160;
+export const ROLL_MS = 900;
 // GitHub's year view, for the empty grid shown while loading.
 export const PLACEHOLDER_WEEKS = 53;
 

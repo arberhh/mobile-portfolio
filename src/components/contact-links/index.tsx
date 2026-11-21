@@ -1,17 +1,11 @@
 import React from "react";
 import { Text, View } from "react-native";
-import Animated, {
-  useAnimatedStyle,
-  useReducedMotion,
-  useSharedValue,
-  withSpring,
-} from "react-native-reanimated";
 import { useTheme } from "@/context";
 import { commonStyles } from "@/common";
-import { SPRING_PRESS } from "@/constants/motion";
 import { Profile } from "@/types";
 import ExternalLink from "../external-link";
 import Icon, { IconName } from "../icon";
+import PressScale from "../press-scale";
 import styles from "./styles";
 
 interface ContactLink {
@@ -35,39 +29,35 @@ function buildLinks({ email, linkedin, github, cv_url }: ContactLinksProps["prof
   return links.filter((link): link is ContactLink => link !== null);
 }
 
-// Web hover (fill / brightness) is CSS on `data-contact` in WEB_MOTION_CSS.
+// Web hover (fill / brightness) and press are CSS on `data-contact` in
+// WEB_MOTION_CSS.
 function ContactButton({ link, primary }: { link: ContactLink; primary: boolean }) {
   const { theme } = useTheme();
-  const reduceMotion = useReducedMotion();
-  const scale = useSharedValue(1);
-  const press = useAnimatedStyle(() => ({ transform: [{ scale: scale.value }] }));
   const color = primary ? theme.onAccent : theme.text;
 
-  function pressTo(value: number) {
-    if (!reduceMotion) scale.set(withSpring(value, SPRING_PRESS));
-  }
-
   return (
-    <Animated.View style={press}>
-      <ExternalLink
-        url={link.url}
-        accessibilityRole="link"
-        accessibilityLabel={link.label}
-        // The button's own theme, not the shell's: it may sit in a ThemeScope.
-        dataSet={{ contact: primary ? "primary" : "secondary", contactTheme: theme.theme }}
-        onPressIn={() => pressTo(0.98)}
-        onPressOut={() => pressTo(1)}
-        style={[
-          styles.button,
-          primary
-            ? { backgroundColor: theme.accent, borderColor: theme.accent }
-            : { backgroundColor: theme.cardBackground, borderColor: theme.chipBorder },
-        ]}
-      >
-        <Icon name={link.icon} size={16} color={color} />
-        <Text style={[commonStyles.button, { color }]}>{link.label}</Text>
-      </ExternalLink>
-    </Animated.View>
+    <PressScale>
+      {({ onPressIn, onPressOut }) => (
+        <ExternalLink
+          url={link.url}
+          accessibilityRole="link"
+          accessibilityLabel={link.label}
+          // The button's own theme, not the shell's: it may sit in a ThemeScope.
+          dataSet={{ contact: primary ? "primary" : "secondary", contactTheme: theme.theme }}
+          onPressIn={onPressIn}
+          onPressOut={onPressOut}
+          style={[
+            styles.button,
+            primary
+              ? { backgroundColor: theme.accent, borderColor: theme.accent }
+              : { backgroundColor: theme.cardBackground, borderColor: theme.chipBorder },
+          ]}
+        >
+          <Icon name={link.icon} size={16} color={color} />
+          <Text style={[commonStyles.button, { color }]}>{link.label}</Text>
+        </ExternalLink>
+      )}
+    </PressScale>
   );
 }
 
