@@ -6,12 +6,12 @@
       "title": "Multimodal RAG",
       "short_description": "A side project for trying out retrieval-augmented generation: add PDFs, Word files or Google Docs, ask questions in your own words, and get answers that cite the pages they came from. A React Native app for iOS, Android and web over a Fastify API with Postgres, pgvector, Claude and Voyage.",
       "long_description": "A side project where I try out retrieval-augmented generation end to end. You add PDFs, Word files or Google Docs and ask questions in your own words. Claude reads every page, tables, charts and pictures included, and each answer names the pages it used, so you can check it. It's a pnpm monorepo: a React Native app for iOS, Android and web built with One, and a Fastify API over Postgres with pgvector.",
-      "banner_url": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/multimodal-rag/ios-banner.png",
+      "banner_url": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/multimodal-rag/ios-banner.jpg",
       "images": [
-        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/multimodal-rag/ios-home.png",
-        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/multimodal-rag/ios-documents.png",
-        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/multimodal-rag/ios-answer.png",
-        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/multimodal-rag/ios-chats.png"
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/multimodal-rag/ios-home.webp",
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/multimodal-rag/ios-documents.webp",
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/multimodal-rag/ios-answer.webp",
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/multimodal-rag/ios-chats.webp"
       ],
       "github": "https://github.com/arberhh/multimodal-rag",
       "personal": true,
@@ -64,12 +64,12 @@
       "title": "Dosvita",
       "short_description": "A web app that turns a CV into a portfolio page: upload a PDF or Word file, Claude extracts it into structured data, and you edit and publish the result. Built with TanStack Start, Supabase and the Claude API, with subscriptions through Freemius.",
       "long_description": "Dosvita is my own product, live at dosvita.app. You sign in with Google, upload a CV as a PDF or Word file, and Claude turns it into structured data that becomes a portfolio page you can edit, extend with projects and media, and publish at your own link. Pro plans run through Freemius, which handles checkout as merchant of record. I built it end to end, from the Postgres data model to payments.",
-      "banner_url": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/dosvita/web-banner.png",
+      "banner_url": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/dosvita/web-banner.jpg",
       "images": [
-        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/dosvita/web-home.png",
-        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/dosvita/web-example.png",
-        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/dosvita/web-example-2.png",
-        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/dosvita/web-pricing-trial.png"
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/dosvita/web-home.webp",
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/dosvita/web-example.webp",
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/dosvita/web-example-2.webp",
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/dosvita/web-pricing-trial.webp"
       ],
       "github": null,
       "personal": true,
@@ -128,11 +128,11 @@
       "title": "Portfolio App",
       "short_description": "Picked this portfolio app back up after a roughly two-year gap and rebuilt it end to end using Claude Code as an AI pair programmer, including a full redesign, first-class web support, and a real engineering workflow around it.",
       "long_description": "This app, picked back up in August 2026 after about two years. I rebuilt it with Claude Code as an AI pair programmer: I planned the work in Linear, directed the agent session by session, and reviewed every pull request before merging. The tooling around that loop, not just the redesign, became the reusable part.",
-      "banner_url": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/mobile-portfolio/banner-sky.png",
+      "banner_url": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/mobile-portfolio/banner-sky.jpg",
       "images": [
-        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/mobile-portfolio/screen-home-mobile-v3.png",
-        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/mobile-portfolio/screen-home-web-v3.png",
-        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/mobile-portfolio/screen-profile-web-v3.png"
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/mobile-portfolio/screen-home-mobile-v3.webp",
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/mobile-portfolio/screen-home-web-v3.webp",
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/mobile-portfolio/screen-profile-web-v3.webp"
       ],
       "github": "https://github.com/arberhh/mobile-portfolio",
       "personal": true,
@@ -186,13 +186,13 @@
       "title": "Nectar",
       "short_description": "Build and maintain Nectar, a React Native dating application for iOS and Android, owning mobile architecture, typed GraphQL integrations, authentication, subscriptions, notifications, analytics, and releases.",
       "long_description": "Nectar is JubileeMedia's dating app for iOS and Android. I set it up from the ground up and own its architecture and delivery: the React Native client, its typed GraphQL layer over Hasura, and the pipeline that ships it through Development, Staging and Production to the App Store and Google Play. I work with the backend and QA teams to validate APIs, investigate data issues and take features from concept to production.",
-      "banner_url": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/jubilee/nectar-card.png",
+      "banner_url": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/jubilee/nectar-card.jpg",
       "images": [
-        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/jubilee/nectar-1.png",
-        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/jubilee/nectar-2.png",
-        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/jubilee/nectar-3.png",
-        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/jubilee/nectar-4.png",
-        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/jubilee/nectar-5.png"
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/jubilee/nectar-1.webp",
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/jubilee/nectar-2.webp",
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/jubilee/nectar-3.webp",
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/jubilee/nectar-4.webp",
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/jubilee/nectar-5.webp"
       ],
       "github": null,
       "personal": false,
@@ -249,10 +249,10 @@
       "title": "AQ Shop",
       "short_description": "Built a React Native mobile shopping experience for discovering and purchasing indie games, with live showcases, discounted listings, and in-app purchases.",
       "long_description": "AQ Shop was ArcadeQuest's app for discovering and buying indie games. I developed the app, keeping the architecture modular and the code clean so the team could ship features quickly while it stayed easy to extend, test and support.",
-      "banner_url": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/aq-shop-banner-navy.png",
+      "banner_url": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/aq-shop-banner-navy.jpg",
       "images": [
-        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/shop-1.png",
-        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/shop-3.png"
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/shop-1.webp",
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/shop-3.webp"
       ],
       "github": null,
       "personal": false,
@@ -326,11 +326,11 @@
       "title": "ArcadeQuest",
       "short_description": "Built React Native applications for Fortnite players, including player statistics, live item shop updates, quests, subscriptions, onboarding, and engagement-focused mini-games.",
       "long_description": "ArcadeQuest makes companion apps for Fortnite players. I developed the React Native apps and the services behind them: player statistics, live item shop data, quests and subscriptions in the app, backed by Node.js APIs and Supabase Edge Functions.",
-      "banner_url": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/arcadequest-banner-navy.png",
+      "banner_url": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/arcadequest-banner-navy.jpg",
       "images": [
-        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/aq-1.png",
-        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/aq-2.png",
-        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/aq-3.png"
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/aq-1.webp",
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/aq-2.webp",
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/arcadequest/aq-3.webp"
       ],
       "github": null,
       "personal": false,
@@ -401,10 +401,10 @@
       "long_description": "At Twig in London I built and maintained features for the company's React Native app on iOS and Android, from native integrations and production fixes to a full rebuild with a new design.",
       "banner_url": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/twig/banner-card.png",
       "images": [
-        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/twig/twig-1.png",
-        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/twig/twig-2.png",
-        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/twig/twig-3.png",
-        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/twig/twig-4.png"
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/twig/twig-1.webp",
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/twig/twig-2.webp",
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/twig/twig-3.webp",
+        "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/twig/twig-4.webp"
       ],
       "github": null,
       "personal": false,
@@ -468,7 +468,7 @@
     "email": "arberi.hh@gmail.com",
     "linkedin": "https://www.linkedin.com/in/arber-haxhimusa/",
     "github": "https://github.com/arberhh",
-    "profile_picture": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/profile/profile-pic.png",
+    "profile_picture": "https://yqxldkqfpjnkmjcjuvgb.supabase.co/storage/v1/object/public/portofolio/profile/profile-pic.webp",
     "main_techs": [
       "TypeScript",
       "React",
